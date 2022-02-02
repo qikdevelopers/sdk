@@ -1,7 +1,7 @@
 
 
 
-# Qik Javascript API
+# Qik Javascript SDK
 
 [Site](https://qik.dev) |
 

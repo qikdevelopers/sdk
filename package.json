@@ -1,8 +1,8 @@
 {
-  "name": "qikdev",
+  "name": "@qikdev/sdk",
   "version": "0.10",
   "type": "module",
-  "description": "Promise based HTTP Qik client for the browser and node.js",
+  "description": "Promise based Javascript SDK",
   "scripts": {
     "build": "webpack --mode=production && npm run test",
     "dev": "webpack --mode=development --progress --colors --watch",
@@ -11,16 +11,20 @@
     "document": "jsdoc -r  . -d docs -c jsdoc.conf README.md"
   },
   "main": "dist/index.js",
+  "homepage": "https://qik.dev",
+  "bugs": {
+    "url":"https://support.qik.dev"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/qik-developers/qik.git"
+    "url": "git+https://gitlab.com/qikdev/api.git"
   },
   "keywords": [
     "qik",
     "api",
     "javascript"
   ],
-  "author": "Cade Embery",
+  "author": "qik.dev",
   "license": "ISC",
   "devDependencies": {
     "babel-preset-env": "^1.7.0",
