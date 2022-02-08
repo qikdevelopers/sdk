@@ -70,6 +70,7 @@ var QikCore = function(options) {
     var core = Object.assign(options, {
         //Other options
         // domain:'',
+        version:'0.1.0',
     })
 
 

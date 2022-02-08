@@ -1,6 +1,8 @@
 import axios from 'axios';
 import _ from 'lodash';
 import qs from 'qs';
+import { version } from '../version.js';
+
 
 
 
@@ -164,11 +166,11 @@ var QikAPI = function(qik) {
         instance.interceptors.request.use(function(config) {
 
             config.headers['qik-request-date'] = new Date().getTime();
-            if (qik.date.defaultTimezone) {
+            if (Intl) {
                 config.headers['qik-request-timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
             }
 
-            config.headers['qik-api-version'] = qik.version;
+            config.headers['qik-api-version'] = version;
 
             return config;
 
@@ -327,7 +329,7 @@ var QikAPI = function(qik) {
         var url = `${qik.apiURL}${path}`;
 
         ////////////////////////////////////////
-        
+
         url = parameterDefaults(url, params);
 
         ////////////////////////////////////////

@@ -6,6 +6,8 @@ import Qik from '../src/index.js';
 
 var qik = new Qik();
 
+var {data} = await qik.api.get(`/version`);
+
 
 // chai.expect();
 
