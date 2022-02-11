@@ -11,6 +11,8 @@ import {version} from './version.js';
 var versionName = `qik ${version}`;
 console.log(versionName)
 
+
+console.log('WJAT OS', typeof QikCore)
 ////////////////////////////////////////////
 
 export default QikCore;
