@@ -35,7 +35,8 @@ import { EventDispatcher } from './qik.utils.js';
  * //Use the QikAsset package to generate an image url
  * var link = qik.asset.imageUrl('5ca3d64dd2bb085eb9d450db', 1920, 1080)
  */
-var QikCore = function(options) {
+
+const QikCore = function(options) {
 
     if (!options) {
         options = {
@@ -171,4 +172,4 @@ var QikCore = function(options) {
 ///////////////////////////////////////
 ///////////////////////////////////////
 
- QikCore;
+export default QikCore;
