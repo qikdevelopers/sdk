@@ -1,53 +1,36 @@
-const path = require('path');
-const webpack = require('webpack');
-// var JsDocPlugin = require('jsdoc-webpack-plugin-v2');
+import * as path from 'path';
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-module.exports = {
+export default {
     entry: './src/index.js',
     output: {
         filename: 'index.js',
-        library: 'qik',
-        libraryTarget: 'umd',
-        libraryExport: 'default',
+        library: {
+            name:'@qikdev/sdk',
+            type:'umd',
+        },
         path: path.resolve(__dirname, 'dist'),
         globalObject: 'typeof self !== \'undefined\' ? self : this',
     },
-
-
-    //     module.exports = () => {
-    //     return {
-    //         output: {
-    //             path: path.resolve(__dirname, 'build'),
-    //             filename: 'app.js',
-    //         },
-    //         entry: './src/index.js',
-    plugins: [
-        new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-    ],
-    //     };
-    // };
-
-
-
-    // plugins: [
-    //       new JsDocPlugin(
-    //       // {
-    //       //     conf:path.join(__dirname, 'jsdoc.json'),
-    //       // }
-    //       )
-    //   ],
     optimization: {
         // splitChunks: {
         // chunks: 'all'
         // }
     },
-
     externals: {
         'axios': {
             commonjs: 'axios',
             commonjs2: 'axios',
             amd: 'axios',
             root: 'axios'
+        },
+        'lodash': {
+            commonjs: 'lodash',
+            commonjs2: 'lodash',
+            amd: 'lodash',
+            root: '_'
         },
         'axios-extensions': {
             commonjs: 'axios-extensions',
