@@ -39,7 +39,7 @@ import { EventDispatcher } from './qik.utils.js';
  import {version} from '../version.js';
 
 
-export default class QikCore {
+export default class {
     constructor(options) {
         if (!options) {
             options = {
