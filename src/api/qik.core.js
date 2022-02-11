@@ -19,7 +19,7 @@ import { EventDispatcher } from './qik.utils.js';
  * @example
  *
  * //Import the Qik package
- * import Qik from 'qik';
+ * import Qik from '@qikdev/sdk';
  *
  * //Create a new Qik instance
  * var qik = new Qik();
@@ -35,7 +35,7 @@ import { EventDispatcher } from './qik.utils.js';
  * //Use the QikAsset package to generate an image url
  * var link = qik.asset.imageUrl('5ca3d64dd2bb085eb9d450db', 1920, 1080)
  */
-var QikCore = function(options) {
+export default function(options) {
 
     if (!options) {
         options = {
@@ -170,5 +170,3 @@ var QikCore = function(options) {
 
 ///////////////////////////////////////
 ///////////////////////////////////////
-
-export default QikCore;
