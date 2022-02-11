@@ -9,6 +9,10 @@ var qik = new Qik();
 var {data} = await qik.api.get(`/version`);
 
 
+
+console.log('WHAT IS IT', qik)
+
+
 // chai.expect();
 
 // const expect = chai.expect;

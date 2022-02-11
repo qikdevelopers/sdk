@@ -9,14 +9,14 @@
 ## Installation
 
 ```bash
-npm install qikdev --save
+npm install @qikdev/sdk --save
 ```
 
 ## Getting Started
 
 ```js
 //Import the Qik module
-import Qik from 'qikdev';
+import Qik from '@qikdev/sdk';
 
 
 

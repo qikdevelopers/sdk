@@ -44,7 +44,7 @@ var QikAPI = function(qik) {
      */
     var defaultCache;
 
-    if (process.browser) {
+    if (typeof window !== 'undefined') {
         defaultCache = qik.cache.get('api');
     }
 
