@@ -39,7 +39,7 @@ import { EventDispatcher } from './qik.utils.js';
  import {version} from '../version.js';
 
 
-export default class {
+export default class QikCore {
     constructor(options) {
         if (!options) {
             options = {
@@ -71,12 +71,14 @@ export default class {
 
         ///////////////////////////////////////
 
-        var core = Object.assign(options, {
+        const core = Object.assign(options, {
             //Other options
             // domain:'',
             version,
         })
 
+
+        console.log('Instantiate class', core)
 
 
         ///////////////////////////////////////
