@@ -30,7 +30,7 @@ var QikAuth = function(qik) {
     ///////////////////////////////////////////////////
 
     var service = {
-        debug: false,
+        debug: true,
     }
 
     Object.defineProperty(service, 'store', {
@@ -43,7 +43,6 @@ var QikAuth = function(qik) {
     var dispatcher = new EventDispatcher();
     dispatcher.bootstrap(service);
 
-    // console.log('New Dispatcher!', dispatcher)
 
     ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////
@@ -89,7 +88,6 @@ var QikAuth = function(qik) {
         log('qik.auth > user set');
         return dispatch(parameters)
     }
-
 
 
     ///////////////////////////////////////////////////
@@ -262,7 +260,7 @@ var QikAuth = function(qik) {
      * @param  {Object} options.disableAutoAuthentication Disable automatic authentication, if true, will not set the current user session
      * @return {Promise}             Returns a promise that either resolves with the logged in user session, or rejects with the responding error from the server
      */
-    service.login = function(credentials, options) {
+    service.login = async function(credentials, options) {
 
         if (!options) {
             options = {};
@@ -359,7 +357,7 @@ var QikAuth = function(qik) {
      * @param  {Object} options     Extra options and configuration for the request
      * @return {Promise}            Returns a promise that either resolves to the new authenticated session, or rejects with the responding error from the server
      */
-    service.signup = function(credentials, options) {
+    service.signup = async function(credentials, options) {
 
         if (!options) {
             options = {};
@@ -479,7 +477,7 @@ var QikAuth = function(qik) {
      * If not specified or false, will assume it's a Qik global user that is resetting their password.
      * @return {Promise}            Returns a promise that resolves with the reset session details
      */
-    service.retrieveUserFromResetToken = function(resetToken, options) {
+    service.retrieveUserFromResetToken = async function(resetToken, options) {
 
         if (!options) {
             options = {};
@@ -526,7 +524,7 @@ var QikAuth = function(qik) {
      * @param  {Object} options other options for the request
      * @return {Promise}            Returns a promise that resolves with the reset session details
      */
-    service.updateUserWithToken = function(resetToken, body, options) {
+    service.updateUserWithToken = async function(resetToken, body, options) {
 
         if (!options) {
             options = {};
@@ -692,14 +690,16 @@ var QikAuth = function(qik) {
         refreshContext.inflightRefreshRequest = new Promise(function(resolve, reject) {
 
 
-            log(`qik.auth > refresh token ${refreshToken}`);
+            log(`qik.auth > refresh token`);
 
             //Bypass the interceptor on all token refresh calls
             //Because we don't need to add the access token etc onto it
+
             qik.api.post(`/user/refresh`, {
                     refreshToken: refreshToken
                 }, {
                     bypassInterceptor: true,
+                    withoutToken:true,
                 })
                 .then(function tokenRefreshComplete(res) {
 
@@ -710,13 +710,10 @@ var QikAuth = function(qik) {
                         refreshContext.inflightRefreshRequest = null;
                         return reject();
 
-                    } else {
-                        if (store.user) {
-                            Object.assign(store.user, res.data);
-                        } else {
-                            store.user = res.data;
-                        }
-                        log(`qik.auth > token refreshed > ${res.data}`);
+                    } else {                       
+                        //Update with our new session
+                        store.user = res.data;
+                        log(`qik.auth > token refreshed`);
 
                         dispatch();
                     }
@@ -732,7 +729,7 @@ var QikAuth = function(qik) {
 
                 })
                 .catch(function(err) {
-                    console.log('TOKEN REFRESH FAILED', err);
+                    log('qik.auth > refresh token failed error', err);
 
                     //TODO Check if invalid_refresh_token
 
@@ -769,27 +766,26 @@ var QikAuth = function(qik) {
 
     service.sync = function() {
 
-        // console.log('Sync with server', store.user)
         return qik.api.get('/user')
             .then(function(res) {
 
-                // console.log('sync response', res);
 
                 if (res.data) {
                     if (store.user) {
-                        Object.assign(store.user, res.data);
+                        Object.assign(store.user.session, res.data);
                     }
                 } else {
                     store.user = null;
                 }
-                log('qik.auth > server session refreshed');
+                
+                log('qik.auth > server session synced');
                 retryCount = 0;
 
                 dispatch();
             })
             .catch(function(err) {
+
                 // if (retryCount > 2) {
-                console.log('auth sync not logged in');
                 store.user = null;
                 retryCount = 0;
                 dispatch();
@@ -816,17 +812,29 @@ var QikAuth = function(qik) {
 
 
     service.getCurrentToken = function() {
-        return service.getCurrentUser().accessToken;
+
+        var details = service.getCurrentUser();
+
+        if (!details) {
+            return;
+        }
+
+        var { token } = details;
+        if (!token) {
+            return;
+        }
+
+        return token.accessToken;
+
     }
 
     /////////////////////////////////////////////////////
 
-    qik.api.interceptors.request.use(function(config) {
+    qik.api.interceptors.request.use(async function(config) {
 
         //If we want to bypass the interceptor
         //then just return the request
         if (config.bypassInterceptor) {
-            console.log('auth interceptor was bypassed');
             return config;
         }
 
@@ -838,9 +846,21 @@ var QikAuth = function(qik) {
         //Get the original request
         var originalRequest = config;
 
-        //If we aren't logged in or don't have a token
-        var accessToken = _.get(store, 'user.accessToken');
-        var refreshToken =  _.get(store, 'user.refreshToken');
+        //////////////////////////////
+
+        var userDetails = await service.getCurrentUser();
+        var accessToken;
+        var refreshToken;
+        var expiryDate;
+
+        if (userDetails) {
+            var { token } = userDetails;
+            if (token) {
+                accessToken = token.accessToken;
+                refreshToken = token.refreshToken;
+                expiryDate = token.expires;
+            }
+        }
 
         //////////////////////////////
 
@@ -874,11 +894,10 @@ var QikAuth = function(qik) {
 
         //Give us a bit of buffer incase some of our images
         //are still loading
-        now.setSeconds(now.getSeconds() + 10);
+        now.setSeconds(now.getSeconds() + 5);
 
         /////////////////////////////////////////////////////
 
-        var expiryDate = _.get(store, 'user.expires');
         var expires = new Date(expiryDate);
 
         //If the token is still fresh
@@ -886,7 +905,7 @@ var QikAuth = function(qik) {
             //Return the original request
             return originalRequest;
         }
-    
+
         /////////////////////////////////////////////////////
 
         log('qik.auth > token expired');
@@ -896,14 +915,13 @@ var QikAuth = function(qik) {
             //Refresh the token
             service.refreshAccessToken(refreshToken)
                 .then(function(newToken) {
-                    log('qik.auth > token refreshed', isManagedUser);
+                    log('qik.auth > token refreshed');
                     //Update the original request with our new token
                     originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                     //And continue onward
                     return resolve(originalRequest);
                 })
                 .catch(function(err) {
-                    console.log('ERRRRRR', err);
                     log('qik.auth > token refresh rejected', err);
                     return reject(err);
                 });
@@ -928,7 +946,6 @@ var QikAuth = function(qik) {
         log('qik.auth > error', status);
         switch (status) {
             case 401:
-                console.log('logout from 401')
                 service.logout();
                 break;
             default:

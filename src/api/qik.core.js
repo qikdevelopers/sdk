@@ -5,6 +5,7 @@ import QikAuth from './qik.auth.js';
 import QikUtils from './qik.utils.js';
 import QikCache from './qik.cache.js';
 import QikAccess from './qik.access.js';
+import QikContent from './qik.content.js';
 import { EventDispatcher } from './qik.utils.js';
 
 ///////////////////////////////////////
@@ -88,7 +89,7 @@ export default function(options) {
      * and storing API requests and other information in memory
      * @type {QikCache}
      */
-    var cache = QikCache;
+    const cache = QikCache;
     Object.defineProperty(core, 'cache', {
         value: cache,
         writable: false,
@@ -100,7 +101,7 @@ export default function(options) {
      * with Qik data
      * @type {QikUtils}
      */
-    var utils = QikUtils;
+    const utils = QikUtils;
     Object.defineProperty(core, 'utils', {
         value: utils,
         writable: false,
@@ -109,7 +110,7 @@ export default function(options) {
     ///////////////////////////////////////
 
     //Create a new global dispatcher so we can trigger events
-    var dispatcher = new EventDispatcher();
+    const dispatcher = new EventDispatcher();
     dispatcher.bootstrap(core);
 
     //Set the function
@@ -131,7 +132,7 @@ export default function(options) {
      * that works in conjunction with the other Qik modules
      * @type {QikAPI}
      */
-    var api = new QikAPI(core);
+    const api = new QikAPI(core);
     Object.defineProperty(core, 'api', {
         value: api,
         writable: false,
@@ -143,7 +144,7 @@ export default function(options) {
      * and other user/application specific functionality
      * @type {QikAuth}
      */
-    var auth = new QikAuth(core);
+    const auth = new QikAuth(core);
     Object.defineProperty(core, 'auth', {
         value: auth,
         writable: false,
@@ -155,9 +156,22 @@ export default function(options) {
      * A helper service for understanding a user's access permissions
      * @type {QikAccess}
      */
-    var access = new QikAccess(core);
+    const access = new QikAccess(core);
     Object.defineProperty(core, 'access', {
         value: access,
+        writable: false,
+    });
+
+
+    ///////////////////////////////////////
+
+    /**
+     * A helper service for content create, update, read and delete operations.
+     * @type {QikContent}
+     */
+    const content = new QikContent(core);
+    Object.defineProperty(core, 'content', {
+        value: content,
         writable: false,
     });
 

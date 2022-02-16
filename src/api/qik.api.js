@@ -54,6 +54,18 @@ var QikAPI = function(qik) {
     const defaultAdapter = axios.defaults.adapter
     // console.log('DEFAULT ADAPTER', defaultAdapter)
 
+    /////////////////////////////////////////////////////
+
+    function getRequestCacheKey(config) {
+
+        var key = _.compact([
+            config.method,
+            config.url,
+            JSON.stringify({ user: qik.auth.getCurrentUser(), params: config.params, data: config.data }),
+        ]).join('-')
+
+        return key;
+    }
 
     ///////////////////////////////////////
 
@@ -96,7 +108,7 @@ var QikAPI = function(qik) {
                 if (useCache) {
 
                     //Generate the cache key from the request
-                    var cacheKey = getCacheKeyFromConfig(config);
+                    var cacheKey = getRequestCacheKey(config);
 
                     //If we have the cachedResponse version
                     cachedResponse = useCache.get(cacheKey);
@@ -165,6 +177,10 @@ var QikAPI = function(qik) {
         // Add relative date and timezone to every request
         instance.interceptors.request.use(function(config) {
 
+            if(config.withoutToken) {
+                return config;
+            }
+
             config.headers['qik-request-date'] = new Date().getTime();
             if (Intl) {
                 config.headers['qik-request-timezone'] = Intl.DateTimeFormat().resolvedOptions().timeZone;
@@ -172,8 +188,18 @@ var QikAPI = function(qik) {
 
             config.headers['qik-api-version'] = version;
 
-            return config;
 
+            var token = qik.auth.getCurrentToken();
+
+            if (token) {
+                config.headers['Authorization'] = `Bearer ${token}`;
+
+                if (config.params && config.params.access_token) {
+                    delete config.params.access_token;
+                }
+            }
+
+            return config;
         });
 
         /////////////////////////////////////////////////////
@@ -184,7 +210,6 @@ var QikAPI = function(qik) {
         }, function(err) {
 
             if (axios.isCancel(err)) {
-                console.log('Request cancelled');
                 return Promise.reject(err);
             }
 
@@ -199,7 +224,7 @@ var QikAPI = function(qik) {
                 case 502:
                 case 504:
                     //Retry until it works
-                    console.log(`qik.api > ${status} connection error retrying`)
+                    // console.log(`qik.api > ${status} connection error retrying`)
                     return instance.request(err.config);
                     break;
                 case 404:
@@ -207,7 +232,7 @@ var QikAPI = function(qik) {
                     break;
                 default:
                     //Some other error, likely a problem connecting to the server
-                    console.log('qik.api > connection error', status, err);
+                    // console.log('qik.api > connection error', status, err);
                     break;
             }
 
@@ -338,7 +363,7 @@ var QikAPI = function(qik) {
         var queryParameters = qik.utils.mapParameters(params);
 
         if (queryParameters.length) {
-            url += '?' + queryParameters;
+            url += `?${queryParameters}`;
         }
 
         return url;
@@ -353,6 +378,7 @@ var QikAPI = function(qik) {
         if (!params.withoutToken) {
             //Get the current token from QikAuth
             var CurrentQikToken = qik.auth.getCurrentToken();
+
 
             //Check to see if we have a token and none has been explicity set
             if (!params['access_token'] && CurrentQikToken) {
