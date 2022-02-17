@@ -39,8 +39,6 @@ import { EventDispatcher } from './qik.utils.js';
 
 import { version } from '../version.js';
 
-console.log('BEFORE class')
-
 export default function(options) {
     if (!options) {
         options = {

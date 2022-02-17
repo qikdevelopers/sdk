@@ -30,7 +30,7 @@ var QikAuth = function(qik) {
     ///////////////////////////////////////////////////
 
     var service = {
-        debug: true,
+        debug: false,
     }
 
     Object.defineProperty(service, 'store', {
