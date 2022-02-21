@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
 import { EventDispatcher } from './qik.utils.js';
 
 ///////////////////////////////////////////////////
@@ -941,7 +940,7 @@ var QikAuth = function(qik) {
         //////////////////////////////
 
         //Get the response status
-        var status = _.get(err, 'response.status') || err.status;
+        var status = (err && err.response && err.response.status) || err.status;
 
         log('qik.auth > error', status);
         switch (status) {

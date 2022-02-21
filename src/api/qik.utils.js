@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import _debounce from 'lodash/debounce';
 import axios from 'axios';
 import { isBrowser, isNode } from 'browser-or-node';
 
@@ -12,6 +13,10 @@ import { isBrowser, isNode } from 'browser-or-node';
  * @hideconstructor
  */
 var QikUtils = {};
+
+///////////////////////////////////////////////////////////////////////////////
+
+QikUtils.debounce = _debounce;
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -190,8 +195,10 @@ QikUtils.hash = function(array, key) {
         array = [];
     }
     return array.reduce(function(set, item) {
-        var key = _.get(item, key);
-        set[key] = item;
+
+        var val = _.get(item, key);
+
+        set[val] = item;
         return set;
     }, {});
 }

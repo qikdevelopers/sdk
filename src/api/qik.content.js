@@ -27,18 +27,53 @@ export default function(qik) {
 
     /**
      * 
+     * Retrieves the glossary of content types available to the user
+     * @alias content.list
+     * @param  {String} type The type or definition of records we want to retrieve
+     * @example
+     * 
+     * QikContent.glossary()
+     */
+
+    service.glossary = async function(options) {
+        options = options || {};
+        const {data} = await qik.api.get(`/glossary`);
+
+        if(options.hash) {
+            var result = qik.utils.hash(data, 'key');
+            return result;
+        }
+        return data;
+    }
+
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * 
      * Retrieves a list of records matching the provided criteria
      * @alias content.list
      * @param  {String} type The type or definition of records we want to retrieve
      * @param  {Object} options The options for our query
-     * @param  {Object} options.search Freeform text keywords
+     * @param  {String} options.search Freeform text keywords
      * @param  {Object} options.sort How to sort the results
+     * @param  {String} options.sort.key Which key to sort on
+     * @param  {String} options.sort.direction Which direction to sort on
+     * @param  {Object} options.sort.type What type of data is being sorted
+     * @param  {Object} options.page Page configuration
+     * @param  {Number} options.page.size Page size
+     * @param  {Number} options.page.index Page index
      * @param  {Object} options.filter How to filter the results
      * @example
      * 
      * 
      * QikContent.list('profile', {
      *     search:'Jim',
+     *     page:{
+     *         size:50,
+     *         index:2,
+     *     },
      *     sort:{
      *         key:'age',
      *         direction:'asc',
@@ -56,10 +91,8 @@ export default function(qik) {
      */
 
     service.list = async function(type, options) {
-
-        console.log('Get the things', type, options);
-        return qik.api.post(`/content/${type}/list`, options);
-        
+        const {data} = await qik.api.post(`/content/${type}/list`, options);
+        return data;
     }
 
     ///////////////////////////////////////////////////
@@ -83,9 +116,9 @@ export default function(qik) {
      * })
      */
 
-    service.create = async function(type, data) {
-        return qik.api.post(`/content/${type}/create`, data);
-        
+    service.create = async function(type, input) {
+        const {data} = await qik.api.post(`/content/${type}/create`, input);
+        return data;
     }
 
 
