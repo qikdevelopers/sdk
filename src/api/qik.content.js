@@ -35,16 +35,401 @@ export default function(qik) {
      * QikContent.glossary()
      */
 
+    const glossary = {}
+
     service.glossary = async function(options) {
         options = options || {};
-        const {data} = await qik.api.get(`/glossary`);
 
-        if(options.hash) {
-            var result = qik.utils.hash(data, 'key');
+        var reload = options.refresh || options.reload || !glossary.data;
+
+        if (reload) {
+            console.log('reloading the glossary')
+            const { data } = await qik.api.get(`/glossary`);
+            glossary.data = data;
+        }
+
+        if (options.hash) {
+            var result = qik.utils.hash(glossary.data, 'key');
             return result;
         }
-        return data;
+
+        return glossary.data;
     }
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * 
+     * Retrieves all available filter comparators for the various field types
+     * @alias content.comparators
+     * @example
+     * 
+     * QikContent.comparators()
+     */
+
+    const comparators = {}
+
+    service.comparators = async function(options) {
+        options = options || {};
+
+        var reload = options.refresh || !comparators.data;
+
+        if (reload) {
+            const { data } = await qik.api.get(`/system/comparators`);
+
+
+            /////////////////////////////
+
+            data.available = {};
+
+            Object.entries(data.types).forEach(([key, value]) => {
+                data.available[key] = value.map(function(comparatorKey) {
+                    return data.hash[comparatorKey];
+                })
+            });
+
+
+            /////////////////////////////
+
+            comparators.data = data;
+        }
+
+
+
+        // if (options.hash) {
+        //     var result = qik.utils.hash(comparators.data, 'key');
+        //     return result;
+        // }
+
+        return comparators.data;
+    }
+
+    ///////////////////////////////////////////////////
+
+
+    function getLimits(fieldDefinition) {
+
+        var { minimum, maximum } = fieldDefinition;
+        minimum = qik.utils.parseInt(minimum);
+        minimum = Math.max(minimum, 0);
+
+        maximum = qik.utils.parseInt(maximum);
+        maximum = Math.max(maximum, 0); // cant be less than 0
+        if (maximum == 0) {
+            //Unlimited maximum
+        } else {
+            maximum = Math.max(maximum, minimum); // cant be less than the minimum
+        }
+        return { minimum, maximum };
+    }
+
+    service.validateField = function(input, fieldDefinition, options) {
+
+        if (!options) {
+            options = {}
+        }
+
+        var fieldType = fieldDefinition.type || 'string';
+        var { minimum, maximum } = getLimits(fieldDefinition);
+
+        var singleValue = maximum == 1;
+        var multiValue = !singleValue;
+
+        //////////////////
+
+        var isNumeric;
+        switch (fieldType) {
+            case 'integer':
+            case 'decimal':
+            case 'number':
+            case 'float':
+                isNumeric = true;
+                break;
+        }
+
+        //////////////////
+
+        var inputWasProvided = qik.utils.exists(input);
+
+        //If an answer is required 
+        if (minimum) {
+            //but none was provided
+            if (!inputWasProvided) {
+                //Throw an error
+                return {
+                    valid: false,
+                    message: `${fieldDefinition.title} is a required field`,
+                    status: 400,
+                }
+            }
+        } else {
+            //No answer is needed and none was provided
+            if (!inputWasProvided) {
+                return {
+                    valid: true,
+                }
+            }
+        }
+
+        //////////////////
+
+
+        //If we are requiring multiple values
+        if (multiValue) {
+
+            //But the input is not an array
+            if (!Array.isArray(input)) {
+                return {
+                    valid: false,
+                    message: `${fieldDefinition.title} requires at least ${minimum} values`,
+                    status: 400,
+                }
+            }
+
+            ////////////////////////////
+
+            var compacted = input;
+
+            compacted = compacted.filter(function(v) {
+                //Check if we care about this value
+                var empty = v === undefined || v === null || v === '';
+                return !empty;
+            })
+
+
+            // console.log('COMPACTED', input.length, compacted.length);
+
+            ////////////////////////////
+
+            //We need an exact number of answers
+            if (minimum == maximum) {
+
+                //But we don't have the number of answers needed
+                if (minimum && (compacted.length != minimum)) {
+                    return {
+                        valid: false,
+                        message: `${fieldDefinition.title} requires exactly ${maximum} values`,
+                        status: 400,
+                    }
+                }
+            }
+
+            //We have too many answers
+            if (maximum && (compacted.length > maximum)) {
+
+                return {
+                    valid: false,
+                    message: `${fieldDefinition.title} requires less than ${maximum+1} values`,
+                    status: 400,
+                }
+            }
+
+            //We don't have enough answers
+            if (compacted.length < minimum) {
+
+                // console.log(fieldDefinition.title, 'INPUT', input.length, minimum, input, compacted)
+
+                return {
+                    valid: false,
+                    message: `${fieldDefinition.title} requires at least ${minimum} values`,
+                    status: 400,
+                }
+            }
+
+            ////////////////////////////
+
+            var foundBadEntry;
+
+            //Find any bad values
+            var badEntry = compacted.find(function(val) {
+
+                var strict = options.strict;
+
+                var valueFieldType = fieldType;
+
+                if (fieldDefinition.type == 'group') {
+                    valueFieldType = 'object';
+                }
+
+                var isValid = qik.utils.isValidValue(val, valueFieldType, strict);
+
+
+                if (!isValid) {
+                    foundBadEntry = true;
+                    return true;
+                }
+            })
+
+
+
+            if (foundBadEntry) {
+
+                // var badValueMessage =  `${badEntry || "''"} is not a valid ${fieldType} value for ${fieldDefinition.title}`;
+                // switch(fieldType) {
+                //     case 'string':
+                //         badValueMessage = `Empty or invalid value for ${fieldDefinition.title}`;
+                //     break;
+                // }
+
+                let badValueMessage = `Invalid input for ${fieldDefinition.title}`;
+                return {
+                    valid: false,
+                    message: badValueMessage,
+                    status: 400,
+                }
+            }
+
+        } else {
+
+            //////////////////
+
+            var cleanedValue = getCleanedValue();
+
+            //////////////////
+
+            function getCleanedValue() {
+                switch (fieldType) {
+                    case 'number':
+                    case 'float':
+                    case 'decimal':
+                        if (!qik.utils.exists(input)) {
+                            return undefined;
+                        } else {
+                            return Number(input);
+                        }
+                        break;
+                    case 'integer':
+                        if (!qik.utils.exists(input)) {
+                            return undefined;
+                        } else {
+                            return parseInt(input);
+                        }
+                        break;
+                    case 'boolean':
+                        if (!qik.utils.exists(input)) {
+                            return undefined;
+                        }
+                        return qik.utils.parseBoolean(input);
+                        break;
+                    case 'email':
+                        return options.strict ? input : String(input).toLowerCase();
+                        break;
+                    case 'reference':
+                        return options.strict ? input : qik.utils.id(input);
+                        break;
+                        // case 'group':
+                        // case 'object':
+                        // break;
+                    default:
+                        return options.strict ? input : qik.utils.cleanValue(input, fieldType, options);
+                        break
+                }
+
+                return input;
+            }
+
+            //////////////////
+
+            var dataType = fieldType;
+            if (dataType == 'group') {
+                dataType = 'object';
+            }
+
+            //////////////////
+
+            var isValidValue = qik.utils.isValidValue(cleanedValue, dataType, options.strict);
+
+
+            //////////////////
+
+            //Invalid input
+            if (!isValidValue) {
+
+                console.log('FAILED', input, fieldType, cleanedValue, dataType, isValidValue)
+                return {
+                    valid: false,
+                    message: `Single value '${input}' is not a valid ${fieldType} for ${fieldDefinition.title}`,
+                    criteria: {
+                        isValidValue,
+                        cleanedValue,
+                        fieldType,
+                        options,
+                    },
+                    status: 400,
+                }
+            }
+        }
+
+        //////////////////
+
+        return {
+            valid: true,
+        }
+
+    }
+
+
+
+
+    // service.validateFieldValue = function(value, field, errorLog, options) {
+    //     options = options || {};
+    //     errorLog = errorLog || [];
+
+
+    //     ///////////////////////////////////////////
+
+    //     let { key, type } = field;
+    //     let { minimum, maximum } = = getLimits(field);
+    //     let existingValue = value;
+
+    //     let isLayout = field.type == 'group' && !field.asObject;
+
+    //     if (isLayout) {
+    //         var subFields = service.mapFields(field.fields, { depth: 1 });
+    //         subFields.forEach(function(subField) {
+    //             service.validateFieldValue(input, subField, errorLog, options);
+    //         })
+    //     } else {
+    //         //If it's a group of fields
+    //         if (isGroup && asObject) {
+    //             //Get all the fields
+    //             var subFields = service.mapFields(field.fields, { depth: 1 });
+
+    //             //If the group is a single object
+    //             if (maximum === 1) {
+    //                 var groupObjectInput = existingValue;
+
+    //                 //Loop through each field
+    //                 subFields.forEach(function(subField) {
+    //                     //Update the entry data
+    //                     service.validateFieldValue(groupObjectInput, subField, errorLog, options);
+    //                 })
+    //             } else {
+
+    //                 //Generate a new array
+    //                 (existingValue || []).forEach(function(entry) {
+    //                     //Loop through each field
+    //                     subFields.forEach(function(subField) {
+    //                         //Update the entry data
+    //                         service.validateFieldValue(entry, subField, errorLog, options);
+    //                     })
+    //                 });
+    //             }
+    //         } else {
+    //             //We're a standard field so just wash and set and move on
+    //             var { valid, message } = service.validate(existingValue, field, options)
+
+    //             if (!valid) {
+    //                 errorLog.push({
+    //                     field,
+    //                     message,
+    //                 })
+    //             }
+    //         }
+    //     }
+    // }
+
+
 
 
 
@@ -90,9 +475,41 @@ export default function(qik) {
      * })
      */
 
-    service.list = async function(type, options) {
-        const {data} = await qik.api.post(`/content/${type}/list`, options);
-        return data;
+    service.list = async function(type, options, advanced) {
+
+
+        if (!advanced) {
+            advanced = {};
+        }
+
+        if (advanced.cancellable) {
+
+            if (!advanced.config) {
+                advanced.config = {}
+            }
+
+            //Create a cancel token
+            const CancelToken = qik.api.CancelToken;
+            const source = CancelToken.source();
+            advanced.config.cancelToken = source.token;
+
+            const promise = qik.api.post(`/content/${type}/list`, options, advanced.config);
+            return {
+                promise,
+                cancel(message) {
+                    source.cancel(message || 'Operation canceled by the user.');
+                },
+            }
+
+        } else {
+            const { data } = await qik.api.post(`/content/${type}/list`, options, advanced.config);
+            return data;
+        }
+
+
+
+
+
     }
 
     ///////////////////////////////////////////////////
@@ -117,7 +534,19 @@ export default function(qik) {
      */
 
     service.create = async function(type, input) {
-        const {data} = await qik.api.post(`/content/${type}/create`, input);
+        const { data } = await qik.api.post(`/content/${type}/create`, input);
+        return data;
+    }
+
+    service.update = async function(type, id, input) {
+        id = qik.utils.id(id);
+        const { data } = await qik.api.put(`/content/${type}/${id}`, input);
+        return data;
+    }
+
+    service.patch = async function(type, id, input) {
+        id = qik.utils.id(id);
+        const { data } = await qik.api.patch(`/content/${type}/${id}`, input);
         return data;
     }
 

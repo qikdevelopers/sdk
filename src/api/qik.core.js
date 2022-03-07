@@ -3,9 +3,12 @@
 import QikAPI from './qik.api.js';
 import QikAuth from './qik.auth.js';
 import QikUtils from './qik.utils.js';
+import QikFilter from './qik.filter.js';
+import QikFiles from './qik.files.js';
 import QikCache from './qik.cache.js';
 import QikAccess from './qik.access.js';
 import QikContent from './qik.content.js';
+import QikSystem from './qik.system.js';
 import { EventDispatcher } from './qik.utils.js';
 
 ///////////////////////////////////////
@@ -74,6 +77,7 @@ export default function(options) {
         //Other options
         // domain:'',
         version,
+        global:{},
     })
 
     console.log('Instantiate class', core)
@@ -92,6 +96,7 @@ export default function(options) {
         value: cache,
         writable: false,
     });
+    
     ///////////////////////////////////////
 
     /**
@@ -102,6 +107,34 @@ export default function(options) {
     const utils = QikUtils;
     Object.defineProperty(core, 'utils', {
         value: utils,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    /**
+     * Provides helper functions for working
+     * with Qik filters
+     * @type {QikFilter}
+     */
+    const filter = QikFilter;
+    Object.defineProperty(core, 'filter', {
+        value: filter,
+        writable: false,
+    });
+
+
+
+    ///////////////////////////////////////
+
+    /**
+     * Provides helper functions for working
+     * with Qik files
+     * @type {QikFiles}
+     */
+    const files = QikFiles;
+    Object.defineProperty(core, 'files', {
+        value: files,
         writable: false,
     });
 
@@ -160,6 +193,18 @@ export default function(options) {
         writable: false,
     });
 
+    ///////////////////////////////////////
+
+    /**
+     * A helper service for content create, update, read and delete operations.
+     * @type {QikContent}
+     */
+    const system = new QikSystem(core);
+    Object.defineProperty(core, 'system', {
+        value: system,
+        writable: false,
+    });
+
 
     ///////////////////////////////////////
 
@@ -172,6 +217,8 @@ export default function(options) {
         value: content,
         writable: false,
     });
+
+    ///////////////////////////////////////
 
     ///////////////////////////////////////
 
