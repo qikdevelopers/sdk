@@ -162,9 +162,12 @@ var QikAPI = function(qik) {
         options = options || {}
 
         //Append the access token to the url
-        params.access_token = qik.auth.getCurrentToken();
+        if(!options.withoutToken) {
+            params.access_token = qik.auth.getCurrentToken();
+        }
 
-        return `${qik.apiURL}/${endpoint}?${qik.utils.mapParameters(params)}`
+        var stripLeadingTag = endpoint[0] == '/' ? endpoint.slice(1) : endpoint;
+        return `${qik.apiURL}${endpoint}?${qik.utils.mapParameters(params)}`
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -344,68 +347,7 @@ var QikAPI = function(qik) {
      */
 
 
-
-    ///////////////////////////////////////////////////
-
-    /**
-     * A helper function for generating an authenticated url for the current user
-     * @param  {string} endpoint The id of the asset, or the asset object you want to download
-     * @alias api.generateEndpointURL
-     * @param  {object} params   
-     * @return {string}          A full URL with relevant parameters included
-     * @example
-     * // returns 'https://api.qik.io/something?access_token=2352345...'
-     * qik.api.generateEndpointURL('/something');
-     */
-
-    service.generateEndpointURL = function(path, params) {
-
-        if (!path || !String(path).length) {
-            return;
-        }
-
-        if (!params) {
-            params = {};
-        }
-
-        var url = `${qik.apiURL}${path}`;
-
-        ////////////////////////////////////////
-
-        url = parameterDefaults(url, params);
-
-        ////////////////////////////////////////
-
-        //Map the parameters to a query string
-        var queryParameters = qik.utils.mapParameters(params);
-
-        if (queryParameters.length) {
-            url += `?${queryParameters}`;
-        }
-
-        return url;
-
-    }
-
-    ///////////////////////////////////////////////////////
-
-    function parameterDefaults(url, params) {
-
-        //If we haven't requested without token
-        if (!params.withoutToken) {
-            //Get the current token from QikAuth
-            var CurrentQikToken = qik.auth.getCurrentToken();
-
-
-            //Check to see if we have a token and none has been explicity set
-            if (!params['access_token'] && CurrentQikToken) {
-                //Use the current token by default
-                params['access_token'] = CurrentQikToken;
-            }
-        }
-
-        return url;
-    }
+    
 
 
     /////////////////////////////////////////////////////

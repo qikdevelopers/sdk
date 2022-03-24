@@ -123,6 +123,42 @@ export default function(qik) {
         return { minimum, maximum };
     }
 
+
+    service.meetsValidationRequirements = function(input, fieldType, validationCriteria) {
+
+        if (validationCriteria.minLength) {
+            var stringLength = String(input).length;
+            if (stringLength < validationCriteria.minLength) {
+                return `must be at least ${validationCriteria.minLength} characters`;
+
+            }
+        }
+
+        if (validationCriteria.maxLength) {
+            var stringLength = String(input).length;
+            if (stringLength > validationCriteria.maxLength) {
+                return `must be less than ${validationCriteria.maxLength} characters`;
+
+            }
+        }
+
+        if (validationCriteria.minValue) {
+            var number = Number(input);
+            if (number < validationCriteria.minValue) {
+                return `must be greater than ${validationCriteria.minValue}`;
+
+            }
+        }
+
+        if (validationCriteria.maxValue) {
+            var number = Number(input);
+            if (number > validationCriteria.maxValue) {
+                return `must be less than ${validationCriteria.maxValue}`;
+
+            }
+        }
+    }
+
     service.validateField = function(input, fieldDefinition, options) {
 
         if (!options) {
@@ -265,16 +301,24 @@ export default function(qik) {
 
                 var isValid = qik.utils.isValidValue(val, valueFieldType, strict);
 
-
-
+                ////////////////////////////
 
                 if (!isValid) {
                     foundBadEntry = true;
                     return true;
                 }
+
+                ////////////////////////////
+
+                //Is there additional validation requirements
+                if (fieldDefinition.validation) {
+                    var additionalValidationErrors = service.meetsValidationRequirements(val, fieldType, fieldDefinition.validation)
+                    if (additionalValidationErrors) {
+                        foundBadEntry = true;
+                        return true;
+                    }
+                }
             })
-
-
 
             if (foundBadEntry) {
 
@@ -352,7 +396,6 @@ export default function(qik) {
 
             var isValidValue = qik.utils.isValidValue(cleanedValue, dataType, options.strict);
 
-
             //////////////////
 
             //Invalid input
@@ -369,6 +412,18 @@ export default function(qik) {
                         options,
                     },
                     status: 400,
+                }
+            }
+
+            //Is there additional validation requirements
+            if (fieldDefinition.validation) {
+                var additionalValidationError = service.meetsValidationRequirements(input, fieldType, fieldDefinition.validation)
+                if (additionalValidationError) {
+                    return {
+                        valid: false,
+                        message: additionalValidationError,
+                        status: 400,
+                    };
                 }
             }
         }

@@ -24,6 +24,7 @@ var QikAuth = function(qik) {
 
     var defaultStore = {};
     var store = defaultStore;
+    const tokenBufferSeconds = 10;
 
     ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////
@@ -60,13 +61,6 @@ var QikAuth = function(qik) {
         dispatcher.dispatch('change', user, parameters);
     }
 
-    ///////////////////////////////////////////////////
-
-    function log(message) {
-        if (service.debug) {
-            console.log(message);
-        }
-    }
 
     ///////////////////////////////////////////////////
 
@@ -84,7 +78,7 @@ var QikAuth = function(qik) {
 
         store.user = user;
 
-        log('qik.auth > user set');
+        
         return dispatch(parameters)
     }
 
@@ -111,7 +105,7 @@ var QikAuth = function(qik) {
 
 
 
-        log('qik.auth > user logout');
+        
 
 
         if (qik.withCredentials) {
@@ -321,7 +315,7 @@ var QikAuth = function(qik) {
 
                 if (autoAuthenticate) {
                     store.user = res.data;
-                    // console.log('Persist user', store.user)
+                    
                     dispatch();
                     // if (service.onChange) {
                     //     service.onChange(store.user);
@@ -652,6 +646,49 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
+    service.ensureValidToken = async function() {
+
+                
+
+            var currentUser = service.getCurrentUser();
+            if (!currentUser) {
+                
+                return Promise.reject('No user');
+            }
+
+            var { token } = currentUser;
+            if (!token) {
+                 
+                return Promise.reject('No token');
+            }
+
+            /////////////////////////////////////////////////////
+
+            //Check our date
+            var now = new Date();
+
+            //Give us a bit of buffer so that the backend doesn't beat us to
+            //retiring the token
+            now.setSeconds(now.getSeconds() + tokenBufferSeconds);
+
+            /////////////////////////////////////////////////////
+
+            var expires = new Date(token.expires);
+
+            //If the token is still fresh
+            if (now < expires) {
+                 
+                return token;
+            } else {
+
+                return await service.refreshAccessToken(token.refreshToken);
+            }
+
+        
+    }
+
+    ///////////////////////////////////////////////////
+
     /**
      * Helper function to refresh an access token for an authenticated user session. This is usually handled automatically
      * from the QikAuth service itself
@@ -663,33 +700,32 @@ var QikAuth = function(qik) {
 
     const refreshContext = {};
 
-
-    service.refreshAccessToken = function(refreshToken) {
+    service.refreshAccessToken = async function(refreshToken) {
 
         // /////////////////////////////////////////////
 
         // if (appContext) {
-        //     console.log('refresh token in app context')
+        
         // } else {
-        //     console.log('refresh token in normal context')
+        
         // }
 
         // /////////////////////////////////////////////
 
         //If there is already a request in progress
         if (refreshContext.inflightRefreshRequest) {
-            log(`qik.auth > use inflight request`);
+            
             return refreshContext.inflightRefreshRequest;
         }
 
         /////////////////////////////////////////////////////
 
         //Create an refresh request
-        log(`qik.auth > refresh token new request`);
+        
         refreshContext.inflightRefreshRequest = new Promise(function(resolve, reject) {
 
 
-            log(`qik.auth > refresh token`);
+            
 
             //Bypass the interceptor on all token refresh calls
             //Because we don't need to add the access token etc onto it
@@ -698,21 +734,21 @@ var QikAuth = function(qik) {
                     refreshToken: refreshToken
                 }, {
                     bypassInterceptor: true,
-                    withoutToken:true,
+                    withoutToken: true,
                 })
                 .then(function tokenRefreshComplete(res) {
 
                     //Update the user with any changes 
                     //returned back from the refresh request
                     if (!res) {
-                        log('qik.auth > no res');
+                        
                         refreshContext.inflightRefreshRequest = null;
                         return reject();
 
-                    } else {                       
+                    } else {
                         //Update with our new session
                         store.user = res.data;
-                        log(`qik.auth > token refreshed`);
+                        
 
                         dispatch();
                     }
@@ -728,11 +764,11 @@ var QikAuth = function(qik) {
 
                 })
                 .catch(function(err) {
-                    log('qik.auth > refresh token failed error', err);
+                    
 
                     //TODO Check if invalid_refresh_token
 
-                    //console.log('Refresh request Failed')
+                    
                     setTimeout(function() {
                         refreshContext.inflightRefreshRequest = null;
                     });
@@ -776,8 +812,8 @@ var QikAuth = function(qik) {
                 } else {
                     store.user = null;
                 }
+
                 
-                log('qik.auth > server session synced');
                 retryCount = 0;
 
                 dispatch();
@@ -789,7 +825,7 @@ var QikAuth = function(qik) {
                 retryCount = 0;
                 dispatch();
                 // } else {
-                // console.log('Retry sync')
+                
                 // retryCount++;
                 // service.sync();
                 // }
@@ -810,7 +846,7 @@ var QikAuth = function(qik) {
     }
 
 
-    service.getCurrentToken = function() {
+    service.getCurrentToken = function(ensureFresh) {
 
         var details = service.getCurrentUser();
 
@@ -831,105 +867,108 @@ var QikAuth = function(qik) {
 
     qik.api.interceptors.request.use(async function(config) {
 
-        //If we want to bypass the interceptor
-        //then just return the request
-        if (config.bypassInterceptor) {
-            return config;
-        }
-
-        //////////////////////////////
-        //////////////////////////////
-        //////////////////////////////
-        //////////////////////////////
-
-        //Get the original request
-        var originalRequest = config;
-
-        //////////////////////////////
-
-        var userDetails = await service.getCurrentUser();
-        var accessToken;
-        var refreshToken;
-        var expiryDate;
-
-        if (userDetails) {
-            var { token } = userDetails;
-            if (token) {
-                accessToken = token.accessToken;
-                refreshToken = token.refreshToken;
-                expiryDate = token.expires;
+            //If we want to bypass the interceptor
+            //then just return the request
+            if (config.bypassInterceptor) {
+                return config;
             }
-        }
 
-        //////////////////////////////
+            //////////////////////////////
+            //////////////////////////////
+            //////////////////////////////
+            //////////////////////////////
 
-        //If there is a user token
-        if (accessToken) {
-            //Set the token of the request as the user's access token
-            originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-            log('qik.auth > using user token');
+            //Get the original request
+            var originalRequest = config;
 
-        } else {
-            //Return the original request without a token
-            log('qik.auth > no token');
-            return originalRequest;
-        }
+            //////////////////////////////
 
-        /////////////////////////////////////////////////////
+            var userDetails = await service.getCurrentUser();
+            var accessToken;
+            var refreshToken;
+            var expiryDate;
 
-        //If no refresh token
-        if (!refreshToken) {
-            log('qik.auth > no refresh token');
+            if (userDetails) {
+                var { token } = userDetails;
+                if (token) {
+                    accessToken = token.accessToken;
+                    refreshToken = token.refreshToken;
+                    expiryDate = token.expires;
+                }
+            }
 
-            //Continue with the original request
-            return originalRequest;
-        }
+            //////////////////////////////
 
-        /////////////////////////////////////////////////////
+            //If there is a user token
+            if (accessToken) {
+                //Set the token of the request as the user's access token
+                originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+                
 
-        //We have a refresh token so we need to check
-        //whether our access token is stale and needs to be refreshed
-        var now = new Date();
+            } else {
+                //Return the original request without a token
+                
+                return originalRequest;
+            }
 
-        //Give us a bit of buffer so that the backend doesn't beat us to
-        //retiring the token
-        now.setSeconds(now.getSeconds() + 20);
+            /////////////////////////////////////////////////////
 
-        /////////////////////////////////////////////////////
+            //If no refresh token
+            if (!refreshToken) {
+                
 
-        var expires = new Date(expiryDate);
+                //Continue with the original request
+                return originalRequest;
+            }
 
-        //If the token is still fresh
-        if (now < expires) {
-            //Return the original request
-            return originalRequest;
-        }
+            /////////////////////////////////////////////////////
 
-        /////////////////////////////////////////////////////
+            //We have a refresh token so we need to check
+            //whether our access token is stale and needs to be refreshed
+            var now = new Date();
 
-        log('qik.auth > token expired');
+            //Give us a bit of buffer so that the backend doesn't beat us to
+            //retiring the token
+            now.setSeconds(now.getSeconds() + tokenBufferSeconds);
 
-        return new Promise(function(resolve, reject) {
+            /////////////////////////////////////////////////////
 
-            //Refresh the token
-            service.refreshAccessToken(refreshToken)
-                .then(function(newToken) {
-                    log('qik.auth > token refreshed');
-                    //Update the original request with our new token
-                    originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
-                    //And continue onward
-                    return resolve(originalRequest);
-                })
-                .catch(function(err) {
-                    log('qik.auth > token refresh rejected', err);
-                    return reject(err);
-                });
-        });
+            var expires = new Date(expiryDate);
+
+            //If the token is still fresh
+            if (now < expires) {
+                //Return the original request
+                return originalRequest;
+            }
+
+            /////////////////////////////////////////////////////
+
+            
+
+            return new Promise(async function(resolve, reject) {
+
+                //Refresh the token
+                await service.refreshAccessToken(refreshToken)
+                    .then(function(newToken) {
+                        
+                        //Update the original request with our new token
+                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                        //And continue onward
+                        return resolve(originalRequest);
+                    })
+                    .catch(function(err) {
+                        
+                        return reject(err);
+                    });
+            });
 
 
-    }, function(error) {
-        return Promise.reject(error);
-    })
+        },
+        function(error) {
+            return Promise.reject(error);
+        })
+
+
 
     /////////////////////////////////////////////////////
 
@@ -942,7 +981,7 @@ var QikAuth = function(qik) {
         //Get the response status
         var status = (err && err.response && err.response.status) || err.status;
 
-        log('qik.auth > error', status);
+        
         switch (status) {
             case 401:
                 service.logout();

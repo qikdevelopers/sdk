@@ -67,7 +67,7 @@ export default function(options) {
             options.apiURL = 'https://api.staging.qik.dev';
             break;
         case 'local':
-            options.apiURL = 'http://localhost:4001';
+            options.apiURL = 'http://api.qik.localhost:4001';
             break;
     }
 
