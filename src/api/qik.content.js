@@ -132,7 +132,8 @@ export default function(qik) {
         var fieldType = fieldDefinition.type || 'string';
         var { minimum, maximum } = getLimits(fieldDefinition);
 
-        var singleValue = maximum == 1;
+        var isObject = (fieldDefinition.type == 'group' && fieldDefinition.asObject);
+        var singleValue = isObject ? minimum === maximum && maximum === 1 : maximum === 1;
         var multiValue = !singleValue;
 
         //////////////////
@@ -179,12 +180,23 @@ export default function(qik) {
 
             //But the input is not an array
             if (!Array.isArray(input)) {
-                return {
-                    valid: false,
-                    message: `${fieldDefinition.title} requires at least ${minimum} values`,
-                    status: 400,
+
+                if (minimum) {
+                    return {
+                        valid: false,
+                        message: `${fieldDefinition.title} requires at least ${minimum} values`,
+                        status: 400,
+                    }
+                } else {
+                    return {
+                        valid: false,
+                        message: `${fieldDefinition.title} must be provided as an array`,
+                        status: 400,
+                    }
                 }
             }
+
+
 
             ////////////////////////////
 
@@ -254,6 +266,8 @@ export default function(qik) {
                 var isValid = qik.utils.isValidValue(val, valueFieldType, strict);
 
 
+
+
                 if (!isValid) {
                     foundBadEntry = true;
                     return true;
@@ -271,6 +285,7 @@ export default function(qik) {
                 //     break;
                 // }
 
+                console.log('BAD ENTRY', badEntry, fieldDefinition)
                 let badValueMessage = `Invalid input for ${fieldDefinition.title}`;
                 return {
                     valid: false,
@@ -284,6 +299,7 @@ export default function(qik) {
             //////////////////
 
             var cleanedValue = getCleanedValue();
+
 
             //////////////////
 
@@ -317,9 +333,6 @@ export default function(qik) {
                     case 'reference':
                         return options.strict ? input : qik.utils.id(input);
                         break;
-                        // case 'group':
-                        // case 'object':
-                        // break;
                     default:
                         return options.strict ? input : qik.utils.cleanValue(input, fieldType, options);
                         break

@@ -2,8 +2,10 @@ import _get from 'lodash/get';
 import _isDate from 'lodash/isDate';
 import _startsWith from 'lodash/startsWith';
 import _isObject from 'lodash/isObject';
+import _camelCase from 'lodash/camelCase';
 import axios from 'axios';
 import { isBrowser, isNode } from 'browser-or-node';
+
 
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -25,7 +27,7 @@ service.exists = function(value) {
 
     ////////////////////////
 
-    if(value === 0) {
+    if (value === 0) {
         return true;
     }
 
@@ -237,6 +239,9 @@ service.cleanValue = function(data, type, options) {
         case 'url':
             return service.parseURL(data);
             break;
+        case 'key':
+            return service.machineName(data);
+            break;
         case 'email':
             return service.parseEmail(data);
             break;
@@ -334,6 +339,9 @@ service.isValidValue = function(value, dataType, strict) {
                 isValidEntry = String(value) === service.parseURL(value);
             }
             break;
+        case 'key':
+            isValidEntry = String(value) === service.machineName(value);
+            break;
         case 'date':
 
             //If we are being strict
@@ -357,20 +365,14 @@ service.isValidValue = function(value, dataType, strict) {
             }
 
             break;
-
-
         case 'number':
         case 'decimal':
         case 'float':
-
             if (strict) {
                 isValidEntry = valueIsNumber && (Number(value) === service.parseNumber(value));
             } else {
                 isValidEntry = Number(value) === service.parseNumber(value);
             }
-
-            console.log('NUMBER TYPE', value, isValidEntry)
-
             break;
         case 'integer':
             if (strict) {
@@ -378,8 +380,6 @@ service.isValidValue = function(value, dataType, strict) {
             } else {
                 isValidEntry = Number(value) === service.parseInt(value);
             }
-
-            console.log('NUMBER TYPE', value, isValidEntry)
             break;
         case 'boolean':
 
@@ -494,7 +494,7 @@ service.mapFields = function(fields, options) {
         var fieldKey = field.key;
         var isGroup = field.type == 'group';
         var singleValue = (field.minimum === field.maximum) && field.minimum === 1;
-        var asObject = field.asObject;// || (isGroup && singleValue);
+        var asObject = field.asObject; // || (isGroup && singleValue);
         var isLayout = isGroup && !asObject;
 
         //////////////////////////////////
@@ -574,7 +574,7 @@ service.mapFields = function(fields, options) {
  */
 service.mapParameters = function(parameters) {
 
-    var array;
+    var array = [];
 
     for (var key in parameters) {
 
@@ -1128,9 +1128,12 @@ service.machineName = function(string) {
         return;
     }
 
+
     var regexp = /[^a-zA-Z0-9-_]+/g;
-    return string.replace(regexp, '');
+    var cleaned = String(string).replace(regexp, ' ');
+    return _camelCase(cleaned);
 }
+
 
 /////////////////////////////////////////////
 /////////////////////////////////////////////

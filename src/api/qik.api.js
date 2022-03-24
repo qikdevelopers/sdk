@@ -158,6 +158,23 @@ var QikAPI = function(qik) {
 
     //////////////////////////////////////////////////////////////////////////////
 
+    service.generateEndpointURL = function(endpoint, params, options) {
+        options = options || {}
+
+        //Append the access token to the url
+        params.access_token = qik.auth.getCurrentToken();
+
+        return `${qik.apiURL}/${endpoint}?${qik.utils.mapParameters(params)}`
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+
+    service.wasCancelled = function(err) {
+        return axios.isCancel(err);
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+
     function createNewAxios(adapter) {
 
         var instance = axios.create({
@@ -177,7 +194,7 @@ var QikAPI = function(qik) {
         // Add relative date and timezone to every request
         instance.interceptors.request.use(function(config) {
 
-            if(config.withoutToken) {
+            if (config.withoutToken) {
                 return config;
             }
 

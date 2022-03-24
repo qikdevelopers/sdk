@@ -891,9 +891,9 @@ var QikAuth = function(qik) {
         //whether our access token is stale and needs to be refreshed
         var now = new Date();
 
-        //Give us a bit of buffer incase some of our images
-        //are still loading
-        now.setSeconds(now.getSeconds() + 5);
+        //Give us a bit of buffer so that the backend doesn't beat us to
+        //retiring the token
+        now.setSeconds(now.getSeconds() + 20);
 
         /////////////////////////////////////////////////////
 

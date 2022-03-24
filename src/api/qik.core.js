@@ -132,7 +132,7 @@ export default function(options) {
      * with Qik files
      * @type {QikFiles}
      */
-    const files = QikFiles;
+    const files = new QikFiles(core);
     Object.defineProperty(core, 'files', {
         value: files,
         writable: false,
