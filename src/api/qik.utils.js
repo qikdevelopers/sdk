@@ -505,11 +505,8 @@ service.mapFields = function(fields, options) {
         mapped.trail = trail.slice();
         mapped.trail.push(fieldKey)
         mapped.path = mapped.trail.join('.');
-
-
         mapped.titles = titles.slice();
         mapped.titles.push(field.title || fieldKey)
-
 
         //If its an actual element or we've asked to include
         //layout only elements

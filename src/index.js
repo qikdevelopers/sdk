@@ -17,3 +17,4 @@ console.log(versionName)
 ////////////////////////////////////////////
 
 export default QikCore;
+export { EventDispatcher } from './api/qik.utils.js';
