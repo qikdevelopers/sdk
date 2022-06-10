@@ -848,13 +848,23 @@ var QikAuth = function(qik) {
 
     service.getCurrentToken = function(ensureFresh) {
 
-        var details = service.getCurrentUser();
 
-        if (!details) {
+        var user = service.getCurrentUser();
+
+        //User is not logged in
+        if (!user) {
+
+            //But there is an application token
+            if(qik.applicationToken) {
+                //use that instead
+                return qik.applicationToken;
+            }
+
+            //No token
             return;
         }
 
-        var { token } = details;
+        var { token } = user;
         if (!token) {
             return;
         }

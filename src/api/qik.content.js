@@ -400,8 +400,6 @@ export default function(qik) {
 
             //Invalid input
             if (!isValidValue) {
-
-                console.log('FAILED', input, fieldType, cleanedValue, dataType, isValidValue)
                 return {
                     valid: false,
                     message: `Single value '${input}' is not a valid ${fieldType} for ${fieldDefinition.title}`,

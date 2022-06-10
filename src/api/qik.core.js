@@ -80,9 +80,6 @@ export default function(options) {
         global:{},
     })
 
-    console.log('Instantiate class', core)
-
-
 
     ///////////////////////////////////////
 

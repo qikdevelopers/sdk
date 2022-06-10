@@ -160,6 +160,7 @@ var QikAPI = function(qik) {
 
     service.generateEndpointURL = function(endpoint, params, options) {
         options = options || {}
+        params = params || {};
 
         //Append the access token to the url
         if(!options.withoutToken) {
@@ -167,7 +168,9 @@ var QikAPI = function(qik) {
         }
 
         var stripLeadingTag = endpoint[0] == '/' ? endpoint.slice(1) : endpoint;
-        return `${qik.apiURL}${endpoint}?${qik.utils.mapParameters(params)}`
+        var parameterString = qik.utils.mapParameters(params);
+        parameterString = parameterString ? `?${parameterString}` : '';
+        return `${qik.apiURL}${endpoint}${parameterString}`
     }
 
     //////////////////////////////////////////////////////////////////////////////

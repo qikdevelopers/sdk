@@ -1,8 +1,8 @@
-import _get from 'lodash/get';
-import _isDate from 'lodash/isDate';
-import _startsWith from 'lodash/startsWith';
-import _isObject from 'lodash/isObject';
-import _camelCase from 'lodash/camelCase';
+import _get from 'lodash/get.js';
+import _isDate from 'lodash/isDate.js';
+import _startsWith from 'lodash/startsWith.js';
+import _isObject from 'lodash/isObject.js';
+import _camelCase from 'lodash/camelCase.js';
 import axios from 'axios';
 import { isBrowser, isNode } from 'browser-or-node';
 
