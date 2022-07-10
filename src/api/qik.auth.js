@@ -646,7 +646,7 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    service.ensureValidToken = async function() {
+    service.ensureValidToken = async function(forceRefresh) {
 
                 
 
@@ -676,7 +676,7 @@ var QikAuth = function(qik) {
             var expires = new Date(token.expires);
 
             //If the token is still fresh
-            if (now < expires) {
+            if (!forceRefresh && (now < expires)) {
                  
                 return token;
             } else {
@@ -846,7 +846,7 @@ var QikAuth = function(qik) {
     }
 
 
-    service.getCurrentToken = function(ensureFresh) {
+    service.getCurrentToken = function() {
 
 
         var user = service.getCurrentUser();

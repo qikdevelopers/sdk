@@ -10,7 +10,6 @@ var {data} = await qik.api.get(`/version`);
 
 
 
-console.log('WHAT IS IT', qik)
 
 
 // chai.expect();

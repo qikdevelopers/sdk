@@ -616,6 +616,27 @@ export default function(qik) {
         return data;
     }
 
+    service.getFromID = async function(id) {
+        id = qik.utils.id(id);
+        const { data } = await qik.api.get(`/content/get/${id}`);
+        return data;
+    }
+
+    service.getFromSlug = async function(slug) {
+        const { data } = await qik.api.get(`/content/slug/${slug}`);
+        return data;
+    }
+
+    // service.getFromSlug = async function(type, slug) {
+    //     const { data } = await qik.api.get(`/content/${type}/slug/${slug}`);
+    //     return data;
+    // }
+
+    // service.getFromExternalID = async function(type, externalID) {
+    //     const { data } = await qik.api.get(`/content/${type}/external/${externalID}`);
+    //     return data;
+    // }
+
 
     return service;
 
