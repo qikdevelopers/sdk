@@ -674,7 +674,7 @@ var QikAuth = function(qik) {
             var expires = new Date(token.expires);
 
             if(forceRefresh) {
-                console.log('force refresh valid token')
+                console.log('force refresh valid token', token.refreshToken)
                 return await service.refreshAccessToken(token.refreshToken);
             }
 
