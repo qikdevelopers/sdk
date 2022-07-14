@@ -604,15 +604,31 @@ export default function(qik) {
         return data;
     }
 
-    service.update = async function(type, id, input) {
+    service.update = async function(id, input) {
         id = qik.utils.id(id);
-        const { data } = await qik.api.put(`/content/${type}/${id}`, input);
+        const { data } = await qik.api.put(`/content/${id}`, input);
         return data;
     }
 
-    service.patch = async function(type, id, input) {
+    service.patch = async function(id, input) {
         id = qik.utils.id(id);
-        const { data } = await qik.api.patch(`/content/${type}/${id}`, input);
+        const { data } = await qik.api.patch(`/content/${id}`, input);
+        return data;
+    }
+
+    service.get = async function(id) {
+        return service.getFromID(id);
+    }
+
+    service.delete = async function(id, input) {
+        id = qik.utils.id(id);
+        const { data } = await qik.api.delete(`/content/${id}`, input);
+        return data;
+    }
+
+    service.restore = async function(id, input) {
+        id = qik.utils.id(id);
+        const { data } = await qik.api.get(`/content/${id}/restore`, input);
         return data;
     }
 
