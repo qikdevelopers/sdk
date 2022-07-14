@@ -617,7 +617,14 @@ export default function(qik) {
     }
 
     service.get = async function(id) {
-        return service.getFromID(id);
+        id = qik.utils.id(id);
+        const { data } = await qik.api.get(`/content/${id}`);
+        return data;
+    }
+
+    service.getFromID = async function(id) {
+        console.log('getFromID is deprecated')
+        return service.get(id);
     }
 
     service.delete = async function(id, input) {
@@ -632,11 +639,7 @@ export default function(qik) {
         return data;
     }
 
-    service.getFromID = async function(id) {
-        id = qik.utils.id(id);
-        const { data } = await qik.api.get(`/content/get/${id}`);
-        return data;
-    }
+   
 
     service.getFromSlug = async function(slug) {
         const { data } = await qik.api.get(`/content/slug/${slug}`);
