@@ -53,8 +53,16 @@ export default function(qik) {
             return result;
         }
 
+        if (options.hex) {
+            var result = qik.utils.hash(glossary.data, 'hex');
+            return result;
+        }
+
         return glossary.data;
     }
+
+
+
 
     ///////////////////////////////////////////////////
 

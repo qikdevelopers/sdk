@@ -12,9 +12,7 @@ import { isBrowser, isNode } from 'browser-or-node';
 
 var service = {};
 
-
 ///////////////////////////////////////////////////////////////////////////////
-
 
 service.exists = function(value) {
     var isUndefinedOrNull;
