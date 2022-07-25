@@ -1116,19 +1116,15 @@ service.errorMessage = function(err) {
  * @param  {String} string The string to clean eg. (Awesome Event!)
  * @return {String}     A cleaned and formatted string eg. (awesomeEvent)
  */
-
 service.machineName = function(string) {
-
     if (!string || !string.length) {
         return;
     }
-
 
     var regexp = /[^a-zA-Z0-9-_]+/g;
     var cleaned = String(string).replace(regexp, ' ');
     return _camelCase(cleaned);
 }
-
 
 /////////////////////////////////////////////
 /////////////////////////////////////////////

@@ -3,9 +3,6 @@ import _ from 'lodash';
 import qs from 'qs';
 import { version } from '../version.js';
 
-
-
-
 import {
     cacheAdapterEnhancer,
     throttleAdapterEnhancer,
@@ -17,42 +14,15 @@ const CancelToken = axios.CancelToken;
 
 ///////////////////////////////////////
 
-
-/**
- * Creates a new QikAPI instance.
- * This module is a wrapper around the <a href="https://www.npmjs.com/package/axios">axios</a> package. It aims to make it easier for you to connect with and consume endpoints from the Qik REST API for more information about the available endpoints see <a href="https://developer.qik.io">Qik REST API Documentation</a>
- * @alias api
- * @constructor
- * @param {QikCore} qik A reference to the parent instance of the QikCore module. The QikAPI module is usually created by a QikCore instance that passes itself in as the first argument.
- */
-
-
 var QikAPI = function(qik) {
 
-    ///////////////////////////////////////
-
-    // //Cache Defaults
-    // var FIVE_MINUTES = 1000 * 60 * 5;
-    // var CAPACITY = 100;
-    // { maxAge: FIVE_MINUTES, max: 100 }
-
-
-    /**
-     * The default cache to use when requests are made from this instance
-     * @type {LRUCache}
-     * @access private
-     */
     var defaultCache;
 
     if (typeof window !== 'undefined') {
         defaultCache = qik.cache.get('api');
     }
 
-    ///////////////////////////////////////
-
-    //Get the default adapter
     const defaultAdapter = axios.defaults.adapter
-    // console.log('DEFAULT ADAPTER', defaultAdapter)
 
     /////////////////////////////////////////////////////
 
@@ -69,7 +39,6 @@ var QikAPI = function(qik) {
 
     ///////////////////////////////////////
 
-    //Add our own adapter to the service
     let cacheAdapter = function(config) {
 
         return new Promise(function(resolve, reject) {
@@ -80,7 +49,6 @@ var QikAPI = function(qik) {
 
             ///////////////////////////////////////
 
-            //Don't cache action methods
             switch (String(config.method).toLowerCase()) {
                 case 'post':
                 case 'patch':
@@ -94,7 +62,6 @@ var QikAPI = function(qik) {
                     break;
             }
 
-            ///////////////////////////////////////
             ///////////////////////////////////////
 
             if (config.cache === false) {
@@ -116,33 +83,17 @@ var QikAPI = function(qik) {
             }
 
             ///////////////////////////////////////
-            ///////////////////////////////////////
 
             if (cachedResponse) {
-                // console.log('FROM CACHE', config.url, cachedResponse);
                 return resolve(cachedResponse);
             }
 
-
-
-            // const axiosWithoutAdapter = createNewAxios();
-
-
             var copy = Object.assign(config, { adapter: defaultAdapter });
-
-
-            // console.log('NEW ADAPTER THING', copy)
-            // const axiosWithoutAdapter = axios(copy);
-
 
             return axios.request(config)
                 .then(function(res) {
-
-                    // console.log('RESPONSE', res)
                     resolve(res);
                 }, function(err) {
-
-                    // console.log('ERROR', err)
                     reject(err);
                 });
 
@@ -186,8 +137,6 @@ var QikAPI = function(qik) {
         var instance = axios.create({
             paramsSerializer: params => qs.stringify(params, { arrayFormat: 'repeat' }),
             adapter,
-            // adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter, { defaultCache: defaultCache }))
-            // adapter: throttleAdapterEnhancer(cacheAdapterEnhancer(axios.defaults.adapter, { defaultCache: defaultCache }))
         });
 
         ///////////////////////////////////////
@@ -267,95 +216,8 @@ var QikAPI = function(qik) {
         return instance;
     }
 
-    ///////////////////////////////////////
-
-
-    /**
-     * @name api.get
-     * @description Makes a get http request to the Qik REST API
-     * @function
-     * @param {String} path The Qik API endpoint to request
-     * @param {Object} config Optional parameters for the request
-     * @example
-     * //Make a request to get the current user session
-     * qik.api.get('/content/article', {
-     *   params:{
-     *     select:'title created',
-     *     limit:10,
-     *     simple:true,
-     *   }
-     * })
-     * .then(function (response) {
-     *   console.log(response);
-     * })
-     * .catch(function (error) {
-     *   console.log(error);
-     * });
-     */
-
-
-    /**
-     * @name api.post
-     * @description Makes a post http request to the Qik REST API
-     * @function
-     * @param {String} path The Qik API endpoint to request
-     * @param {Object} config Optional parameters for the request
-     * @example
-     * 
-     * qik.api.post('/content/article', {title:'my new article', ...}, {
-     *   //headers and other things
-     * })
-     * .then(function (response) {
-     *   console.log(response);
-     * })
-     * .catch(function (error) {
-     *   console.log(error);
-     * });
-     */
-
-    /**
-     * @name api.put
-     * @description Makes a put http request to the Qik REST API
-     * @function
-     * @param {String} path The Qik API endpoint to request
-     * @param {Object} config Optional parameters for the request
-     * @example
-     * 
-     * qik.api.put('/content/article/5ca3d64dd2bb085eb9d450db', {title:'my new article', ...}, {
-     *   //headers and other things
-     * })
-     * .then(function (response) {
-     *   console.log(response);
-     * })
-     * .catch(function (error) {
-     *   console.log(error);
-     * });
-     */
-
-    /**
-     * @name api.delete
-     * @description Makes a delete http request to the Qik REST API
-     * @function
-     * @param {String} path The Qik API endpoint to request
-     * @param {Object} config Optional parameters for the request
-     * @example
-     * 
-     * qik.api.delete('/content/article/5ca3d64dd2bb085eb9d450db')
-     * .then(function (response) {
-     *   console.log(response);
-     * })
-     * .catch(function (error) {
-     *   console.log(error);
-     * });
-     */
-
-
-    
-
-
     /////////////////////////////////////////////////////
 
-    //Get all mongo ids from a string
     function retrieveIDs(data) {
 
         var dataString;

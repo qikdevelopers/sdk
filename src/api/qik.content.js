@@ -303,7 +303,11 @@ export default function(qik) {
 
                 var valueFieldType = fieldType;
 
-                if (fieldDefinition.type == 'group') {
+                if (fieldDefinition.type === 'group') {
+                    valueFieldType = 'object';
+                }
+
+                if (fieldDefinition.type === 'reference' && fieldDefinition.widget === 'form') {
                     valueFieldType = 'object';
                 }
 
@@ -396,9 +400,14 @@ export default function(qik) {
             //////////////////
 
             var dataType = fieldType;
-            if (dataType == 'group') {
+            var widgetType = fieldDefinition.widget;
+            if (dataType === 'group') {
                 dataType = 'object';
             }
+
+            if (dataType === 'reference' && widgetType === 'form') {
+                    dataType = 'object';
+                }
 
             //////////////////
 
