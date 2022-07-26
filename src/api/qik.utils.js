@@ -487,8 +487,6 @@ service.mapFields = function(fields, options) {
 
     //Recursively map the fields
     function mapField(field, i) {
-
-
         var fieldKey = field.key;
         var isGroup = field.type == 'group';
         var singleValue = (field.minimum === field.maximum) && field.minimum === 1;
@@ -502,6 +500,7 @@ service.mapFields = function(fields, options) {
 
         mapped.trail = trail.slice();
         mapped.trail.push(fieldKey)
+        
         mapped.path = mapped.trail.join('.');
         mapped.titles = titles.slice();
         mapped.titles.push(field.title || fieldKey)
@@ -517,8 +516,6 @@ service.mapFields = function(fields, options) {
 
         //Now see if there are child fields and should we go further
         var limitHit = depthLimit && (currentDepth >= depthLimit);
-
-
 
         //If there are child fields for this field
         if (field.fields && field.fields.length) {
@@ -537,7 +534,14 @@ service.mapFields = function(fields, options) {
                 //Move down a level and add to the object
                 //Include the key in the path trail
                 currentDepth++;
-                trail.push(fieldKey);
+
+                let injectKey = fieldKey;
+                if(options.includeArrayDelimeter) {
+                    if(!singleValue) {
+                        injectKey = `${fieldKey}[]`
+                    }
+                }
+                trail.push(injectKey)
                 titles.push(field.title || fieldKey);
 
                 //Loop through each field

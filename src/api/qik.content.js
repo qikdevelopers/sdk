@@ -406,8 +406,8 @@ export default function(qik) {
             }
 
             if (dataType === 'reference' && widgetType === 'form') {
-                    dataType = 'object';
-                }
+                dataType = 'object';
+            }
 
             //////////////////
 
@@ -656,7 +656,7 @@ export default function(qik) {
         return data;
     }
 
-   
+
 
     service.getFromSlug = async function(slug) {
         const { data } = await qik.api.get(`/content/slug/${slug}`);

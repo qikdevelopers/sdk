@@ -77,8 +77,6 @@ var QikAuth = function(qik) {
     service.set = function(user, parameters, ignoreEvent) {
 
         store.user = user;
-
-        
         return dispatch(parameters)
     }
 
@@ -542,7 +540,7 @@ var QikAuth = function(qik) {
 
             /////////////////////////////////////////////
 
-            //If a full fledged Qik User
+            //If a full fledged user
             //then send directly to the API auth endpoint
             var url = `${qik.apiURL}/user/reset/${resetToken}`;
 
