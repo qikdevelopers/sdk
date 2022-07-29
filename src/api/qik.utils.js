@@ -275,6 +275,8 @@ service.cleanValue = function(data, type, options) {
             if (_isObject(data) && !Array.isArray(data)) {
                 return data
             }
+
+            console.log('RETURN NULL FOR OBJECT', data, _isObject(data), Array.isArray(data));
             return;
             break;
         case 'string':
