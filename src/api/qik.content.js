@@ -347,52 +347,14 @@ export default function(qik) {
                 dataType = 'object';
             }
 
+
+            console.log('PLEASE JUST TEST THIS', input, dataType, options)
             //////////////////
 
-            var cleanedValue = getCleanedValue(input, dataType, options);
+            var cleanedValue = service.getCleanedValue(input, dataType, options);
+            console.log('CLEANED VALUE', cleanedValue, 'from:', dataType, input, options)
 
             //////////////////
-
-            function getCleanedValue(input, dataType, options) {
-                switch (dataType) {
-                    case 'number':
-                    case 'float':
-                    case 'decimal':
-                        if (!qik.utils.exists(input)) {
-                            return undefined;
-                        } else {
-                            return Number(input);
-                        }
-                        break;
-                    case 'integer':
-                        if (!qik.utils.exists(input)) {
-                            return undefined;
-                        } else {
-                            return parseInt(input);
-                        }
-                        break;
-                    case 'boolean':
-                        if (!qik.utils.exists(input)) {
-                            return undefined;
-                        }
-                        return qik.utils.parseBoolean(input);
-                        break;
-                    case 'email':
-                        return options.strict ? input : String(input).toLowerCase();
-                        break;
-                    case 'reference':
-                        return options.strict ? input : qik.utils.id(input);
-                        break;
-                    default:
-                        return options.strict ? input : qik.utils.cleanValue(input, fieldType, options);
-                        break
-                }
-
-                return input;
-            }
-
-            //////////////////
-
 
             var isValidValue = qik.utils.isValidValue(cleanedValue, dataType, options.strict);
 
@@ -400,7 +362,7 @@ export default function(qik) {
 
             //Invalid input
             if (!isValidValue) {
-                console.log('NOT VALID VALUE', fieldDefinition.title,  fieldDefinition.key, '>', cleanedValue, dataType, options.strict);
+                console.log('NOT VALID VALUE', fieldDefinition.title, fieldDefinition.key, '>', cleanedValue, dataType, options.strict);
                 return {
                     valid: false,
                     message: `Single value '${input}' is not a valid ${dataType} for ${fieldDefinition.title}`,
@@ -497,6 +459,44 @@ export default function(qik) {
     // }
 
 
+
+    service.getCleanedValue = function(input, dataType, options) {
+        switch (dataType) {
+            case 'number':
+            case 'float':
+            case 'decimal':
+                if (!qik.utils.exists(input)) {
+                    return undefined;
+                } else {
+                    return Number(input);
+                }
+                break;
+            case 'integer':
+                if (!qik.utils.exists(input)) {
+                    return undefined;
+                } else {
+                    return parseInt(input);
+                }
+                break;
+            case 'boolean':
+                if (!qik.utils.exists(input)) {
+                    return undefined;
+                }
+                return qik.utils.parseBoolean(input);
+                break;
+            case 'email':
+                return options.strict ? input : String(input).toLowerCase();
+                break;
+            case 'reference':
+                return options.strict ? input : qik.utils.id(input);
+                break;
+            default:
+                return options.strict ? input : qik.utils.cleanValue(input, dataType, options);
+                break
+        }
+
+        return input;
+    }
 
 
 
