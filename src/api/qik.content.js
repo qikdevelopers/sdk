@@ -348,11 +348,9 @@ export default function(qik) {
             }
 
 
-            console.log('PLEASE JUST TEST THIS', input, dataType, options)
             //////////////////
 
             var cleanedValue = service.getCleanedValue(input, dataType, options);
-            console.log('CLEANED VALUE', cleanedValue, 'from:', dataType, input, options)
 
             //////////////////
 
@@ -362,7 +360,6 @@ export default function(qik) {
 
             //Invalid input
             if (!isValidValue) {
-                console.log('NOT VALID VALUE', fieldDefinition.title, fieldDefinition.key, '>', cleanedValue, dataType, options.strict);
                 return {
                     valid: false,
                     message: `Single value '${input}' is not a valid ${dataType} for ${fieldDefinition.title}`,
