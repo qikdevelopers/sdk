@@ -417,6 +417,8 @@ service.isValidValue = function(value, dataType, strict) {
             //     isValidEntry = _isObject(value);
             //     break;
         case 'object':
+
+
             isValidEntry = _isObject(value) && !Array.isArray(value);
             break;
         case 'array':

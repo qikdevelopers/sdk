@@ -168,10 +168,7 @@ export default function(qik) {
     }
 
     service.validateField = function(input, fieldDefinition, options) {
-
-        if (!options) {
-            options = {}
-        }
+        options = options || {}
 
         var fieldType = fieldDefinition.type || 'string';
         var { minimum, maximum } = getLimits(fieldDefinition);
@@ -298,9 +295,6 @@ export default function(qik) {
 
             //Find any bad values
             var badEntry = compacted.find(function(val) {
-
-                var strict = options.strict;
-
                 var valueFieldType = fieldType;
 
                 if (fieldDefinition.type === 'group') {
@@ -311,7 +305,7 @@ export default function(qik) {
                     valueFieldType = 'object';
                 }
 
-                var isValid = qik.utils.isValidValue(val, valueFieldType, strict);
+                var isValid = qik.utils.isValidValue(val, valueFieldType, options.strict);
 
                 ////////////////////////////
 
@@ -333,15 +327,6 @@ export default function(qik) {
             })
 
             if (foundBadEntry) {
-
-                // var badValueMessage =  `${badEntry || "''"} is not a valid ${fieldType} value for ${fieldDefinition.title}`;
-                // switch(fieldType) {
-                //     case 'string':
-                //         badValueMessage = `Empty or invalid value for ${fieldDefinition.title}`;
-                //     break;
-                // }
-
-                console.log('BAD ENTRY', badEntry, fieldDefinition)
                 let badValueMessage = `Invalid input for ${fieldDefinition.title}`;
                 return {
                     valid: false,
@@ -352,15 +337,24 @@ export default function(qik) {
 
         } else {
 
+            var dataType = fieldType;
+            var widgetType = fieldDefinition.widget;
+            if (dataType === 'group') {
+                dataType = 'object';
+            }
+
+            if (dataType === 'reference' && widgetType === 'form') {
+                dataType = 'object';
+            }
+
             //////////////////
 
-            var cleanedValue = getCleanedValue();
-
+            var cleanedValue = getCleanedValue(input, dataType, options);
 
             //////////////////
 
-            function getCleanedValue() {
-                switch (fieldType) {
+            function getCleanedValue(input, dataType, options) {
+                switch (dataType) {
                     case 'number':
                     case 'float':
                     case 'decimal':
@@ -399,17 +393,6 @@ export default function(qik) {
 
             //////////////////
 
-            var dataType = fieldType;
-            var widgetType = fieldDefinition.widget;
-            if (dataType === 'group') {
-                dataType = 'object';
-            }
-
-            if (dataType === 'reference' && widgetType === 'form') {
-                dataType = 'object';
-            }
-
-            //////////////////
 
             var isValidValue = qik.utils.isValidValue(cleanedValue, dataType, options.strict);
 
@@ -417,9 +400,10 @@ export default function(qik) {
 
             //Invalid input
             if (!isValidValue) {
+                console.log('NOT VALID VALUE', fieldDefinition.title,  fieldDefinition.key, '>', cleanedValue, dataType, options.strict);
                 return {
                     valid: false,
-                    message: `Single value '${input}' is not a valid ${fieldType} for ${fieldDefinition.title}`,
+                    message: `Single value '${input}' is not a valid ${dataType} for ${fieldDefinition.title}`,
                     criteria: {
                         isValidValue,
                         cleanedValue,

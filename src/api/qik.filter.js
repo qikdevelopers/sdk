@@ -174,20 +174,30 @@ service.activeFilters = function(filterConfiguration) {
 
 ////////////////////////////////////////////////
 
-service.activeFilterKeys = function(filterConfiguration) {
-    var value = service.activeFilters(filterConfiguration)
+
+service.activeFilterKeys = function(filterConfiguration, options) {
+    options = options || {}
+
+    var activeFilters = service.activeFilters(filterConfiguration);
+    var value = activeFilters
         .filter(function(entry) {
             //Ignore all the wrapping entries
             return !entry.operator;
         })
         .reduce(function(set, filter) {
             var rootKey = service.cleanKey(filter.key);
+            if(options.trimArrayDelimeters !== false) {
+                rootKey = rootKey.split('[]').join('');
+            }
             set[rootKey] = true;
             return set;
-        }, {})
+        }, {});
 
-    return Object.keys(value);
-}
+    var keys = Object.keys(value);
+
+    return keys;
+};
+
 
 service.activeFilterComparators = function(filterConfiguration) {
     var comparators = service.activeFilters(filterConfiguration)
