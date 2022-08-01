@@ -229,6 +229,8 @@ export default function(qik) {
                         status: 400,
                     }
                 } else {
+
+                    console.log('NOT PROVIDED AS ARRAY', fieldDefinition.title, input)
                     return {
                         valid: false,
                         message: `${fieldDefinition.title} must be provided as an array`,
@@ -352,6 +354,7 @@ export default function(qik) {
 
             var cleanedValue = service.getCleanedValue(input, dataType, options);
 
+           
             //////////////////
 
             var isValidValue = qik.utils.isValidValue(cleanedValue, dataType, options.strict);
