@@ -3,14 +3,6 @@ import { EventDispatcher } from './qik.utils.js';
 
 ///////////////////////////////////////////////////
 
-/**
- * Creates a new QikAuth instance.
- * This module provides a number of helper functions for authentication, logging in, signing up, generating and refreshing tokens
- * @alias auth
- * @constructor
- * @hideconstructor
- * @param {QikCore} qik A reference to the parent instance of the QikCore module. This module is usually created by a QikCore instance that passes itself in as the first argument.
- */
 var QikAuth = function(qik) {
 
     if (!qik.api) {
@@ -64,16 +56,6 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * 
-     * Sets the current user data, often from localStorage or after new session data
-     * has been generated from the server after signing in
-     * @alias auth.set
-     * @param  {Object} user The user session object
-     * @example
-     * QikAsset.set({firstName:'Jeff', lastName:'Andrews', ...})
-     */
-
     service.set = function(user, parameters, ignoreEvent) {
 
         store.user = user;
@@ -82,15 +64,6 @@ var QikAuth = function(qik) {
 
 
     ///////////////////////////////////////////////////
-
-    /**
-     * 
-     * Deletes the user session object, clears all Qik caches and tokens
-     * from memory
-     * @alias auth.logout
-     * @example
-     * qik.auth.logout()
-     */
 
     service.logout = function() {
         //Unauthenticated
@@ -125,32 +98,10 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * 
-     * Retrieves a new session object for a Qik global user for a specified organisation
-     * This will only work if the user has a persona in that organisation
-     * @alias auth.changeOrganisation
-     * @param  {String} organisationID The _id of the organisation you wish to log in to
-     * @param  {Object} options      
-     * @param  {Object} options.disableAutoAuthentication By default this function will set the current user session 
-     * to organisation you are changing in to. 
-     * If you want to generate the session without affecting your current session you can set disableAutoAuthentication to true    
-     * @return {Promise} Resolves to the user session object, or rejects with the responding error
-     * @example
-     * qik.auth.changeOrganisation('5be504eabf33991239599d63').then(function(userSession) {
-     *     //New user session will be set automatically
-     *     var newUserSession = qik.auth.getCurrentUser();
-     * })
-     * qik.auth.changeOrganisation('5be504eabf33991239599d63', {disableAutoAuthentication:true}).then(function(userSession) {
-     *     //Set the session manually
-     *     qik.auth.set(userSession)
-     * })
-     */
-
     service.changeOrganisation = function(organisationID, options) {
 
         //Ensure we just have the ID
-        organisationID = qik.utils.getStringID(organisationID);
+        organisationID = qik.utils.id(organisationID);
 
         //////////////////////////
 
@@ -188,25 +139,10 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * 
-     * Impersonates a persona and sets the current session to match the specified persona's context
-     * @alias auth.impersonate
-     * @param  {String} personaID The _id of the persona you wish to impersonate
-     * @param  {Object} options      
-     * @return {Promise} Resolves to the user session object, or rejects with the responding error
-     * @example
-     * qik.auth.impersonate('5be504eabf33991239599d63')
-     * .then(function(userSession) {
-     *     //New user session will be set automatically
-     *     var newUserSession = qik.auth.getCurrentUser();
-     * })
-     */
-
     service.impersonate = function(personaID, options) {
 
         //Ensure we just have the ID
-        personaID = qik.utils.getStringID(personaID);
+        personaID = qik.utils.id(personaID);
 
         //////////////////////////
 
@@ -241,16 +177,7 @@ var QikAuth = function(qik) {
     }
 
     ///////////////////////////////////////////////////
-    /**
-     * Logs the user in to Qik and returns a new user session
-     * @alias auth.login
-     * @param  {Object} credentials 
-     * @param  {String} credentials.email The email address of the user to login as
-     * @param  {String} credentials.password The password for the user
-     * @param  {Object} options     Extra options and configuration for the request
-     * @param  {Object} options.disableAutoAuthentication Disable automatic authentication, if true, will not set the current user session
-     * @return {Promise}             Returns a promise that either resolves with the logged in user session, or rejects with the responding error from the server
-     */
+   
     service.login = async function(credentials, options) {
 
         if (!options) {
@@ -332,22 +259,6 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * Signs up a new user to the current application, this will create a new managed user persona
-     * and automatically log in as that persona in the current application context. This function will
-     * only work when called in context of an application with the 'Application Token' authentication style.
-     * It will create a new user persona in the organisation of the application and return a session with all of the application's
-     * permissions and application's logged in user permissions
-     * @alias auth.signup      
-     * @param  {Object} credentials
-     * @param  {String} credentials.firstName The first name for the new user persona
-     * @param  {String} credentials.lastName The last name for the new user persona
-     * @param  {String} credentials.email The email address for the new persona
-     * @param  {String} credentials.password The password to set for the new persona
-     * @param  {String} credentials.confirmPassword A double check to confirm the new password for the persona
-     * @param  {Object} options     Extra options and configuration for the request
-     * @return {Promise}            Returns a promise that either resolves to the new authenticated session, or rejects with the responding error from the server
-     */
     service.signup = async function(credentials, options) {
 
         if (!options) {
@@ -459,15 +370,6 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * Retrieves a user's details by providing a password reset token 
-     * @alias auth.retrieveUserFromResetToken      
-     * @param  {String} token The password reset token that was sent to the user's email address
-     * @param  {Object} options other options for the request
-     * @param  {Boolean} options.application     If true will retrieve in the context of a managed persona in the same organisation as the current application.
-     * If not specified or false, will assume it's a Qik global user that is resetting their password.
-     * @return {Promise}            Returns a promise that resolves with the reset session details
-     */
     service.retrieveUserFromResetToken = async function(resetToken, options) {
 
         if (!options) {
@@ -504,17 +406,8 @@ var QikAuth = function(qik) {
 
     }
 
-
     ///////////////////////////////////////////////////
 
-    /**
-     * Updates a user's details including password by providing a password reset token
-     * @alias auth.updateUserWithToken      
-     * @param  {String} token The password reset token that was sent to the user's email address
-     * @param  {Object} body The details to change for the user
-     * @param  {Object} options other options for the request
-     * @return {Promise}            Returns a promise that resolves with the reset session details
-     */
     service.updateUserWithToken = async function(resetToken, body, options) {
 
         if (!options) {
@@ -569,22 +462,6 @@ var QikAuth = function(qik) {
 
     }
 
-
-    ///////////////////////////////////////////////////
-
-    /**
-     * Triggers a new Reset Password email request to the specified user. 
-     * @alias auth.sendResetPasswordRequest      
-     * @param  {Object} body
-     * @param  {String} body.email The email address of the user to reset the password for
-     * @param  {String} body.redirect If the request is in the context of a managed user persona authenticated with an application, then you need to provide the url to direct the user to when they click the reset password link
-     * This is usually something like '/reset' for the current application, when the user clicks the link the reset token will be appended with ?token=RESET_TOKEN and your application should
-     * be ready on that url to handle the token and allow the user to use the token to reset their password
-     * @param  {Object} options     Extra options and configuration for the request
-     * @param  {Boolean} options.application     If true will send a reset email from the context of a managed persona in the same organisation as the current application.
-     * If not specified or false, will send a password reset request for a global Qik user organisation.
-     * @return {Promise}            Returns a promise that either resolves if the password request was sent, or rejects if an error occurred
-     */
     service.sendResetPasswordRequest = function(body, options) {
 
         if (!options) {
@@ -690,15 +567,6 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    /**
-     * Helper function to refresh an access token for an authenticated user session. This is usually handled automatically
-     * from the QikAuth service itself
-     * @alias auth.refreshAccessToken
-     * @param  {String}  refreshToken  The refresh token to reactivate
-     * @param  {Boolean} isManagedSession Whether or not the refresh token is for a managed persona session or a global Qik user session
-     * @return {Promise}                A promise that either resolves with the refreshed token details or rejects with the responding error from the server
-     */
-
     const refreshContext = {};
 
     service.refreshAccessToken = async function(refreshToken) {
@@ -784,19 +652,7 @@ var QikAuth = function(qik) {
         return refreshContext.inflightRefreshRequest;
     }
 
-
-
     ///////////////////////////////////////////////////
-
-
-
-    /**
-     * Helper function to resync the user's session from the server. This is often used when first loading a webpage or app
-     * just to see if the user's permissions have changed since the user first logged in
-     * from the QikAuth service itself
-     * @alias auth.sync
-     * @return {Promise}    A promise that either resolves with the user session 
-     */
 
     var retryCount = 0;
 
@@ -837,11 +693,6 @@ var QikAuth = function(qik) {
 
     /////////////////////////////////////////////////////
 
-    /**
-     * Returns the current user's session data
-     * @alias auth.getCurrentUser
-     * @return {Object} The current user session
-     */
     service.getCurrentUser = function() {
         return store.user;
     }
@@ -1006,37 +857,6 @@ var QikAuth = function(qik) {
 
         return Promise.reject(err);
     })
-
-
-    /**
-     * @name auth.addEventListener
-     * @description Adds a callback that will be triggered whenever the specified event occurs
-     * @function
-     * @param {String} event The event to listen for
-     * @param {Function} callback The function to fire when this event is triggered
-     * @example
-     * //Listen for when the user session changes
-     * qik.auth.addEventListener('change', function(userSession) {})
-     */
-
-    /**
-     * @name auth.removeEventListener
-     * @description Removes all a callback from the listener list
-     * @function
-     * @param {String} event The event to stop listening for
-     * @param {Function} callback The function to remove from the listener list
-     * @example
-     * //Stop listening for the change event
-     * qik.auth.removeEventListener('change', myFunction)
-     */
-
-    /**
-     * @name auth.removeAllListeners
-     * @description Removes all listening callbacks for all events
-     * @function
-     * @example
-     * qik.auth.removeAllListeners()
-     */
 
     return service;
 
