@@ -120,18 +120,23 @@ var QikAuth = function(qik) {
 
         //////////////////////////
 
-        var promise = qik.api.post(`/user/switch/${organisationID}`)
+        return new Promise(function(resolve, reject) {
 
-        promise.then(function(res) {
+
+        qik.api.post(`/user/switch/${organisationID}`)
+        .then(function(response) {
 
             if (autoAuthenticate) {
                 qik.cache.reset();
-                service.set(res.data);
+                service.set(response.data);
             }
-        }, function(err) {});
 
+            resolve(response.data);
+        })
+        .catch(reject)
 
-        return promise;
+         })
+      
 
     }
 
