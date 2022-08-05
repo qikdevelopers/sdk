@@ -58,7 +58,7 @@ var QikAuth = function(qik) {
 
     service.set = function(user, parameters, ignoreEvent) {
 
-        if(store.user != user) {
+        if(JSON.stringify(store.user) != JSON.stringify(user)) {
             store.user = user;
             if(!ignoreEvent) {
                 return dispatch(parameters)
@@ -249,12 +249,8 @@ var QikAuth = function(qik) {
             qik.api.post(url, credentials, postOptions).then(function(res) {
 
                 if (autoAuthenticate) {
-                    store.user = res.data;
+                    service.set(res.data);
                     
-                    dispatch();
-                    // if (service.onChange) {
-                    //     service.onChange(store.user);
-                    // }
                 }
 
                 resolve(res);
@@ -363,8 +359,7 @@ var QikAuth = function(qik) {
             qik.api.post(url, credentials, postOptions).then(function(res) {
 
                 if (autoAuthenticate) {
-                    store.user = res.data;
-                    dispatch();
+                    service.set(res.data);
                 }
 
                 resolve(res);
@@ -626,7 +621,7 @@ var QikAuth = function(qik) {
 
                     } else {
                         //Update with our new session
-                        store.user = res.data;
+                        service.set(res.data);
                         
 
                         dispatch();
@@ -677,7 +672,7 @@ var QikAuth = function(qik) {
                         Object.assign(store.user.session, res.data);
                     }
                 } else {
-                    store.user = null;
+                    service.set(null);
                 }
 
                 
@@ -688,7 +683,7 @@ var QikAuth = function(qik) {
             .catch(function(err) {
 
                 // if (retryCount > 2) {
-                store.user = null;
+                service.set(null);
                 retryCount = 0;
                 dispatch();
                 // } else {
