@@ -58,8 +58,13 @@ var QikAuth = function(qik) {
 
     service.set = function(user, parameters, ignoreEvent) {
 
-        store.user = user;
-        return dispatch(parameters)
+        if(store.user != user) {
+            store.user = user;
+            if(!ignoreEvent) {
+                return dispatch(parameters)
+            }
+        }
+        
     }
 
 
