@@ -176,6 +176,8 @@ var QikAPI = function(qik) {
 
         /////////////////////////////////////////////////////
 
+        let retryCount = 0;
+
         instance.interceptors.response.use(function(response) {
             var config = response.config
             return response;
@@ -195,9 +197,19 @@ var QikAPI = function(qik) {
                     break;
                 case 502:
                 case 504:
-                    //Retry until it works
-                    // console.log(`qik.api > ${status} connection error retrying`)
-                    return instance.request(err.config);
+
+                    if(retryCount < 10) {
+                        retryCount++;
+                        // Wait a second and try again
+                        return new Promise(function(resolve, reject) {
+                            setTimeout(function() {
+                                return instance.request(err.config).then(resolve, reject);
+                            }, 800);
+                        })
+                    } else {
+                        console.log('Failed after 10 retrys')
+                        retryCount = 0;
+                    }
                     break;
                 case 404:
                     //Not found
