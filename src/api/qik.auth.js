@@ -641,6 +641,7 @@ var QikAuth = function(qik) {
                     
 
                     //TODO Check if invalid_refresh_token
+                    
 
                     
                     setTimeout(function() {

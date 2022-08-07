@@ -6,7 +6,7 @@ var QikAccess = function(QikCore) {
     }
 
     if (!QikCore.utils) {
-        throw new Error(`Can't Instantiate QikAccess before QikUtils has been initialized`);
+        throw new Error(`Can't Instantiate QikAccess before QikCore.utils has been initialized`);
     }
 
     //////////////////////////////////
@@ -88,7 +88,7 @@ var QikAccess = function(QikCore) {
                 return;
             }
 
-            var scopeID = QikUtils.id(scopeObject);
+            var scopeID = QikCore.utils.id(scopeObject);
             if (!scopeID) {
                 return;
             }
@@ -147,8 +147,8 @@ var QikAccess = function(QikCore) {
     ///////////////////////////////////////////////
 
     service.isOwner = function(user, item) {
-        var userID = QikUtils.id(user);
-        var personaID = QikUtils.id(user.persona);
+        var userID = QikCore.utils.id(user);
+        var personaID = QikCore.utils.id(user.persona);
 
 
         var metaObject = item.meta;
@@ -158,7 +158,7 @@ var QikAccess = function(QikCore) {
 
         /////////////////////////////////////////////
 
-        var users = QikUtils.ids([...metaObject.userOwners, metaObject.userAuthor]);
+        var users = QikCore.utils.ids([...metaObject.userOwners, metaObject.userAuthor]);
         var userHash = helpers.hash(users);
         // console.log('USERS', users, userHash, '-', metaObject.userAuthor, metaObject.userOwners);
 
@@ -168,7 +168,7 @@ var QikAccess = function(QikCore) {
 
         /////////////////////////////////////////////
 
-        var personas = QikUtils.ids([...metaObject.personaOwners, metaObject.personaAuthor]);
+        var personas = QikCore.utils.ids([...metaObject.personaOwners, metaObject.personaAuthor]);
         var personaHash = helpers.hash(personas);
         // console.log('PERSONAS', personas, personaHash, '-', metaObject.personaAuthor, metaObject.personaOwners)
 
