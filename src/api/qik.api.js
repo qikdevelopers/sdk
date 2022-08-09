@@ -113,23 +113,22 @@ var QikAPI = function(qik) {
         options = options || {}
         params = params || {};
 
+        var token;
 
+        //Append the access token to the url
+        if (!options.withoutToken) {
+            delete params.access_token;
+            token = qik.auth.getCurrentToken();
+        }
 
         var stripLeadingTag = endpoint[0] == '/' ? endpoint.slice(1) : endpoint;
         var parameterString = qik.utils.mapParameters(params);
-
-        var token;
-        //Append the access token to the url
-        if (!options.withoutToken) {
-            token = qik.auth.getCurrentToken();
-        }
 
         if (token) {
             parameterString = parameterString ? `?access_token=${token}&${parameterString}` : '';
         } else {
             parameterString = parameterString ? `?${parameterString}` : '';
         }
-
 
         return `${qik.apiURL}${endpoint}${parameterString}`
     }
