@@ -125,12 +125,14 @@ var QikAPI = function(qik) {
         var parameterString = qik.utils.mapParameters(params);
 
         if (token) {
-            parameterString = parameterString ? `?access_token=${token}&${parameterString}` : '';
+            parameterString = parameterString ? `?access_token=${token}&${parameterString}` : `?access_token=${token}`;
         } else {
             parameterString = parameterString ? `?${parameterString}` : '';
         }
 
-        return `${qik.apiURL}${endpoint}${parameterString}`
+        var url = `${qik.apiURL}${endpoint}${parameterString}`
+
+        return url;
     }
 
     //////////////////////////////////////////////////////////////////////////////
