@@ -113,14 +113,24 @@ var QikAPI = function(qik) {
         options = options || {}
         params = params || {};
 
-        //Append the access token to the url
-        if(!options.withoutToken) {
-            params.access_token = qik.auth.getCurrentToken();
-        }
+
 
         var stripLeadingTag = endpoint[0] == '/' ? endpoint.slice(1) : endpoint;
         var parameterString = qik.utils.mapParameters(params);
-        parameterString = parameterString ? `?${parameterString}` : '';
+
+        var token;
+        //Append the access token to the url
+        if (!options.withoutToken) {
+            token = qik.auth.getCurrentToken();
+        }
+
+        if (token) {
+            parameterString = parameterString ? `?access_token=${token}&${parameterString}` : '';
+        } else {
+            parameterString = parameterString ? `?${parameterString}` : '';
+        }
+
+
         return `${qik.apiURL}${endpoint}${parameterString}`
     }
 
@@ -198,7 +208,7 @@ var QikAPI = function(qik) {
                 case 502:
                 case 504:
 
-                    if(retryCount < 10) {
+                    if (retryCount < 10) {
                         retryCount++;
                         // Wait a second and try again
                         return new Promise(function(resolve, reject) {
