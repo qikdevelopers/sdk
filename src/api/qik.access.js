@@ -158,7 +158,9 @@ var QikAccess = function(QikCore) {
 
         /////////////////////////////////////////////
 
-        var users = QikCore.utils.ids([...metaObject.userOwners, metaObject.userAuthor]);
+        var userOwners = metaObject.userOwners || [];
+
+        var users = QikCore.utils.ids([...userOwners, metaObject.userAuthor]);
         var userHash = QikCore.utils.hash(users);
         // console.log('USERS', users, userHash, '-', metaObject.userAuthor, metaObject.userOwners);
 
@@ -168,7 +170,9 @@ var QikAccess = function(QikCore) {
 
         /////////////////////////////////////////////
 
-        var personas = QikCore.utils.ids([...metaObject.personaOwners, metaObject.personaAuthor]);
+        var personaOwners = metaObject.personaOwners || [];
+
+        var personas = QikCore.utils.ids([...personaOwners, metaObject.personaAuthor]);
         var personaHash = QikCore.utils.hash(personas);
         // console.log('PERSONAS', personas, personaHash, '-', metaObject.personaAuthor, metaObject.personaOwners)
 
