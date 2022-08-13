@@ -159,7 +159,7 @@ var QikAccess = function(QikCore) {
         /////////////////////////////////////////////
 
         var users = QikCore.utils.ids([...metaObject.userOwners, metaObject.userAuthor]);
-        var userHash = helpers.hash(users);
+        var userHash = QikCore.utils.hash(users);
         // console.log('USERS', users, userHash, '-', metaObject.userAuthor, metaObject.userOwners);
 
         if (userHash[userID]) {
@@ -169,7 +169,7 @@ var QikAccess = function(QikCore) {
         /////////////////////////////////////////////
 
         var personas = QikCore.utils.ids([...metaObject.personaOwners, metaObject.personaAuthor]);
-        var personaHash = helpers.hash(personas);
+        var personaHash = QikCore.utils.hash(personas);
         // console.log('PERSONAS', personas, personaHash, '-', metaObject.personaAuthor, metaObject.personaOwners)
 
         if (personaHash[personaID]) {
@@ -254,7 +254,7 @@ var QikAccess = function(QikCore) {
             var actionAnyScopes = service.actionableScopes(user, ANY_ACTION, definition, type, options);
 
             //Get a fash hash of the scopes
-            actionAnyScopesHash = helpers.hash(actionAnyScopes);
+            actionAnyScopesHash = QikCore.utils.hash(actionAnyScopes);
             options.cache[anyCacheKey] = actionAnyScopesHash;
         }
 
@@ -289,7 +289,7 @@ var QikAccess = function(QikCore) {
                 //Check if we can view this type of thing in any scopes 
                 var actionOwnScopes = service.actionableScopes(user, OWN_ACTION, definition, type, options);
                 //Get a fash hash of the scopes
-                actionOwnScopesHash = helpers.hash(actionOwnScopes);
+                actionOwnScopesHash = QikCore.utils.hash(actionOwnScopes);
                 options.cache[ownCacheKey] = actionOwnScopesHash;
             }
 

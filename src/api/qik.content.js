@@ -43,7 +43,6 @@ export default function(qik) {
         var reload = options.refresh || options.reload || !glossary.data;
 
         if (reload) {
-            console.log('reloading the glossary')
             const { data } = await qik.api.get(`/glossary`);
             glossary.data = data;
         }
