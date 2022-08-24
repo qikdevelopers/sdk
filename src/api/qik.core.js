@@ -9,6 +9,7 @@ import QikCache from './qik.cache.js';
 import QikAccess from './qik.access.js';
 import QikContent from './qik.content.js';
 import QikSystem from './qik.system.js';
+import QikSocket from './qik.socket.js';
 import { EventDispatcher } from './qik.utils.js';
 
 ///////////////////////////////////////
@@ -175,6 +176,16 @@ export default function(options) {
     const auth = new QikAuth(core);
     Object.defineProperty(core, 'auth', {
         value: auth,
+        writable: false,
+    });
+
+    /**
+     * The default service for connecting, subscribing and unsubscribing sockets
+     * @type {QikSocket}
+     */
+    const socket = new QikSocket(core);
+    Object.defineProperty(core, 'socket', {
+        value: socket,
         writable: false,
     });
 
