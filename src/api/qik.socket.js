@@ -109,6 +109,7 @@ var QikSocket = function(qik, mode) {
         socket.removeEventListener('open', socketOpened);
         socket.removeEventListener('message', socketMessageReceived);
         socket = null;
+        socketClosed();
     }
 
     service.disconnect = service.close();
