@@ -18,7 +18,7 @@ var QikSocket = function(qik, mode) {
         url: `wss://iqtm6zjz3l.execute-api.ap-southeast-2.amazonaws.com/${mode}`,
     }
 
-    let socket;
+    var socket;
 
   
     //Create a new dispatcher
@@ -28,12 +28,13 @@ var QikSocket = function(qik, mode) {
     ///////////////////////////////////////////////////
 
     function socketOpened(event) {
+        console.log('[event] socketOpened', event);
         service.debug ? console.log("[socket] Connection open") : null;
         dispatcher.dispatch('connected', event);
     }
 
     function socketClosed(event) {
-        console.log('Socket Closed', event);
+        console.log('[event] socketClosed', event);
         if (event.wasClean) {
             service.debug ? console.log(`[socket] Connection closed cleanly, code=${event.code} reason=${event.reason}`) : null;
         } else {
@@ -47,11 +48,13 @@ var QikSocket = function(qik, mode) {
     }
 
     function socketError(error) {
+        console.log('[event] socketError', event);
         service.debug ? console.log("[socket] Error", error) : null;
         dispatcher.dispatch('error', error);
     }
 
     function socketMessageReceived(event) {
+         console.log('[event] socketMessage', event);
         const eventData = JSON.parse(event.data);
         service.debug ? console.log("[socket] message received", eventData) : null;
         
@@ -82,6 +85,7 @@ var QikSocket = function(qik, mode) {
             service.debug ? console.log('[socket] - Must be authenticated to connect to socket') : null;
             return;
         }
+
         socket = new WebSocket(`${service.url}?access_token=${accessToken}`);
         socket.addEventListener('close', socketClosed);
         socket.addEventListener('error', socketError);
@@ -99,14 +103,12 @@ var QikSocket = function(qik, mode) {
             return;
         }
 
-        service.debug ? console.log('[socket] - Close and teardown connection') : null;
         socket.close();
         socket.removeEventListener('close', socketClosed);
         socket.removeEventListener('error', socketError);
         socket.removeEventListener('open', socketOpened);
         socket.removeEventListener('message', socketMessageReceived);
         socket = null;
-        service.debug ? console.log('[socket] - disconnect() complete') : null;
     }
 
     service.disconnect = service.close();

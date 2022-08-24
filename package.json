@@ -1,6 +1,6 @@
 {
   "name": "@qikdev/sdk",
-  "version": "0.1.63",
+  "version": "0.1.64",
   "type": "module",
   "description": "Promise based Javascript SDK",
   "scripts": {
