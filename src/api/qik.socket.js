@@ -33,6 +33,7 @@ var QikSocket = function(qik, mode) {
     }
 
     function socketClosed(event) {
+        console.log('Socket Closed', event);
         if (event.wasClean) {
             service.debug ? console.log(`[socket] Connection closed cleanly, code=${event.code} reason=${event.reason}`) : null;
         } else {
@@ -90,19 +91,23 @@ var QikSocket = function(qik, mode) {
 
     ///////////////////////////////////////////////////
 
-    service.disconnect = async function() {
+    service.close = async function() {
         if(!socket) {
             service.debug ? console.log('[socket] - Socket is not connected') : null;
             return;
         }
 
+        service.debug ? console.log('[socket] - Close and teardown connection') : null;
         socket.close();
         socket.onclose = null;
         socket.onerror = null;
         socket.onopen = null;
         socket.onmessage = null;
         socket = null;
+        service.debug ? console.log('[socket] - disconnect() complete') : null;
     }
+
+    service.disconnect = service.close();
 
     ///////////////////////////////////////////////////
 
@@ -113,7 +118,7 @@ var QikSocket = function(qik, mode) {
         }
 
         broadcast({
-            action:'unsubscribe',
+            action:'subscribe',
             channel,
         })
 
@@ -129,7 +134,7 @@ var QikSocket = function(qik, mode) {
         }
 
         broadcast({
-            action:'subscribe',
+            action:'unsubscribe',
             channel,
         })
 
