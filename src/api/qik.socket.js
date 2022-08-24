@@ -14,6 +14,7 @@ var QikSocket = function(qik, mode) {
     ///////////////////////////////////////////////////
 
     var service = {
+        debug:false,
         url: `wss://iqtm6zjz3l.execute-api.ap-southeast-2.amazonaws.com/${mode}`,
     }
 
@@ -27,31 +28,31 @@ var QikSocket = function(qik, mode) {
     ///////////////////////////////////////////////////
 
     function socketOpened(event) {
-        console.log("[socket] Connection open");
-        dispatcher.dispatch('connected');
+        service.debug ? console.log("[socket] Connection open") : null;
+        dispatcher.dispatch('connected', event);
     }
 
     function socketClosed(event) {
         if (event.wasClean) {
-            console.log(`[socket] Connection closed cleanly, code=${event.code} reason=${event.reason}`);
+            service.debug ? console.log(`[socket] Connection closed cleanly, code=${event.code} reason=${event.reason}`) : null;
         } else {
             // e.g. server process killed or network down
             // event.code is usually 1006 in this case
-            console.log('[socket] - connection closed due to error', event)
+            service.debug ? console.log('[socket] - connection closed due to error', event) : null
         }
 
-        dispatcher.dispatch('disconnected', event.wasClean);
+        dispatcher.dispatch('disconnected', event);
         socket = null;
     }
 
     function socketError(error) {
-        console.log("[socket] Error", error);
+        service.debug ? console.log("[socket] Error", error) : null;
         dispatcher.dispatch('error', error);
     }
 
     function socketMessageReceived(event) {
         const eventData = JSON.parse(event.data);
-        console.log("[socket] Message received", eventData);
+        service.debug ? console.log("[socket] message received", eventData) : null;
         
         // Dispatch a generic message
         dispatcher.dispatch('message', eventData);
@@ -70,14 +71,14 @@ var QikSocket = function(qik, mode) {
 
     service.connect = async function() {
         if(socket) {
-            console.log('[socket] - Socket is already connected')
+            service.debug ? console.log('[socket] - Socket is already connected') : null;
             return;
         }
 
         const accessToken = qik.auth.getCurrentToken();
 
         if(!accessToken) {
-            console.log('[socket] - Must be authenticated to connect to socket')
+            service.debug ? console.log('[socket] - Must be authenticated to connect to socket') : null;
             return;
         }
         socket = new WebSocket(`${service.url}?access_token=${accessToken}`);
@@ -91,7 +92,7 @@ var QikSocket = function(qik, mode) {
 
     service.disconnect = async function() {
         if(!socket) {
-            console.log('[socket] - Socket is not connected')
+            service.debug ? console.log('[socket] - Socket is not connected') : null;
             return;
         }
 
@@ -107,7 +108,7 @@ var QikSocket = function(qik, mode) {
 
     service.subscribe = async function(channel) {
         if(!socket) {
-            console.log(`[socket] - Can't subscribe to channel as socket is not connected`)
+            service.debug ? console.log(`[socket] - Can't subscribe to channel as socket is not connected`)  : null;
             return;
         }
 
@@ -115,13 +116,15 @@ var QikSocket = function(qik, mode) {
             action:'unsubscribe',
             channel,
         })
+
+        service.debug ? console.log(`[socket] - unsubscribed from ${channel}`)  : null;
     }
 
     ///////////////////////////////////////////////////
 
     service.unsubscribe = async function(channel) {
         if(!socket) {
-            console.log(`[socket] - Can't unsubscribe from channel as socket is not connected`)
+            service.debug ? console.log(`[socket] - Can't unsubscribe from channel as socket is not connected`)  : null;
             return;
         }
 
@@ -129,6 +132,8 @@ var QikSocket = function(qik, mode) {
             action:'subscribe',
             channel,
         })
+
+        service.debug ? console.log(`[socket] - subscribed to ${channel}`) : null;
     }
 
     ///////////////////////////////////////////////////
