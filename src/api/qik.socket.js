@@ -83,10 +83,12 @@ var QikSocket = function(qik, mode) {
             return;
         }
         socket = new WebSocket(`${service.url}?access_token=${accessToken}`);
-        socket.onclose = socketClosed;
-        socket.onerror = socketError;
-        socket.onopen = socketOpened;
-        socket.onmessage = socketMessageReceived;
+        socket.addEventListener('close', socketClosed);
+        socket.addEventListener('error', socketError);
+        socket.addEventListener('open', socketOpened);
+        socket.addEventListener('message', socketMessageReceived);
+
+        service.debug ? console.log('[socket] - Connected with event listeners') : null;
     }
 
     ///////////////////////////////////////////////////
@@ -99,10 +101,10 @@ var QikSocket = function(qik, mode) {
 
         service.debug ? console.log('[socket] - Close and teardown connection') : null;
         socket.close();
-        socket.onclose = null;
-        socket.onerror = null;
-        socket.onopen = null;
-        socket.onmessage = null;
+        socket.removeEventListener('close', socketClosed);
+        socket.removeEventListener('error', socketError);
+        socket.removeEventListener('open', socketOpened);
+        socket.removeEventListener('message', socketMessageReceived);
         socket = null;
         service.debug ? console.log('[socket] - disconnect() complete') : null;
     }
@@ -122,7 +124,7 @@ var QikSocket = function(qik, mode) {
             channel,
         })
 
-        service.debug ? console.log(`[socket] - unsubscribed from ${channel}`)  : null;
+        service.debug ? console.log(`[socket] - subscribed to ${channel}`)  : null;
     }
 
     ///////////////////////////////////////////////////
@@ -138,7 +140,7 @@ var QikSocket = function(qik, mode) {
             channel,
         })
 
-        service.debug ? console.log(`[socket] - subscribed to ${channel}`) : null;
+        service.debug ? console.log(`[socket] - unsubscribed from ${channel}`) : null;
     }
 
     ///////////////////////////////////////////////////
