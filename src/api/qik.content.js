@@ -37,13 +37,27 @@ export default function(qik) {
 
     const glossary = {}
 
+    let inflightGlossaryRequest;
+
     service.glossary = async function(options) {
         options = options || {};
 
         var reload = options.refresh || options.reload || !glossary.data;
 
+
         if (reload) {
-            const { data } = await qik.api.get(`/glossary`);
+
+            if(!inflightGlossaryRequest) {
+                inflightGlossaryRequest = qik.api.get(`/glossary`);
+                inflightGlossaryRequest.then(resolveRequest, resolveRequest);
+                function resolveRequest() {
+                    inflightGlossaryRequest = null;
+                }
+            } else {
+                console.log('request inflight')
+            }
+            
+            const { data } = await inflightGlossaryRequest
             glossary.data = data;
         }
 
