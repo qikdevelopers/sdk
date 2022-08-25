@@ -50,7 +50,6 @@ const QikSocket = function(qik, mode) {
             await service.connect();
         }
         
-        console.log('subscribe', key, service.connected);
         // Subscribe to this channel
         service.subscribe(key);
 
@@ -58,15 +57,13 @@ const QikSocket = function(qik, mode) {
         service.addEventListener(key, dispatchMessage);
 
         function dispatchMessage(message) {
-            console.log('Dispatch a message now', key, message)
             bucket.dispatch('message', message);
         }
 
         // Destroy the service
         bucket.destroy = function() {
-            service.removeEventListener(key, dispatchMessage);
+            service.removeAllListeners();
             buckets[key] = null;
-            console.log('destroyed', key);
         }
 
         return buckets[key];
@@ -75,7 +72,6 @@ const QikSocket = function(qik, mode) {
     ///////////////////////////////////////////////////
 
     function ping() {
-        console.log('ping');
         broadcast({
             action: 'ping',
         })
@@ -150,11 +146,9 @@ const QikSocket = function(qik, mode) {
         return new Promise(function(resolve) {
             function check() {
                 if(service.connected) {
-                     console.log('connected successfully')
                     return resolve(socket);
                 }
 
-                console.log('check in a second')
                 setTimeout(check, 1000);
             }
 
