@@ -131,7 +131,7 @@ var QikAPI = function(qik) {
             parameterString = parameterString ? `?${parameterString}` : '';
         }
 
-        var url = `${qik.apiURL}${endpoint}${parameterString}`
+        var url = `${apiURL}${endpoint}${parameterString}`
 
         return url;
     }
