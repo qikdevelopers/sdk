@@ -114,6 +114,7 @@ var QikAPI = function(qik) {
         params = params || {};
 
         var token;
+        const apiURL = options.file ? qik.fileAPI || qik.apiURL : qik.apiURL;
 
         //Append the access token to the url
         if (!options.withoutToken) {
