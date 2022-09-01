@@ -598,9 +598,6 @@ var QikAuth = function(qik) {
         
         refreshContext.inflightRefreshRequest = new Promise(function(resolve, reject) {
 
-
-            
-
             //Bypass the interceptor on all token refresh calls
             //Because we don't need to add the access token etc onto it
 
