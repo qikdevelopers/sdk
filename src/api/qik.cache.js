@@ -39,6 +39,7 @@ var QikCache = {
      * @return {LRUCache} The cache store for the specified key
      */
     get(key, options) {
+        options = options || {max:5};
 
         if (caches[key]) {
             return caches[key];
