@@ -23,6 +23,33 @@ export default function(qik) {
         debug: false,
     }
 
+
+    ///////////////////////////////////////////////////////////////////////////////
+
+    const variables = {}
+    let inflightVariablesRequest;
+
+    service.variables = async function(keys, options) {
+        options = options || {};
+        keys = keys || [];
+
+        var reload = options.refresh || options.reload || !variables.data;
+        if (reload) {
+            if(!inflightVariablesRequest) {
+                inflightVariablesRequest = qik.api.post(`/variables`, {keys});
+                inflightVariablesRequest.then(resolveRequest, resolveRequest);
+                function resolveRequest() {
+                    inflightVariablesRequest = null;
+                }
+            }
+            
+            const { data } = await inflightVariablesRequest
+            variables.data = data;
+        }
+
+        return variables.data;
+    }
+
     ///////////////////////////////////////////////////
 
     /**
