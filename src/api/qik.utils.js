@@ -83,7 +83,8 @@ service.parseURL = function(string) {
         return false;
     }
 
-    if (_startsWith(string, '/')) {
+    const relative = _startsWith(string, '/');
+    if (relative) {
         return string;
     }
 

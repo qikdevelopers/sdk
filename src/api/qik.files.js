@@ -7,17 +7,19 @@ export default function(qik) {
 
     ///////////////////////
 
-    service.downloadUrl = function(type, id, params) {
+    service.downloadUrl = function(type, id, params, options) {
+        options = options || {}
         params = params || {}
         params.download = true;
         id = qik.utils.id(id);
-        return qik.api.generateEndpointURL(`/${type}/${id}`, params);
+        return qik.api.generateEndpointURL(`/${type}/${id}`, params, options);
     }
 
-    service.mediaUrl = function(type, id, params) {
+    service.mediaUrl = function(type, id, params, options) {
+        options = options || {}
         params = params || {}
         id = qik.utils.id(id);
-        return qik.api.generateEndpointURL(`/${type}/${id}`, params);
+        return qik.api.generateEndpointURL(`/${type}/${id}`, params, options);
     }
 
     ///////////////////////
