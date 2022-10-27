@@ -26,7 +26,12 @@ var QikCache = {
     reset() {
         _.each(caches, function(cache, key) {
             // console.log(`Reset ${key} cache`, cache);
-            cache.reset();
+            if(cache.clear) {
+                cache.clear()
+            } else if(cache.reset) {
+                cache.reset()
+            }
+
         })
     },
 
