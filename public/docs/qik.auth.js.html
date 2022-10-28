@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>qik.auth.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="access.html">access</a><ul class='methods'><li data-type='method'><a href="access.html#.actionableScopes">actionableScopes</a></li><li data-type='method'><a href="access.html#.allPermissions">allPermissions</a></li><li data-type='method'><a href="access.html#.allPermissionTypes">allPermissionTypes</a></li><li data-type='method'><a href="access.html#.allUserScopes">allUserScopes</a></li><li data-type='method'><a href="access.html#.canCreate">canCreate</a></li><li data-type='method'><a href="access.html#.canDeleteItem">canDeleteItem</a></li><li data-type='method'><a href="access.html#.canEditItem">canEditItem</a></li><li data-type='method'><a href="access.html#.canEraseItem">canEraseItem</a></li><li data-type='method'><a href="access.html#.canKnowOf">canKnowOf</a></li><li data-type='method'><a href="access.html#.canListItem">canListItem</a></li><li data-type='method'><a href="access.html#.canRestoreItem">canRestoreItem</a></li><li data-type='method'><a href="access.html#.canViewItem">canViewItem</a></li><li data-type='method'><a href="access.html#.checkActionAccess">checkActionAccess</a></li><li data-type='method'><a href="access.html#.getAllDescendants">getAllDescendants</a></li><li data-type='method'><a href="access.html#.has">has</a></li><li data-type='method'><a href="access.html#.hashPermissions">hashPermissions</a></li><li data-type='method'><a href="access.html#.isAdministrator">isAdministrator</a></li><li data-type='method'><a href="access.html#.isOwner">isOwner</a></li></ul></li><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#.delete">delete</a></li><li data-type='method'><a href="api.html#.generateEndpointURL">generateEndpointURL</a></li><li data-type='method'><a href="api.html#.get">get</a></li><li data-type='method'><a href="api.html#.patch">patch</a></li><li data-type='method'><a href="api.html#.post">post</a></li><li data-type='method'><a href="api.html#.put">put</a></li></ul></li><li><a href="auth.html">auth</a><ul class='methods'><li data-type='method'><a href="auth.html#.changeOrganisation">changeOrganisation</a></li><li data-type='method'><a href="auth.html#.ensureValidToken">ensureValidToken</a></li><li data-type='method'><a href="auth.html#.getCurrentToken">getCurrentToken</a></li><li data-type='method'><a href="auth.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="auth.html#.impersonate">impersonate</a></li><li data-type='method'><a href="auth.html#.login">login</a></li><li data-type='method'><a href="auth.html#.logout">logout</a></li><li data-type='method'><a href="auth.html#.retrieveUserFromResetToken">retrieveUserFromResetToken</a></li><li data-type='method'><a href="auth.html#.sendResetPasswordRequest">sendResetPasswordRequest</a></li><li data-type='method'><a href="auth.html#.set">set</a></li><li data-type='method'><a href="auth.html#.sync">sync</a></li><li data-type='method'><a href="auth.html#.updateUserWithToken">updateUserWithToken</a></li></ul></li><li><a href="cache.html">cache</a><ul class='methods'><li data-type='method'><a href="cache.html#.get">get</a></li><li data-type='method'><a href="cache.html#.reset">reset</a></li></ul></li><li><a href="content.html">content</a><ul class='methods'><li data-type='method'><a href="content.html#.create">create</a></li><li data-type='method'><a href="content.html#.delete">delete</a></li><li data-type='method'><a href="content.html#.get">get</a></li><li data-type='method'><a href="content.html#.getFromSlug">getFromSlug</a></li><li data-type='method'><a href="content.html#.glossary">glossary</a></li><li data-type='method'><a href="content.html#.list">list</a></li><li data-type='method'><a href="content.html#.patch">patch</a></li><li data-type='method'><a href="content.html#.restore">restore</a></li><li data-type='method'><a href="content.html#.update">update</a></li><li data-type='method'><a href="content.html#.validateField">validateField</a></li><li data-type='method'><a href="content.html#.variables">variables</a></li></ul></li><li><a href="files.html">files</a><ul class='methods'><li data-type='method'><a href="files.html#.downloadUrl">downloadUrl</a></li><li data-type='method'><a href="files.html#.filesize">filesize</a></li><li data-type='method'><a href="files.html#.getBinaryTypeFromMime">getBinaryTypeFromMime</a></li><li data-type='method'><a href="files.html#.mediaUrl">mediaUrl</a></li></ul></li><li><a href="filter.html">filter</a><ul class='methods'><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterOperators">activeFilterOperators</a></li><li data-type='method'><a href="filter.html#.activeFilters">activeFilters</a></li><li data-type='method'><a href="filter.html#.activeFilterValues">activeFilterValues</a></li><li data-type='method'><a href="filter.html#.filterChangeString">filterChangeString</a></li><li data-type='method'><a href="filter.html#.isValidFilter">isValidFilter</a></li></ul></li><li><a href="socket.html">socket</a><ul class='methods'><li data-type='method'><a href="socket.html#.channel">channel</a></li><li data-type='method'><a href="socket.html#.close">close</a></li><li data-type='method'><a href="socket.html#.connect">connect</a></li><li data-type='method'><a href="socket.html#.subscribe">subscribe</a></li><li data-type='method'><a href="socket.html#.unsubscribe">unsubscribe</a></li></ul></li><li><a href="system.html">system</a><ul class='methods'><li data-type='method'><a href="system.html#.countries">countries</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">qik.auth.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import axios from 'axios';
+import { EventDispatcher } from './qik.utils.js';
+
+///////////////////////////////////////////////////
+
+/**
+ * Creates a new instance of QikAuth a module of the SDK
+ * that contains all helper functions to do with authentication and user session management
+ * @alias auth
+ * @constructor
+ * @hideconstructor
+ * @param {QikAPI} qik A reference to the parent instance of the QikCore module. This module is usually created by a QikCore instance that passes itself in as the first argument.
+ */
+
+var QikAuth = function(qik) {
+
+    if (!qik.api) {
+        throw new Error(`Can't Instantiate QikAuth before QikAPI exists`);
+    }
+
+    //Keep track of any refresh requests
+    var inflightRefreshRequest;
+
+    ///////////////////////////////////////////////////
+
+    var defaultStore = {};
+    var store = defaultStore;
+    const tokenBufferSeconds = 10;
+
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+
+    var service = {
+        debug: false,
+    }
+
+    Object.defineProperty(service, 'store', {
+        value: store,
+        writable: false,
+    });
+
+
+    //Create a new dispatcher
+    var dispatcher = new EventDispatcher();
+    dispatcher.bootstrap(service);
+
+
+    ///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+
+    function dispatch(parameters) {
+
+        //Get the current user
+        var user = store.user;
+
+        //Dispatch the change to the listeners
+        if (service.onChange) {
+            service.onChange(user);
+        }
+
+        //Dispatch the change event
+        dispatcher.dispatch('change', user, parameters);
+    }
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.set
+     * @description Manually set current user session
+     * @param  {Object} user The user session object to set as the current user session
+     * @param  {Object} parameters Additional parameters to dispatch
+     * @param  {Boolean} ignoreEvent Whether to supress dispatching a 'change' event.
+     * @example
+     * 
+     * const userSession = {_id:'61eca4746971e75c1fc670cf', firstName:'Daffy', lastName:'Duck' ...};
+     * sdk.auth.set(userSession);
+     */
+
+    service.set = function(user, parameters, ignoreEvent) {
+
+        if(JSON.stringify(store.user) != JSON.stringify(user)) {
+            store.user = user;
+            if(!ignoreEvent) {
+                return dispatch(parameters)
+            }
+        }
+        
+    }
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.logout
+     * @description Clear the current user session from memory and erase all caches
+     * @example
+     * sdk.auth.logout();
+     */
+
+    service.logout = function() {
+        delete store.user;
+        qik.cache.reset();
+        return dispatch()
+
+    }
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.changeOrganisation
+     * @description Manually set current user session
+     * @param  {(String|Object)} organisation The id of the organisation to switch into
+     * @param  {Object} options Additional options
+     * @param  {Boolean} options.disableAutoAuthentication By default when switching organisation, the current user session
+     * will be updated to reflect a session in the new organisation, you can use this option to disable that behavior and instead return the 
+     * user session without dispatching any events
+     * @example
+     *
+     * sdk.auth.changeOrganisation('61eca4746971e75c1fc670cf');
+     * // Current user session will be automatically updated
+     *
+     * const newSession = await sdk.auth.changeOrganisation('61eca4746971e75c1fc670cf', {disableAutoAuthentication:true});
+     * // Current user session will not be updated
+     * sdk.auth.set(newSession);
+     */
+    service.changeOrganisation = function(organisationID, options) {
+
+        //Ensure we just have the ID
+        organisationID = qik.utils.id(organisationID);
+
+        //////////////////////////
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////
+
+        //Change the users current tokens straight away
+        var autoAuthenticate = true;
+
+        if (options.disableAutoAuthentication) {
+            autoAuthenticate = false;
+        }
+
+        //////////////////////////
+
+        return new Promise(function(resolve, reject) {
+
+
+        qik.api.post(`/user/switch/${organisationID}`)
+        .then(function(response) {
+
+            if (autoAuthenticate) {
+                qik.cache.reset();
+                service.set(response.data);
+            }
+
+            resolve(response.data);
+        })
+        .catch(reject)
+
+         })
+      
+
+    }
+
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.impersonate
+     * @description Impersonate another user within your organisation
+     * @param  {(String|Object)} persona The id of the user persona you want to impersonate
+     * @param  {Object} options Additional options
+     * @param  {Boolean} options.disableAutoAuthentication By default when impersonating a user, the current user session
+     * will be updated automatically to reflect the new session, you can use this option to disable that behavior and instead return the 
+     * new impersonation user session without dispatching any events
+     * @example
+     *
+     * sdk.auth.impersonate('61eca4746971e75c1fc670cf');
+     * // Current user session will be automatically updated
+     *
+     * const newSession = await sdk.auth.impersonate('61eca4746971e75c1fc670cf', {disableAutoAuthentication:true});
+     * // Current user session will not be updated
+     * sdk.auth.set(newSession);
+     */
+    service.impersonate = function(personaID, options) {
+
+        //Ensure we just have the ID
+        personaID = qik.utils.id(personaID);
+
+        //////////////////////////
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////
+
+        //Change the users current tokens straight away
+        var autoAuthenticate = true;
+
+        if (options.disableAutoAuthentication) {
+            autoAuthenticate = false;
+        }
+
+        //////////////////////////
+
+        var promise = qik.api.post(`/user/impersonate/${personaID}`)
+
+        promise.then(function(res) {
+
+            if (autoAuthenticate) {
+                qik.cache.reset();
+                service.set(res.data);
+            }
+        }, function(err) {});
+
+
+        return promise;
+
+    }
+
+    ///////////////////////////////////////////////////
+   
+   /**
+     * @alias auth.login
+     * @description Login and authenticate as a user
+     * @param  {Object} credentials The credentials used to login
+     * @param  {String} credentials.email The email address to login to
+     * @param  {String} credentials.password The password to login with
+     * @param  {Object} options Additional options
+     * @param  {Boolean} options.disableAutoAuthentication By default when logging in the current user session
+     * will be updated automatically to reflect the new session, you can use this option to disable that behavior and instead return the 
+     * session that was logged in to without dispatching any events
+     * @example
+     *
+     * const credentials = {
+     *     email:'me@email.com', 
+     *     password:'******'
+     * }
+     * 
+     * sdk.auth.login(credentials);
+     * // Current user session will be automatically updated
+     *
+     * const newSession = await sdk.auth.login(credentials, {disableAutoAuthentication:true});
+     * // Current user session will not be updated
+     * sdk.auth.set(newSession);
+     */
+    service.login = async function(credentials, options) {
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////
+
+        //Change the users current tokens straight away
+        var autoAuthenticate = true;
+
+        if (options.disableAutoAuthentication) {
+            autoAuthenticate = false;
+        }
+
+        //////////////////////////////////////
+
+        var promise = new Promise(loginCheck)
+
+        function loginCheck(resolve, reject) {
+
+            if (!credentials) {
+                return reject({
+                    message: 'Missing credentials!',
+                })
+            }
+
+            if (!credentials.email || !credentials.email.length) {
+                return reject({
+                    message: 'Username was not provided',
+                })
+            }
+
+            if (!credentials.password || !credentials.password.length) {
+                return reject({
+                    message: 'Password was not provided',
+                })
+            }
+
+            /////////////////////////////////////////////
+
+            var postOptions = {
+                bypassInterceptor: true
+            }
+
+            /////////////////////////////////////////////
+
+            var url = `${qik.apiURL}/user/login`;
+
+            /////////////////////////////////////////////
+
+            //If we have a specified url
+            if (options.url) {
+                url = options.url;
+            }
+
+            /////////////////////////////////////////////
+
+            qik.api.post(url, credentials, postOptions).then(function(res) {
+
+                if (autoAuthenticate) {
+                    service.set(res.data);
+                    
+                }
+
+                resolve(res);
+            }, reject);
+        }
+
+        //////////////////////////////////////
+
+        return promise;
+
+    }
+
+    ///////////////////////////////////////////////////
+
+    service.signup = async function(credentials, options) {
+
+        if (!options) {
+            options = {};
+        }
+
+
+        //////////////////////////
+
+        //Change the users current tokens straight away
+        var autoAuthenticate = true;
+
+        if (options.disableAutoAuthentication) {
+            autoAuthenticate = false;
+        }
+
+        //////////////////////////////////////
+
+        var promise = new Promise(signupCheck)
+
+        function signupCheck(resolve, reject) {
+
+            if (!credentials) {
+                return reject({
+                    message: 'No details provided',
+                })
+            }
+
+            if (!credentials.firstName || !credentials.firstName.length) {
+                return reject({
+                    message: 'First Name was not provided',
+                })
+            }
+
+            if (!credentials.lastName || !credentials.lastName.length) {
+                return reject({
+                    message: 'Last Name was not provided',
+                })
+            }
+
+            if (!credentials.email || !credentials.email.length) {
+                return reject({
+                    message: 'Email/Username was not provided',
+                })
+            }
+
+
+            if (!credentials.password || !credentials.password.length) {
+                return reject({
+                    message: 'Password was not provided',
+                })
+            }
+
+            if (!credentials.confirmPassword || !credentials.confirmPassword.length) {
+                return reject({
+                    message: 'Confirm Password was not provided',
+                })
+            }
+
+            if (credentials.confirmPassword != credentials.password) {
+                return reject({
+                    message: 'Your passwords do not match',
+                })
+            }
+
+            /////////////////////////////////////////////
+
+            var postOptions = {
+                bypassInterceptor: true
+            }
+
+            /////////////////////////////////////////////
+
+            var url = `${qik.apiURL}/user/signup`;
+
+            /////////////////////////////////////////////
+
+            //If we are authenticating as an application
+            if (options.application) {
+
+                //The url is relative to the domain
+                url = `${qik.domain || ''}/qik/application/signup`;
+            }
+
+            //If we have a specified url
+            if (options.url) {
+                url = options.url;
+            }
+
+            /////////////////////////////////////////////
+
+            qik.api.post(url, credentials, postOptions).then(function(res) {
+
+                if (autoAuthenticate) {
+                    service.set(res.data);
+                }
+
+                resolve(res);
+            }, reject);
+        }
+
+        //////////////////////////////////////
+
+        return promise;
+
+    }
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.retrieveUserFromResetToken
+     * @description Retrieve user session through use of a valid reset token, 
+     * Reset tokens are short lived tokens that can be generated when a user has forgotten their password or their
+     * password has been reset by an administrator
+     * @param  {String} resetToken The token to use to authenticate
+     * @param  {Object} options Additional options for the request
+     * @example
+     *
+     * const resetToken = 'XXX-324623-$$...';
+     *
+     * // Retrieve the user session by providing a reset token
+     * const user = await sdk.auth.retrieveUserFromResetToken(resetToken);
+     */
+    service.retrieveUserFromResetToken = async function(resetToken, options) {
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////////////////
+
+        return new Promise(function(resolve, reject) {
+
+            var postOptions = {
+                bypassInterceptor: true
+            }
+
+            /////////////////////////////////////////////
+
+            //If a full fledged Qik User
+            //then send directly to the API auth endpoint
+            var url = `${qik.apiURL}/user/reset/${resetToken}`;
+
+            /////////////////////////////////////////////
+
+            //If we have a specified url
+            if (options.url) {
+                url = options.url;
+            }
+
+            /////////////////////////////////////////////
+
+            qik.api.get(url, postOptions).then(function(res) {
+                return resolve(res.data);
+            }, reject);
+        });
+
+    }
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.updateUserWithToken
+     * @description Update a user's credentials through use of a reset token
+     * @param  {String} resetToken The token to use to authenticate
+     * @param  {Object} body Updates to be made to the user
+     * @param  {Object} options Additional options for the request
+     * @param  {Boolean} options.disableAutoAuthentication By default the current user session
+     * will be updated automatically to reflect the new updated session, you can use this option to disable that behavior 
+     * and instead return the result without dispatching any events
+     * @example
+     *
+     * const resetToken = 'XXX-324623-$$...';
+     *
+     * // Retrieve the user session by providing a reset token
+     * const user = await sdk.auth.retrieveUserFromResetToken(resetToken);
+     */
+    service.updateUserWithToken = async function(resetToken, body, options) {
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////
+
+        //Change the users current tokens straight away
+        var autoAuthenticate = true;
+
+        if (options.disableAutoAuthentication) {
+            autoAuthenticate = false;
+        }
+
+        //////////////////////////////////////
+
+        return new Promise(function(resolve, reject) {
+
+            var postOptions = {
+                bypassInterceptor: true
+            }
+
+            /////////////////////////////////////////////
+
+            //If a full fledged user
+            //then send directly to the API auth endpoint
+            var url = `${qik.apiURL}/user/reset/${resetToken}`;
+
+            /////////////////////////////////////////////
+
+            //If we have a specified url
+            if (options.url) {
+                url = options.url;
+            }
+
+            /////////////////////////////////////////////
+
+            qik.api.post(url, body, postOptions).then(function(res) {
+
+                //If we should automatically authenticate
+                //once the request is successful
+                //Then clear caches and update the session
+                if (autoAuthenticate) {
+                    qik.cache.reset();
+                    service.set(res.data);
+                }
+
+                return resolve(res.data);
+            }, reject);
+        });
+
+    }
+
+    /**
+     * @alias auth.sendResetPasswordRequest
+     * @description This function allows a reset token to be generated and emailed to the requesting user
+     * allowing them to modify their user details
+     * @param  {Object} body Details for the reset request
+     * @param  {String} body.email The email of the user to generate a token for
+     * @example
+     *
+     * const resetToken = 'XXX-324623-$$...';
+     *
+     * // Retrieve the user session by providing a reset token
+     * const user = await sdk.auth.retrieveUserFromResetToken(resetToken);
+     */
+    service.sendResetPasswordRequest = function(body, options) {
+
+        if (!options) {
+            options = {};
+        }
+
+        //////////////////////////////////////
+
+        var promise = new Promise(signupCheck)
+
+        function signupCheck(resolve, reject) {
+
+            if (!body) {
+                return reject({
+                    message: 'No details provided',
+                })
+            }
+
+            if (!body.email || !body.email.length) {
+                return reject({
+                    message: 'Email was not provided',
+                })
+            }
+
+            //Set email as the email address
+            body.email = body.email;
+
+            /////////////////////////////////////////////
+
+            var postOptions = {
+                bypassInterceptor: true
+            }
+
+            /////////////////////////////////////////////
+
+            //If a full fledged Qik User
+            //then send directly to the API
+            var url = `${qik.apiURL}/user/forgot`;
+
+            /////////////////////////////////////////////
+
+            //If we have a specified url
+            if (options.url) {
+                url = options.url;
+            }
+
+            /////////////////////////////////////////////
+
+            qik.api.post(url, body, postOptions).then(resolve, reject);
+        }
+
+        //////////////////////////////////////
+
+        return promise;
+    }
+
+
+    ///////////////////////////////////////////////////
+
+    /**
+     * @alias auth.ensureValidToken
+     * @description This function forces a check to ensure that the current access token has not expired.
+     * If the token has expired, the user session will be refreshed with a new token.
+     * @param  {Boolean} forceRefresh Whether to force the current token to be refreshed, even if it has not yet expired.
+     * @example
+     *
+     * // Check to ensure that the current access token is valid
+     * sdk.auth.ensureValidToken();
+     *
+     * // Force the token to be refreshed, even if the current token in use has not yet expired.
+     * sdk.auth.ensureValidToken(true);
+     */
+    service.ensureValidToken = async function(forceRefresh) {
+
+            var currentUser = service.getCurrentUser();
+            if (!currentUser) {
+                
+                return Promise.reject('No user');
+            }
+
+            var { token } = currentUser;
+            if (!token) {
+                 
+                return Promise.reject('No token');
+            }
+
+            /////////////////////////////////////////////////////
+
+            //Check our date
+            var now = new Date();
+
+            //Give us a bit of buffer so that the backend doesn't beat us to
+            //retiring the token
+            now.setSeconds(now.getSeconds() + tokenBufferSeconds);
+
+            /////////////////////////////////////////////////////
+
+            var expires = new Date(token.expires);
+
+            if(forceRefresh) {
+                console.log('force refresh valid token', token.refreshToken)
+                return await service.refreshAccessToken(token.refreshToken);
+            }
+
+            //If the token is still fresh
+            if (now &lt; expires) {
+                 
+                return token;
+            } else {
+
+                return await service.refreshAccessToken(token.refreshToken);
+            }
+
+        
+    }
+
+    ///////////////////////////////////////////////////
+
+    const refreshContext = {};
+
+    service.refreshAccessToken = async function(refreshToken) {
+
+        // /////////////////////////////////////////////
+
+        // if (appContext) {
+        
+        // } else {
+        
+        // }
+
+        // /////////////////////////////////////////////
+
+        //If there is already a request in progress
+        if (refreshContext.inflightRefreshRequest) {
+            
+            return refreshContext.inflightRefreshRequest;
+        }
+
+        /////////////////////////////////////////////////////
+
+        //Create an refresh request
+        
+        refreshContext.inflightRefreshRequest = new Promise(function(resolve, reject) {
+
+            //Bypass the interceptor on all token refresh calls
+            //Because we don't need to add the access token etc onto it
+
+            qik.api.post(`/user/refresh`, {
+                    refreshToken: refreshToken
+                }, {
+                    bypassInterceptor: true,
+                    withoutToken: true,
+                })
+                .then(function tokenRefreshComplete(res) {
+
+                    //Update the user with any changes 
+                    //returned back from the refresh request
+                    if (!res) {
+                        
+                        refreshContext.inflightRefreshRequest = null;
+                        return reject();
+
+                    } else {
+                        //Update with our new session
+                        service.set(res.data);
+                        
+
+                        dispatch();
+                    }
+
+                    //Resolve with the new token
+                    resolve(res.data.token);
+
+                    //Remove the inflight request
+                    setTimeout(function() {
+                        refreshContext.inflightRefreshRequest = null;
+                    })
+
+
+                })
+                .catch(function(err) {
+                    
+
+                    //TODO Check if invalid_refresh_token
+                    
+
+                    
+                    setTimeout(function() {
+                        refreshContext.inflightRefreshRequest = null;
+                    });
+                    reject(err);
+
+
+
+                });
+        });
+
+        //Return the refresh request
+        return refreshContext.inflightRefreshRequest;
+    }
+
+    ///////////////////////////////////////////////////
+
+    var retryCount = 0;
+
+    /**
+     * @alias auth.sync
+     * @description A useful function to sync the current user session with the server.
+     * @example
+     *
+     * // Makes request to the API and updates the current user session to match the response
+     * sdk.auth.sync();
+     */
+    service.sync = function() {
+
+        return qik.api.get('/user')
+            .then(function(res) {
+
+
+                if (res.data) {
+                    if (store.user) {
+                        Object.assign(store.user.session, res.data);
+                    }
+                } else {
+                    service.set(null);
+                }
+
+                
+                retryCount = 0;
+
+                dispatch();
+            })
+            .catch(function(err) {
+
+                // if (retryCount > 2) {
+                service.set(null);
+                retryCount = 0;
+                dispatch();
+                // } else {
+                
+                // retryCount++;
+                // service.sync();
+                // }
+
+
+            });
+    }
+
+    /////////////////////////////////////////////////////
+
+    /**
+     * @alias auth.getCurrentUser
+     * @description Retrieves the current user session
+     * @example
+     *
+     * const me = sdk.auth.getCurrentUser();
+     */
+    service.getCurrentUser = function() {
+        return store.user;
+    }
+
+
+    /**
+     * @alias auth.getCurrentToken
+     * @description Retrieves the current access token. If the user is authenticated
+     * the response will be the current user's access token, otherwise will fall back to the 
+     * applications token.
+     * @example
+     * const currentAccessToken = sdk.auth.getCurrentToken();
+     */
+    service.getCurrentToken = function() {
+
+
+        var user = service.getCurrentUser();
+
+        //User is not logged in
+        if (!user) {
+
+            //But there is an application token
+            if(qik.applicationToken) {
+                //use that instead
+                return qik.applicationToken;
+            }
+
+            //No token
+            return;
+        }
+
+        var { token } = user;
+        if (!token) {
+            return;
+        }
+
+        return token.accessToken;
+
+    }
+
+    /////////////////////////////////////////////////////
+
+    qik.api.interceptors.request.use(async function(config) {
+
+            //If we want to bypass the interceptor
+            //then just return the request
+            if (config.bypassInterceptor) {
+                return config;
+            }
+
+            //////////////////////////////
+
+            //Get the original request
+            var originalRequest = config;
+
+            //////////////////////////////
+
+            var userDetails = await service.getCurrentUser();
+            var accessToken;
+            var refreshToken;
+            var expiryDate;
+
+            if (userDetails) {
+                var { token } = userDetails;
+                if (token) {
+                    accessToken = token.accessToken;
+                    refreshToken = token.refreshToken;
+                    expiryDate = token.expires;
+                }
+            }
+
+            //////////////////////////////
+
+            //If there is a user token
+            if (accessToken) {
+                //Set the token of the request as the user's access token
+                originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
+                
+
+            } else {
+                //Return the original request without a token
+                
+                return originalRequest;
+            }
+
+            /////////////////////////////////////////////////////
+
+            //If no refresh token
+            if (!refreshToken) {
+                
+
+                //Continue with the original request
+                return originalRequest;
+            }
+
+            /////////////////////////////////////////////////////
+
+            //We have a refresh token so we need to check
+            //whether our access token is stale and needs to be refreshed
+            var now = new Date();
+
+            //Give us a bit of buffer so that the backend doesn't beat us to
+            //retiring the token
+            now.setSeconds(now.getSeconds() + tokenBufferSeconds);
+
+            /////////////////////////////////////////////////////
+
+            var expires = new Date(expiryDate);
+
+            //If the token is still fresh
+            if (now &lt; expires) {
+                //Return the original request
+                return originalRequest;
+            }
+
+            /////////////////////////////////////////////////////
+
+            return new Promise(async function(resolve, reject) {
+
+                //Refresh the token
+                await service.refreshAccessToken(refreshToken)
+                    .then(function(newToken) {
+                        
+                        //Update the original request with our new token
+                        originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
+                        //And continue onward
+                        return resolve(originalRequest);
+                    })
+                    .catch(function(err) {
+                        
+                        return reject(err);
+                    });
+            });
+
+
+        },
+        function(error) {
+            return Promise.reject(error);
+        })
+
+
+
+    /////////////////////////////////////////////////////
+
+    qik.api.interceptors.response.use(function(response) {
+        return response;
+    }, function(err) {
+
+        //////////////////////////////
+
+        //Get the response status
+        var status = (err &amp;&amp; err.response &amp;&amp; err.response.status) || err.status;
+
+        
+        switch (status) {
+            case 401:
+                service.logout();
+                break;
+            default:
+                //Some other error
+                break;
+        }
+
+        /////////////////////////////////////////////////////
+
+        return Promise.reject(err);
+    })
+
+    return service;
+
+}
+
+
+export default QikAuth;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Oct 28 2022 16:38:27 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

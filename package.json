@@ -1,6 +1,6 @@
 {
   "name": "@qikdev/sdk",
-  "version": "0.1.77",
+  "version": "0.1.78",
   "type": "module",
   "description": "Promise based Javascript SDK",
   "scripts": {
@@ -8,7 +8,7 @@
     "dev": "webpack --mode=development --progress --colors --watch",
     "test": "mocha  --colors ./test/*.spec.js",
     "test:watch": "mocha  --colors -w ./test/*.spec.js",
-    "document": "jsdoc -r  . -d docs -c jsdoc.conf README.md"
+    "document": "jsdoc -r  . -d public/docs -c jsdoc.conf README.md"
   },
   "exports": "./src/index.js",
   "homepage": "https://qik.dev",

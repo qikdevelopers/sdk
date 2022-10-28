@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>qik.files.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="access.html">access</a><ul class='methods'><li data-type='method'><a href="access.html#.actionableScopes">actionableScopes</a></li><li data-type='method'><a href="access.html#.allPermissions">allPermissions</a></li><li data-type='method'><a href="access.html#.allPermissionTypes">allPermissionTypes</a></li><li data-type='method'><a href="access.html#.allUserScopes">allUserScopes</a></li><li data-type='method'><a href="access.html#.canCreate">canCreate</a></li><li data-type='method'><a href="access.html#.canDeleteItem">canDeleteItem</a></li><li data-type='method'><a href="access.html#.canEditItem">canEditItem</a></li><li data-type='method'><a href="access.html#.canEraseItem">canEraseItem</a></li><li data-type='method'><a href="access.html#.canKnowOf">canKnowOf</a></li><li data-type='method'><a href="access.html#.canListItem">canListItem</a></li><li data-type='method'><a href="access.html#.canRestoreItem">canRestoreItem</a></li><li data-type='method'><a href="access.html#.canViewItem">canViewItem</a></li><li data-type='method'><a href="access.html#.checkActionAccess">checkActionAccess</a></li><li data-type='method'><a href="access.html#.getAllDescendants">getAllDescendants</a></li><li data-type='method'><a href="access.html#.has">has</a></li><li data-type='method'><a href="access.html#.hashPermissions">hashPermissions</a></li><li data-type='method'><a href="access.html#.isAdministrator">isAdministrator</a></li><li data-type='method'><a href="access.html#.isOwner">isOwner</a></li></ul></li><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#.delete">delete</a></li><li data-type='method'><a href="api.html#.generateEndpointURL">generateEndpointURL</a></li><li data-type='method'><a href="api.html#.get">get</a></li><li data-type='method'><a href="api.html#.patch">patch</a></li><li data-type='method'><a href="api.html#.post">post</a></li><li data-type='method'><a href="api.html#.put">put</a></li></ul></li><li><a href="auth.html">auth</a><ul class='methods'><li data-type='method'><a href="auth.html#.changeOrganisation">changeOrganisation</a></li><li data-type='method'><a href="auth.html#.ensureValidToken">ensureValidToken</a></li><li data-type='method'><a href="auth.html#.getCurrentToken">getCurrentToken</a></li><li data-type='method'><a href="auth.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="auth.html#.impersonate">impersonate</a></li><li data-type='method'><a href="auth.html#.login">login</a></li><li data-type='method'><a href="auth.html#.logout">logout</a></li><li data-type='method'><a href="auth.html#.retrieveUserFromResetToken">retrieveUserFromResetToken</a></li><li data-type='method'><a href="auth.html#.sendResetPasswordRequest">sendResetPasswordRequest</a></li><li data-type='method'><a href="auth.html#.set">set</a></li><li data-type='method'><a href="auth.html#.sync">sync</a></li><li data-type='method'><a href="auth.html#.updateUserWithToken">updateUserWithToken</a></li></ul></li><li><a href="cache.html">cache</a><ul class='methods'><li data-type='method'><a href="cache.html#.get">get</a></li><li data-type='method'><a href="cache.html#.reset">reset</a></li></ul></li><li><a href="content.html">content</a><ul class='methods'><li data-type='method'><a href="content.html#.create">create</a></li><li data-type='method'><a href="content.html#.delete">delete</a></li><li data-type='method'><a href="content.html#.get">get</a></li><li data-type='method'><a href="content.html#.getFromSlug">getFromSlug</a></li><li data-type='method'><a href="content.html#.glossary">glossary</a></li><li data-type='method'><a href="content.html#.list">list</a></li><li data-type='method'><a href="content.html#.patch">patch</a></li><li data-type='method'><a href="content.html#.restore">restore</a></li><li data-type='method'><a href="content.html#.update">update</a></li><li data-type='method'><a href="content.html#.validateField">validateField</a></li><li data-type='method'><a href="content.html#.variables">variables</a></li></ul></li><li><a href="files.html">files</a><ul class='methods'><li data-type='method'><a href="files.html#.downloadUrl">downloadUrl</a></li><li data-type='method'><a href="files.html#.filesize">filesize</a></li><li data-type='method'><a href="files.html#.getBinaryTypeFromMime">getBinaryTypeFromMime</a></li><li data-type='method'><a href="files.html#.mediaUrl">mediaUrl</a></li></ul></li><li><a href="filter.html">filter</a><ul class='methods'><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterOperators">activeFilterOperators</a></li><li data-type='method'><a href="filter.html#.activeFilters">activeFilters</a></li><li data-type='method'><a href="filter.html#.activeFilterValues">activeFilterValues</a></li><li data-type='method'><a href="filter.html#.filterChangeString">filterChangeString</a></li><li data-type='method'><a href="filter.html#.isValidFilter">isValidFilter</a></li></ul></li><li><a href="socket.html">socket</a><ul class='methods'><li data-type='method'><a href="socket.html#.channel">channel</a></li><li data-type='method'><a href="socket.html#.close">close</a></li><li data-type='method'><a href="socket.html#.connect">connect</a></li><li data-type='method'><a href="socket.html#.subscribe">subscribe</a></li><li data-type='method'><a href="socket.html#.unsubscribe">unsubscribe</a></li></ul></li><li><a href="system.html">system</a><ul class='methods'><li data-type='method'><a href="system.html#.countries">countries</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">qik.files.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * Creates a new Files Module instance.
+ * This module provides a number of helper functions for interacting with binary file and media content via the REST API
+ * @alias files
+ * @constructor
+ * @hideconstructor
+ * @param {QikCore} qik A reference to the parent instance of the QikCore module. This module is usually created by a QikCore instance that passes itself in as the first argument.
+ */
+export default function(qik) {
+
+
+    ///////////////////////
+
+    var service = {};
+
+    ///////////////////////
+
+    /**
+     * 
+     * Get a valid download url for a specified record
+     * @alias files.downloadUrl
+     * @param  {String} type The type or definition of the item we want to generate the url for
+     * @param  {(Object|String)} id The id or object with an _id property that we want to generate the url for
+     * @param  {Object} params Additional parameters and options for the url
+     * @example
+     * const url = sdk.files.downloadUrl('image', '61eca4746971e75c1fc670cf', {w:100, h:100});
+     * // https://api.qik.dev/image/61eca4746971e75c1fc670cf?w=100&amp;h=100&amp;download=true
+     * 
+     * const url = sdk.files.downloadUrl('image', {_id:'61eca4746971e75c1fc670cf'...}, {f:'png'});
+     * // https://api.qik.dev/image/61eca4746971e75c1fc670cf?w=100&amp;h=100&amp;download=true
+     */
+    service.downloadUrl = function(type, id, params, options) {
+        options = options || {}
+        params = params || {}
+        params.download = true;
+        id = qik.utils.id(id);
+        return qik.api.generateEndpointURL(`/${type}/${id}`, params, options);
+    }
+
+    /**
+     * 
+     * Get a valid media url for a specified image, video or audio item
+     * @alias files.mediaUrl
+     * @param  {String} type The type or definition of the item we want to generate the url for
+     * @param  {(Object|String)} id The id or object with an _id property that we want to generate the url for
+     * @param  {Object} params Additional parameters and options for the url
+     * @example
+     * const url = sdk.files.mediaUrl('image', '61eca4746971e75c1fc670cf', {w:100, h:100});
+     * // https://api.qik.dev/image/61eca4746971e75c1fc670cf?w=100&amp;h=100&amp;download=true
+     * 
+     * const url = sdk.files.mediaUrl('image', {_id:'61eca4746971e75c1fc670cf'...}, {f:'png'});
+     * // https://api.qik.dev/image/61eca4746971e75c1fc670cf?w=100&amp;h=100&amp;download=true
+     */
+    service.mediaUrl = function(type, id, params, options) {
+        options = options || {}
+        params = params || {}
+        id = qik.utils.id(id);
+        return qik.api.generateEndpointURL(`/${type}/${id}`, params, options);
+    }
+
+    ///////////////////////
+
+    /**
+     * 
+     * Convert bytes to a human readable file size
+     * @alias files.filesize
+     * @param  {Integer} bytes The number of bytes
+     * @example
+     * const size = sdk.files.filesize(1500);
+     * // 1.5kb
+     */
+    service.filesize = function(bytes) {
+        var sizes = ['b', 'kb', 'mb', 'gb', 'tb'];
+        if (bytes == 0) return '0 Byte';
+        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+        return Math.round(bytes / Math.pow(1024, i), 2) + '' + sizes[i];
+    }
+
+    ///////////////////////
+
+    /**
+     * 
+     * Get the basic primitive type of a file from it's mime type value
+     * @alias files.getBinaryTypeFromMime
+     * @param  {String} fileMime The mime type of the file
+     * @example
+     * const type = sdk.files.getBinaryTypeFromMime('image/svg+xml');
+     * // 'image'
+     *
+     * const type = sdk.files.getBinaryTypeFromMime('video/webm');
+     * // 'video'
+     */
+    service.getBinaryTypeFromMime = function(fileMime) {
+
+        if (!fileMime) {
+            return 'file';
+        }
+
+        ////////////////////////////////
+
+        switch (fileMime) {
+            case 'image/jpeg':
+            case 'image/png':
+            case 'image/gif':
+            case 'image/bmp':
+            case 'image/tiff':
+            case 'image/svg+xml':
+                return 'image';
+                break;
+            case 'video/mp4':
+            case 'video/quicktime':
+            case 'video/ogg':
+            case 'video/webm':
+                return 'video'
+                break;
+            case 'audio/aac':
+            case 'audio/aiff':
+            case 'audio/mp3':
+            case 'audio/x-m4a':
+            case 'audio/mpeg':
+            case 'audio/ogg':
+            case 'audio/wav':
+            case 'audio/webm':
+                return 'audio'
+                break;
+            default:
+                //See if we can guess it from the first part of the mimetype
+                var prefix = fileMime.split('/')[0];
+                switch (prefix) {
+                    case 'image':
+                    case 'video':
+                    case 'audio':
+                        return prefix;
+                        break;
+                    default:
+                        return 'file';
+                        break;
+                }
+                break;
+        }
+    }
+
+    ////////////////////////////////
+
+    return service;
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Oct 28 2022 16:38:27 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
