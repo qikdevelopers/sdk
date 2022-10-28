@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>api - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="access.html">access</a><ul class='methods'><li data-type='method'><a href="access.html#.actionableScopes">actionableScopes</a></li><li data-type='method'><a href="access.html#.allPermissions">allPermissions</a></li><li data-type='method'><a href="access.html#.allPermissionTypes">allPermissionTypes</a></li><li data-type='method'><a href="access.html#.allUserScopes">allUserScopes</a></li><li data-type='method'><a href="access.html#.canCreate">canCreate</a></li><li data-type='method'><a href="access.html#.canDeleteItem">canDeleteItem</a></li><li data-type='method'><a href="access.html#.canEditItem">canEditItem</a></li><li data-type='method'><a href="access.html#.canEraseItem">canEraseItem</a></li><li data-type='method'><a href="access.html#.canKnowOf">canKnowOf</a></li><li data-type='method'><a href="access.html#.canListItem">canListItem</a></li><li data-type='method'><a href="access.html#.canRestoreItem">canRestoreItem</a></li><li data-type='method'><a href="access.html#.canViewItem">canViewItem</a></li><li data-type='method'><a href="access.html#.checkActionAccess">checkActionAccess</a></li><li data-type='method'><a href="access.html#.getAllDescendants">getAllDescendants</a></li><li data-type='method'><a href="access.html#.has">has</a></li><li data-type='method'><a href="access.html#.hashPermissions">hashPermissions</a></li><li data-type='method'><a href="access.html#.isAdministrator">isAdministrator</a></li><li data-type='method'><a href="access.html#.isOwner">isOwner</a></li></ul></li><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#.delete">delete</a></li><li data-type='method'><a href="api.html#.generateEndpointURL">generateEndpointURL</a></li><li data-type='method'><a href="api.html#.get">get</a></li><li data-type='method'><a href="api.html#.patch">patch</a></li><li data-type='method'><a href="api.html#.post">post</a></li><li data-type='method'><a href="api.html#.put">put</a></li></ul></li><li><a href="auth.html">auth</a><ul class='methods'><li data-type='method'><a href="auth.html#.changeOrganisation">changeOrganisation</a></li><li data-type='method'><a href="auth.html#.ensureValidToken">ensureValidToken</a></li><li data-type='method'><a href="auth.html#.getCurrentToken">getCurrentToken</a></li><li data-type='method'><a href="auth.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="auth.html#.impersonate">impersonate</a></li><li data-type='method'><a href="auth.html#.login">login</a></li><li data-type='method'><a href="auth.html#.logout">logout</a></li><li data-type='method'><a href="auth.html#.retrieveUserFromResetToken">retrieveUserFromResetToken</a></li><li data-type='method'><a href="auth.html#.sendResetPasswordRequest">sendResetPasswordRequest</a></li><li data-type='method'><a href="auth.html#.set">set</a></li><li data-type='method'><a href="auth.html#.sync">sync</a></li><li data-type='method'><a href="auth.html#.updateUserWithToken">updateUserWithToken</a></li></ul></li><li><a href="cache.html">cache</a><ul class='methods'><li data-type='method'><a href="cache.html#.get">get</a></li><li data-type='method'><a href="cache.html#.reset">reset</a></li></ul></li><li><a href="content.html">content</a><ul class='methods'><li data-type='method'><a href="content.html#.create">create</a></li><li data-type='method'><a href="content.html#.delete">delete</a></li><li data-type='method'><a href="content.html#.get">get</a></li><li data-type='method'><a href="content.html#.getFromSlug">getFromSlug</a></li><li data-type='method'><a href="content.html#.glossary">glossary</a></li><li data-type='method'><a href="content.html#.list">list</a></li><li data-type='method'><a href="content.html#.patch">patch</a></li><li data-type='method'><a href="content.html#.restore">restore</a></li><li data-type='method'><a href="content.html#.update">update</a></li><li data-type='method'><a href="content.html#.validateField">validateField</a></li><li data-type='method'><a href="content.html#.variables">variables</a></li></ul></li><li><a href="files.html">files</a><ul class='methods'><li data-type='method'><a href="files.html#.downloadUrl">downloadUrl</a></li><li data-type='method'><a href="files.html#.filesize">filesize</a></li><li data-type='method'><a href="files.html#.getBinaryTypeFromMime">getBinaryTypeFromMime</a></li><li data-type='method'><a href="files.html#.mediaUrl">mediaUrl</a></li></ul></li><li><a href="filter.html">filter</a><ul class='methods'><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterOperators">activeFilterOperators</a></li><li data-type='method'><a href="filter.html#.activeFilters">activeFilters</a></li><li data-type='method'><a href="filter.html#.activeFilterValues">activeFilterValues</a></li><li data-type='method'><a href="filter.html#.filterChangeString">filterChangeString</a></li><li data-type='method'><a href="filter.html#.isValidFilter">isValidFilter</a></li></ul></li><li><a href="socket.html">socket</a><ul class='methods'><li data-type='method'><a href="socket.html#.channel">channel</a></li><li data-type='method'><a href="socket.html#.close">close</a></li><li data-type='method'><a href="socket.html#.connect">connect</a></li><li data-type='method'><a href="socket.html#.subscribe">subscribe</a></li><li data-type='method'><a href="socket.html#.unsubscribe">unsubscribe</a></li></ul></li><li><a href="system.html">system</a><ul class='methods'><li data-type='method'><a href="system.html#.countries">countries</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">api</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        api
+        </h2>
+        
+    
+</header>
+
+<article>
+    
+
+    
+
+    
+
+    
+    
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<h4 class="name" id=".axios"><span class="type-signature">(static) </span>axios<span class="type-signature"></span></h4>
+
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line370">line 370</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Reference to the underlying axios package (https://www.npmjs.com/package/axios)
+Useful for creating new instances of axios if you want to create http requests to
+external APIs and not send tokens etc..
+</div>
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const newRequest = await sdk.api.axios.get('https://otherapi.com/content/61eca4746971e75c1fc670cf');</code></pre>
+
+
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id=".delete"><span class="type-signature">(static) </span>delete<span class="signature">(endpoint, body, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line247">line 247</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Make a DELETE request to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = await sdk.api.delete('/content/61eca4746971e75c1fc670cf');</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The post body to send with the request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The options to pass to axios for making the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".generateEndpointURL"><span class="type-signature">(static) </span>generateEndpointURL<span class="signature">(endpoint, params, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line148">line 148</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Generate an Endpoint URL, complete with authentication.
+this function is helpful for generating authenticated links for the user to open in another window
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = sdk.api.generateEndpointURL('/image/61eca4746971e75c1fc670cf', {
+    w:100,
+    h:50,
+    }, {file:true})
+
+// Would return something similar to:
+// https://api.qik.dev/image/61eca4746971e75c1fc670cf?w=100&amp;h=50&amp;access_token=XXXX...</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to generate a url for</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>params</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Extra parameters for the url</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Additional request configuration
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>withoutToken</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Don't append the current user's access token to the url</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>file</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Whether the response for this request is expected to be a binary file type</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".get"><span class="type-signature">(static) </span>get<span class="signature">(endpoint, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line194">line 194</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Make a GET request to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = await sdk.api.get('/user');</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The options to pass to axios for making the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".patch"><span class="type-signature">(static) </span>patch<span class="signature">(endpoint, body, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line234">line 234</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Make a PATCH request to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = await sdk.api.patch('/content/61eca4746971e75c1fc670cf', {title:'A new title'});</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The post body to send with the request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The options to pass to axios for making the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".post"><span class="type-signature">(static) </span>post<span class="signature">(endpoint, body, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line208">line 208</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Make a POST request to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = await sdk.api.post('/login', {username:'', password:''});</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The post body to send with the request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The options to pass to axios for making the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".put"><span class="type-signature">(static) </span>put<span class="signature">(endpoint, body, options)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="qik.api.js.html">qik.api.js</a>, <a href="qik.api.js.html#line221">line 221</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Make a PUT request to the API
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>const result = await sdk.api.put('/content/61eca4746971e75c1fc670cf', {title:'A new title'});</code></pre>
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>endpoint</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The endpoint to request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The post body to send with the request</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The options to pass to axios for making the request</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Oct 28 2022 16:31:33 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

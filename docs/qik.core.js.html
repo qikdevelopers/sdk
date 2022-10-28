@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>qik.core.js - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="access.html">access</a><ul class='methods'><li data-type='method'><a href="access.html#.actionableScopes">actionableScopes</a></li><li data-type='method'><a href="access.html#.allPermissions">allPermissions</a></li><li data-type='method'><a href="access.html#.allPermissionTypes">allPermissionTypes</a></li><li data-type='method'><a href="access.html#.allUserScopes">allUserScopes</a></li><li data-type='method'><a href="access.html#.canCreate">canCreate</a></li><li data-type='method'><a href="access.html#.canDeleteItem">canDeleteItem</a></li><li data-type='method'><a href="access.html#.canEditItem">canEditItem</a></li><li data-type='method'><a href="access.html#.canEraseItem">canEraseItem</a></li><li data-type='method'><a href="access.html#.canKnowOf">canKnowOf</a></li><li data-type='method'><a href="access.html#.canListItem">canListItem</a></li><li data-type='method'><a href="access.html#.canRestoreItem">canRestoreItem</a></li><li data-type='method'><a href="access.html#.canViewItem">canViewItem</a></li><li data-type='method'><a href="access.html#.checkActionAccess">checkActionAccess</a></li><li data-type='method'><a href="access.html#.getAllDescendants">getAllDescendants</a></li><li data-type='method'><a href="access.html#.has">has</a></li><li data-type='method'><a href="access.html#.hashPermissions">hashPermissions</a></li><li data-type='method'><a href="access.html#.isAdministrator">isAdministrator</a></li><li data-type='method'><a href="access.html#.isOwner">isOwner</a></li></ul></li><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#.delete">delete</a></li><li data-type='method'><a href="api.html#.generateEndpointURL">generateEndpointURL</a></li><li data-type='method'><a href="api.html#.get">get</a></li><li data-type='method'><a href="api.html#.patch">patch</a></li><li data-type='method'><a href="api.html#.post">post</a></li><li data-type='method'><a href="api.html#.put">put</a></li></ul></li><li><a href="auth.html">auth</a><ul class='methods'><li data-type='method'><a href="auth.html#.changeOrganisation">changeOrganisation</a></li><li data-type='method'><a href="auth.html#.ensureValidToken">ensureValidToken</a></li><li data-type='method'><a href="auth.html#.getCurrentToken">getCurrentToken</a></li><li data-type='method'><a href="auth.html#.getCurrentUser">getCurrentUser</a></li><li data-type='method'><a href="auth.html#.impersonate">impersonate</a></li><li data-type='method'><a href="auth.html#.login">login</a></li><li data-type='method'><a href="auth.html#.logout">logout</a></li><li data-type='method'><a href="auth.html#.retrieveUserFromResetToken">retrieveUserFromResetToken</a></li><li data-type='method'><a href="auth.html#.sendResetPasswordRequest">sendResetPasswordRequest</a></li><li data-type='method'><a href="auth.html#.set">set</a></li><li data-type='method'><a href="auth.html#.sync">sync</a></li><li data-type='method'><a href="auth.html#.updateUserWithToken">updateUserWithToken</a></li></ul></li><li><a href="cache.html">cache</a><ul class='methods'><li data-type='method'><a href="cache.html#.get">get</a></li><li data-type='method'><a href="cache.html#.reset">reset</a></li></ul></li><li><a href="content.html">content</a><ul class='methods'><li data-type='method'><a href="content.html#.create">create</a></li><li data-type='method'><a href="content.html#.delete">delete</a></li><li data-type='method'><a href="content.html#.get">get</a></li><li data-type='method'><a href="content.html#.getFromSlug">getFromSlug</a></li><li data-type='method'><a href="content.html#.glossary">glossary</a></li><li data-type='method'><a href="content.html#.list">list</a></li><li data-type='method'><a href="content.html#.patch">patch</a></li><li data-type='method'><a href="content.html#.restore">restore</a></li><li data-type='method'><a href="content.html#.update">update</a></li><li data-type='method'><a href="content.html#.validateField">validateField</a></li><li data-type='method'><a href="content.html#.variables">variables</a></li></ul></li><li><a href="files.html">files</a><ul class='methods'><li data-type='method'><a href="files.html#.downloadUrl">downloadUrl</a></li><li data-type='method'><a href="files.html#.filesize">filesize</a></li><li data-type='method'><a href="files.html#.getBinaryTypeFromMime">getBinaryTypeFromMime</a></li><li data-type='method'><a href="files.html#.mediaUrl">mediaUrl</a></li></ul></li><li><a href="filter.html">filter</a><ul class='methods'><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterKeys">activeFilterKeys</a></li><li data-type='method'><a href="filter.html#.activeFilterOperators">activeFilterOperators</a></li><li data-type='method'><a href="filter.html#.activeFilters">activeFilters</a></li><li data-type='method'><a href="filter.html#.activeFilterValues">activeFilterValues</a></li><li data-type='method'><a href="filter.html#.filterChangeString">filterChangeString</a></li><li data-type='method'><a href="filter.html#.isValidFilter">isValidFilter</a></li></ul></li><li><a href="socket.html">socket</a><ul class='methods'><li data-type='method'><a href="socket.html#.channel">channel</a></li><li data-type='method'><a href="socket.html#.close">close</a></li><li data-type='method'><a href="socket.html#.connect">connect</a></li><li data-type='method'><a href="socket.html#.subscribe">subscribe</a></li><li data-type='method'><a href="socket.html#.unsubscribe">unsubscribe</a></li></ul></li><li><a href="system.html">system</a><ul class='methods'><li data-type='method'><a href="system.html#.countries">countries</a></li></ul></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">qik.core.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// if (process.browser) {
+
+import QikAPI from './qik.api.js';
+import QikAuth from './qik.auth.js';
+import QikUtils from './qik.utils.js';
+import QikFilter from './qik.filter.js';
+import QikFiles from './qik.files.js';
+import QikCache from './qik.cache.js';
+import QikAccess from './qik.access.js';
+import QikContent from './qik.content.js';
+import QikSystem from './qik.system.js';
+import QikSocket from './qik.socket.js';
+import { EventDispatcher } from './qik.utils.js';
+
+///////////////////////////////////////
+
+/**
+ * Creates a new QikCore instance including all of the default sub modules
+ * @alias qik
+ * @constructor
+ * @param {Object} options 
+ * @param {String} options.apiURL    The remote URL of the Qik API you want to connect to. Options are 'staging', 'production' or you may set a specific URL eg. 'https://api.qik.io' (do not include trailing slash). If no value is provided, will default to 'production'.
+ * @param {String} options.applicationToken When running as a static application, (for example a website) you may set the application's access token before you initialize the Qik instance here.  
+ * @example
+ *
+ * //Import the Qik package
+ * import Qik from '@qikdev/sdk';
+ *
+ * //Create a new Qik instance
+ * var qik = new Qik();
+ *
+ * //Request the current user session endpoint from the Qik API
+ * qik.api.get('/session').then(function(res) {
+ *   console.log('User session is ', res.data);
+ * })
+ * .catch(function(err) {
+ *     console.log('There was an error', err);
+ * });
+ *
+ * //Use the QikAsset package to generate an image url
+ * var link = qik.asset.imageUrl('5ca3d64dd2bb085eb9d450db', 1920, 1080)
+ */
+
+import { version } from '../version.js';
+
+export default function(options) {
+    if (!options) {
+        options = {
+            // apiURL,
+            // applicationToken,
+            // api:{}
+        }
+    }
+
+    ///////////////////////////////////////
+
+    if (!options.apiURL || !options.apiURL.length) {
+        options.apiURL = 'staging';
+    }
+
+    ///////////////////////////////////////
+
+    switch (String(options.apiURL).toLowerCase()) {
+        case 'production':
+            options.apiURL = 'https://api.qik.dev';
+            break;
+        case 'staging':
+            options.apiURL = 'https://api.staging.qik.dev';
+            break;
+        case 'local':
+            options.apiURL = 'http://api.qik.localhost:4001';
+            break;
+    }
+
+    ///////////////////////////////////////
+
+    const core = Object.assign(options, {
+        //Other options
+        // domain:'',
+        version,
+        global:{},
+    })
+
+
+    ///////////////////////////////////////
+
+    /**
+     * Provides a cache service, used for creating, clearing 
+     * and storing API requests and other information in memory
+     * @type {QikCache}
+     */
+    const cache = QikCache;
+    Object.defineProperty(core, 'cache', {
+        value: cache,
+        writable: false,
+    });
+    
+    ///////////////////////////////////////
+
+    /**
+     * Provides helper functions for working
+     * with Qik data
+     * @type {QikUtils}
+     */
+    const utils = QikUtils;
+    Object.defineProperty(core, 'utils', {
+        value: utils,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    /**
+     * Provides helper functions for working
+     * with Qik filters
+     * @type {QikFilter}
+     */
+    const filter = QikFilter;
+    Object.defineProperty(core, 'filter', {
+        value: filter,
+        writable: false,
+    });
+
+
+
+    ///////////////////////////////////////
+
+    /**
+     * Provides helper functions for working
+     * with Qik files
+     * @type {QikFiles}
+     */
+    const files = new QikFiles(core);
+    Object.defineProperty(core, 'files', {
+        value: files,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    //Create a new global dispatcher so we can trigger events
+    const dispatcher = new EventDispatcher();
+    dispatcher.bootstrap(core);
+
+    //Set the function
+    core.error = function(err) {
+        //Dispatch an error event
+        return core.dispatch('error', utils.errorMessage(err));
+    }
+
+    //And enable notifications with a short message
+    core.notify = function(message, options) {
+        return core.dispatch('notification', { message, options });
+    }
+
+    ///////////////////////////////////////
+
+    /**
+     * The default service for interacting with
+     * the Qik REST API, it's a wrapper around the axios library
+     * that works in conjunction with the other Qik modules
+     * @type {QikAPI}
+     */
+    const api = new QikAPI(core);
+    Object.defineProperty(core, 'api', {
+        value: api,
+        writable: false,
+    });
+
+    /**
+     * The default service for managing authentication
+     * handles automatic refreshing of access tokens, and provides login, logout
+     * and other user/application specific functionality
+     * @type {QikAuth}
+     */
+    const auth = new QikAuth(core);
+    Object.defineProperty(core, 'auth', {
+        value: auth,
+        writable: false,
+    });
+
+    /**
+     * The default service for connecting, subscribing and unsubscribing sockets
+     * @type {QikSocket}
+     */
+    const socket = new QikSocket(core);
+    Object.defineProperty(core, 'socket', {
+        value: socket,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    /**
+     * A helper service for understanding a user's access permissions
+     * @type {QikAccess}
+     */
+    const access = new QikAccess(core);
+    Object.defineProperty(core, 'access', {
+        value: access,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    /**
+     * A helper service for content create, update, read and delete operations.
+     * @type {QikContent}
+     */
+    const system = new QikSystem(core);
+    Object.defineProperty(core, 'system', {
+        value: system,
+        writable: false,
+    });
+
+
+    ///////////////////////////////////////
+
+    /**
+     * A helper service for content create, update, read and delete operations.
+     * @type {QikContent}
+     */
+    const content = new QikContent(core);
+    Object.defineProperty(core, 'content', {
+        value: content,
+        writable: false,
+    });
+
+    ///////////////////////////////////////
+
+    return core;
+
+}</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Oct 28 2022 16:31:33 GMT+1100 (Australian Eastern Daylight Time) using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

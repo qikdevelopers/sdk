@@ -20,7 +20,7 @@ var QikCache = {
 
     
     /**
-     * A helper function to reset all cache objects, useful if changing organisation or logging in or out as another user     
+     * A helper function to reset all caches, useful if changing organisation or logging in or out as another user     
      * @alias cache.reset    
      */
     reset() {
