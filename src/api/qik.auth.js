@@ -232,6 +232,7 @@ var QikAuth = function(qik) {
      * @param  {Object} credentials The credentials used to login
      * @param  {String} credentials.email The email address to login to
      * @param  {String} credentials.password The password to login with
+     * @param  {String} credentials.mfa The MFA (Multi Factor Authentication) code
      * @param  {Object} options Additional options
      * @param  {Boolean} options.disableAutoAuthentication By default when logging in the current user session
      * will be updated automatically to reflect the new session, you can use this option to disable that behavior and instead return the 
@@ -240,7 +241,8 @@ var QikAuth = function(qik) {
      *
      * const credentials = {
      *     email:'me@email.com', 
-     *     password:'******'
+     *     password:'******',
+     *     mfa:'1234',
      * }
      * 
      * sdk.auth.login(credentials);

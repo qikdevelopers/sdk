@@ -501,8 +501,8 @@ service.mapFields = function(fields, options) {
 
         //////////////////////////////////
 
-        var mapped = service.clone(field);
-
+        // Whether to clone the field or use the existing reference
+        var mapped = options.original ? field : service.clone(field);
 
         mapped.trail = trail.slice();
         mapped.trail.push(fieldKey)
@@ -511,9 +511,12 @@ service.mapFields = function(fields, options) {
         mapped.titles = titles.slice();
         mapped.titles.push(field.title || fieldKey)
 
+        
+        const isNotLayoutOrIsAllowed = (!isLayout || options.includeLayout);
+        
         //If its an actual element or we've asked to include
         //layout only elements
-        if (!isLayout || options.includeLayout) {
+        if (isNotLayoutOrIsAllowed) {
             //Add it to the mix
             output.push(mapped);
         }
