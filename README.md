@@ -3,7 +3,7 @@
 
 # Qik Javascript SDK
 
-[SDK Documentation](https://qikdevelopers.gitlab.io/sdk/docs/) | [REST API Docs](https://docs.rest.qik.dev) | [UI Docs](https://docs.ui.qik.dev) | [Website](https://qik.dev) 
+[SDK Documentation](https://qikdevelopers.gitlab.io/sdk/docs/) | [REST API Documentation](https://docs.rest.qik.dev) | [UI Kit Documentation](https://docs.ui.qik.dev) | [Website](https://qik.dev) 
 
 
 ## Installation

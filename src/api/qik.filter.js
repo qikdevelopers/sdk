@@ -446,13 +446,21 @@ service.activeFilterValues = function(filterConfiguration, options) {
 
     var activeFilters = service.activeFilters(filterConfiguration);
 
+    function mapValue(v) {
+        if(!v) {
+            return;
+        }
+
+        return v._id || v.id || v.title || v.name || v;
+    }
+
     var values = activeFilters
         .filter(function(entry) {
             //Ignore all the wrapping entries
             return !entry.operator;
         })
         .reduce(function(set, filter) {
-            set = [...set, ...(filter.values || []), filter.value, filter.value2];
+            set = [...set, ...(filter.values || []).map(mapValue), mapValue(filter.value), mapValue(filter.value2)];
             return set;
         }, [])
         .filter(compactFunction);
