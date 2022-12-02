@@ -45,8 +45,6 @@ var QikAPI = function(qik) {
     /////////////////////////////////////////////////////
 
     function getRequestCacheKey(config) {
-
-        console.log('CONFIG HEADERS', config.headers)
         var key = [
             config.method,
             config.url,
@@ -345,7 +343,7 @@ var QikAPI = function(qik) {
                             }, 800);
                         })
                     } else {
-                        console.log('Failed after 10 retrys')
+                        console.log('Failed after 10 retries')
                         retryCount = 0;
                     }
                     break;
