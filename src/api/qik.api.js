@@ -1,5 +1,4 @@
 import axios from 'axios';
-import _ from 'lodash';
 import qs from 'qs';
 import { version } from '../version.js';
 
@@ -10,6 +9,10 @@ import {
 } from 'axios-extensions';
 
 
+function isString(value) {
+  const type = typeof value
+  return type === 'string' || (type === 'object' && value != null && !Array.isArray(value) && getTag(value) == '[object String]')
+}
 
 
 /**
@@ -43,76 +46,92 @@ var QikAPI = function(qik) {
 
     function getRequestCacheKey(config) {
 
-        var key = _.compact([
+        console.log('CONFIG HEADERS', config.headers)
+        var key = [
             config.method,
             config.url,
-            JSON.stringify({ user: qik.auth.getCurrentUser(), params: config.params, data: config.data }),
-        ]).join('-')
+            config.headers?.Authorization,
+            config.headers.Accept,
+            JSON.stringify({ 
+                params: config.params,
+                 data: config.data,
+            }),
+
+        ].filter(Boolean).join('-')
 
         return key;
     }
 
     ///////////////////////////////////////
 
+    const inflightRequests = {};
+
     let cacheAdapter = function(config) {
 
-        return new Promise(function(resolve, reject) {
+        var cacheKey = getRequestCacheKey(config);
 
+        // If there is already an identical request being made 
+        if (!inflightRequests[cacheKey]) {
 
-            var useCache;
-            var cachedResponse;
+            // Be more efficient and wait for the existing request
+            inflightRequests[cacheKey] = new Promise(function(resolve, reject) {
+                var useCache;
+                var cachedResponse;
 
-            ///////////////////////////////////////
+                ///////////////////////////////////////
 
-            switch (String(config.method).toLowerCase()) {
-                case 'post':
-                case 'patch':
-                case 'put':
-                case 'delete':
-                    //Unless we've specified we want a cache
-                    if (!config.cache) {
-                        //Don't use the cache
-                        config.cache = false;
-                    }
-                    break;
-            }
-
-            ///////////////////////////////////////
-
-            if (config.cache === false) {
-                //No cache so make new request
-            } else {
-
-                //Use the cache specified or the default cache
-                useCache = config.cache || defaultCache;
-
-                //If there is a cache
-                if (useCache) {
-
-                    //Generate the cache key from the request
-                    var cacheKey = getRequestCacheKey(config);
-
-                    //If we have the cachedResponse version
-                    cachedResponse = useCache.get(cacheKey);
+                switch (String(config.method).toLowerCase()) {
+                    case 'post':
+                    case 'patch':
+                    case 'put':
+                    case 'delete':
+                        //Unless we've specified we want a cache
+                        if (!config.cache) {
+                            //Don't use the cache
+                            config.cache = false;
+                        }
+                        break;
                 }
-            }
 
-            ///////////////////////////////////////
+                ///////////////////////////////////////
 
-            if (cachedResponse) {
-                return resolve(cachedResponse);
-            }
+                if (config.cache === false) {
+                    //No cache so make new request
+                } else {
 
-            var copy = Object.assign(config, { adapter: defaultAdapter });
+                    //Use the cache specified or the default cache
+                    useCache = config.cache || defaultCache;
 
-            return axios.request(config)
-                .then(function(res) {
-                    resolve(res);
-                }, function(err) {
-                    reject(err);
-                });
+                    //If there is a cache
+                    if (useCache) {
+                        //If we have the cachedResponse version
+                        cachedResponse = useCache.get(cacheKey);
+                    }
+                }
 
-        })
+                ///////////////////////////////////////
+
+                if (cachedResponse) {
+                    return resolve(cachedResponse);
+                }
+
+                var copy = Object.assign(config, { adapter: defaultAdapter });
+
+                return axios.request(config)
+                    .then(function(res) {
+
+                        delete inflightRequests[cacheKey];
+                        resolve(res);
+                    }, function(err) {
+
+                        delete inflightRequests[cacheKey];
+                        reject(err);
+                    });
+
+            })
+
+        }
+        return inflightRequests[cacheKey];
     }
 
 
@@ -192,7 +211,7 @@ var QikAPI = function(qik) {
      * const result = await sdk.api.get('/user');
      */
     var f = function() {}
-    
+
     /**
      * 
      * 
@@ -206,7 +225,7 @@ var QikAPI = function(qik) {
      * const result = await sdk.api.post('/login', {username:'', password:''});
      */
     var f = function() {}
-    
+
     /**
      * 
      * Make a PUT request to the API
@@ -245,10 +264,10 @@ var QikAPI = function(qik) {
      * const result = await sdk.api.delete('/content/61eca4746971e75c1fc670cf');
      */
     var f = function() {}
-    
 
-    
-    
+
+
+
     function createNewAxios(adapter) {
 
         var instance = axios.create({
@@ -265,6 +284,8 @@ var QikAPI = function(qik) {
 
         // Add relative date and timezone to every request
         instance.interceptors.request.use(function(config) {
+
+            const inflightKey = getRequestCacheKey(config);
 
             if (config.withoutToken) {
                 return config;
@@ -305,7 +326,7 @@ var QikAPI = function(qik) {
             }
 
             //Get the response status
-            var status = _.get(err, 'response.status') || err.status;
+            var status = err?.response?.status || err.status;
 
             //Check the status
             switch (status) {
@@ -351,7 +372,7 @@ var QikAPI = function(qik) {
 
         var dataString;
 
-        if (_.isString(data)) {
+        if (_isString(data)) {
             dataString = data;
         } else {
             dataString = JSON.stringify(data);
@@ -362,7 +383,7 @@ var QikAPI = function(qik) {
         var matches = dataString.match(myregexp);
 
         //Make sure the matches are unique
-        return _.uniq(matches);
+        return [...new Set(matches)];
     }
 
     ///////////////////////////////////////
