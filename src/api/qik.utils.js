@@ -548,7 +548,7 @@ service.mapFields = function(fields, options) {
                 let injectKey = fieldKey;
                 if(options.includeArrayDelimeter) {
                     if(!singleValue) {
-                        injectKey = `${fieldKey}${delimeter}`
+                        injectKey = `${fieldKey}${delimiter}`
                     }
                 }
                 trail.push(injectKey)
