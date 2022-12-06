@@ -95,13 +95,11 @@ export default function(qik) {
         if (reload) {
 
             if(!inflightGlossaryRequest) {
-                inflightGlossaryRequest = qik.api.get(`/glossary`);
+                inflightGlossaryRequest = qik.api.get(`/glossary`, {cache:false});
                 inflightGlossaryRequest.then(resolveRequest, resolveRequest);
                 function resolveRequest() {
                     inflightGlossaryRequest = null;
                 }
-            } else {
-                console.log('request inflight')
             }
             
             const { data } = await inflightGlossaryRequest
@@ -630,7 +628,7 @@ export default function(qik) {
      * @param  {Object} input The data to update
      * @example
      * 
-     * const result = await sdk.content.update('profile', {
+     * const result = await sdk.content.update('61eca4746971e75c1fc670cd', {
      *     firstName:'Minnie',
      *     lastName:'Mouse',
      *     gender:'female',
@@ -653,7 +651,7 @@ export default function(qik) {
      * @param  {Object} input The data to update, this will be merged with existing data
      * @example
      * 
-     * const result = await sdk.content.patch('profile', {
+     * const result = await sdk.content.patch('61eca4746971e75c1fc670cd', {
      *     firstName:'Mickey',
      *     gender:'male',
      * })

@@ -484,6 +484,7 @@ service.mapFields = function(fields, options) {
     var titles = [];
     var currentDepth = 1;
     var depthLimit = options.depth;
+    var delimiter = options.arrayDelimeter || '[]';
 
 
     //Loop through each field
@@ -547,7 +548,7 @@ service.mapFields = function(fields, options) {
                 let injectKey = fieldKey;
                 if(options.includeArrayDelimeter) {
                     if(!singleValue) {
-                        injectKey = `${fieldKey}[]`
+                        injectKey = `${fieldKey}${delimeter}`
                     }
                 }
                 trail.push(injectKey)
