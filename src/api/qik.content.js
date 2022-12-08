@@ -146,7 +146,7 @@ export default function(qik) {
     service.scopeGlossary = async function(options) {
         options = options || {};
 
-        var reload = options.refresh || options.reload || !glossary.data;
+        var reload = options.refresh || options.reload || !scopeGlossary.data;
 
 
         if (reload) {
