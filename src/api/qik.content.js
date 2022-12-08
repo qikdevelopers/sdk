@@ -121,6 +121,58 @@ export default function(qik) {
 
 
 
+    ///////////////////////////////////////////////////
+
+    
+
+    const scopeGlossary = {}
+
+    let inflightScopeGlossaryRequest;
+
+     /**
+     * 
+     * Retrieves the scope glossary of all scopes the user can know about. This helps to convert a scope id into a human readable title.
+     * @alias content.scopeGlossary
+     * @param  {Object} options Additional options
+     * @param  {Boolean} options.hash Whether to return the data as a keyed object with each scopes _id as the key
+     allowing for fast selection of specific scopes, by default will return a structured tree
+     * @param  {Boolean} options.reload Force the glossary to reload and not be cached.
+      If false will retrieve content type data from the in memory cache
+     * @example
+     * 
+     * const scopes = await sdk.content.scopeGlossary();
+     */
+
+    service.scopeGlossary = async function(options) {
+        options = options || {};
+
+        var reload = options.refresh || options.reload || !glossary.data;
+
+
+        if (reload) {
+
+            if(!inflightScopeGlossaryRequest) {
+                inflightScopeGlossaryRequest = qik.api.get(`/scope/glossary`, {cache:false});
+                inflightScopeGlossaryRequest.then(resolveRequest, resolveRequest);
+                function resolveRequest() {
+                    inflightScopeGlossaryRequest = null;
+                }
+            }
+            
+            const { data } = await inflightScopeGlossaryRequest
+            scopeGlossary.data = data;
+        }
+
+        if (options.hash) {
+            var result = qik.utils.hash(scopeGlossary.data, '_id');
+            return result;
+        }
+
+        return scopeGlossary.data;
+    }
+
+
+
 
     ///////////////////////////////////////////////////
 
