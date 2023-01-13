@@ -91,7 +91,6 @@ export default function(qik) {
 
         var reload = options.refresh || options.reload || !glossary.data;
 
-
         if (reload) {
 
             if(!inflightGlossaryRequest) {
@@ -104,6 +103,7 @@ export default function(qik) {
             
             const { data } = await inflightGlossaryRequest
             glossary.data = data;
+            qik.dispatch('glossary', data)
         }
 
         if (options.hash) {
