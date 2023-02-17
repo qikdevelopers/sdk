@@ -10,8 +10,42 @@ import { isBrowser, isNode } from 'browser-or-node';
 
 ///////////////////////////////////////////////////////////////////////////////
 
-var service = {};
+const service = {};
 
+////////////////////////////////////
+
+const loadedExternalScripts = {}
+
+service.loadExternalScript = function(url) {
+    return new Promise(function(resolve, reject) {
+
+        if (!document) {
+            return reject('This function can only be run in a browser')
+        }
+
+        if (loadedExternalScripts[url]) {
+            return resolve(url);
+        }
+        
+        // Avoid duplicate scripts
+        loadedExternalScripts[url] = true;
+
+        //////////////////////////////////////
+
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = function() {
+            console.log('Loaded external script', url);
+            return resolve(url);
+        };
+        script.src = url;
+
+        // Inject it in the document's <head> tag
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+    })
+}
 
 
 
