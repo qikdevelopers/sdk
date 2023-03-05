@@ -786,7 +786,8 @@ service.getAvailableCurrencies = function(DefaultCountryID) {
 service.hash = function(items, key) {
     items = !Array.isArray(items) ? [] : items;
     return items.reduce(function(memo, item) {
-        memo[val] = _get(item, key);
+        const k = _get(item, key);
+        memo[k] = item;
         return memo;
     }, {});
 }
