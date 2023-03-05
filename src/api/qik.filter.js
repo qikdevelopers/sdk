@@ -508,7 +508,7 @@ service.activeFilterValues = function(filterConfiguration, options) {
  * const changeString = sdk.filter.filterChangeString(filterConfiguration); 
  */
 service.filterChangeString = function(config) {
-    var string = [
+    const string = [
         service.activeFilterKeys(config).join(', '),
         service.activeFilterValues(config).join(', '),
         service.activeFilterComparators(config).join(', '),

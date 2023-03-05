@@ -17,10 +17,13 @@ const service = {};
 const loadedExternalScripts = {}
 
 service.loadExternalScript = function(url) {
-    return new Promise(function(resolve, reject) {
+
+    const promise = new Promise(createNewScript);
+
+    function createNewScript(resolve, reject) {
 
         if (!document) {
-            return reject('This function can only be run in a browser')
+            return reject('document is undefined')
         }
 
         if (loadedExternalScripts[url]) {
@@ -41,10 +44,12 @@ service.loadExternalScript = function(url) {
         };
         script.src = url;
 
-        // Inject it in the document's <head> tag
+        // Inject it into the document's <head> tag
         document.getElementsByTagName('head')[0].appendChild(script);
 
-    })
+    }
+
+    return promise;
 }
 
 
@@ -768,78 +773,51 @@ service.getAvailableCurrencies = function(DefaultCountryID) {
 ///////////////////////////////////////////////////////////////////////////////
 
 /**
- * A helpful function for creating a fast hash object that can be used for more efficient loops
+ * Creates a fast keyed hash object from an array of items
  * @alias utils.hash
- * @param  {Array} array The array to reduce
- * @param  {String} key The key or path to the property to group by
- * @return {Object}            A hash object literal
+ * @param  {Array} array The array of items to convert into a hash
+ * @param  {String} key The key or path to the property on each item to use as the hashed key
+ * @return {Object} A key/value paired object
  * @example 
- * //Returns {something:[{title:'test', definition:'something'}]}
- * qik.utils.mapReduce([{title:'test', definition:'something'}], 'definition');
+ * //Returns { jimbo:{id:'jimbo', title:'Jim Jones'}, {id:'roger', title:'Roger Fellow'} }
+ * qik.utils.hash([{id:'jimbo', title:'Jim Jones'}, {id:'roger', title:'Roger Fellow'}], 'id');
  * 
  */
-service.hash = function(array, key) {
-    if (!Array.isArray(array)) {
-        array = [];
-    }
-    return array.reduce(function(set, item) {
-
-        var val = _get(item, key);
-
-        set[val] = item;
-        return set;
+service.hash = function(items, key) {
+    items = !Array.isArray(items) ? [] : items;
+    return items.reduce(function(memo, item) {
+        set[val] = _get(item, key);
+        return memo;
     }, {});
 }
 
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-
-/**
- * A helpful function that can create a globally unique id
- * @alias utils.guid
- * @return {String}            The new guid
- * @example 
- * //Returns 20354d7a-e4fe-47af-8ff6-187bca92f3f9
- * qik.utils.guid()
- */
-service.guid = function() {
-    var u = (new Date()).getTime().toString(16) +
-        Math.random().toString(16).substring(2) + "0".repeat(16);
-    var guid = u.substr(0, 8) + '-' + u.substr(8, 4) + '-4000-8' +
-        u.substr(12, 3) + '-' + u.substr(15, 12);
-
-    return guid;
-}
-
 //////////////////////////////////////////////////
 
 /**
- * A helpful function that can return a subset of an array compared to specified criteria, This is usually used
- * to evaluate expressions on Qik forms
+ * Returns a subset of values in an array that match a provided rule
  * @alias utils.extractFromArray
- * @param  {Array} array The array you want to filter
- * @param  {String} path The path to the property you want to compare on each item in the array
- * @param  {Boolean} sum Whether to sum the resulting values together as a number
- * @param  {Boolean} flatten Whether to flatten nested arrays
+ * @param  {Array} array The array you want to extract values from
+ * @param  {String} key The path to the child property you want to extract
+ * @param  {Boolean} sum Whether to sum the extracted values together in total
+ * @param  {Boolean} flatten Whether to flatten nested child arrays
  * @param  {Boolean} unique Whether to only return unique values
  * @param  {Boolean} exclude Whether to exclude null or undefined values
  * @param  {Object} options Pass through extra options for how to extract the values
- * @return {Array}           An array of all values retrieved from the array, unless options specifies otherwise
+ * @return {Array} An array of all values retrieved from the array, unless provided arguments require otherwise
  * @example 
- * //Returns [26, 19] as all the values
- * qik.utils.extractFromArray([{name:'Jerry', age:26}, {name:'Susan', age:19}], 'age');
+ * //Returns [12, 45] as all the values
+ * qik.utils.extractFromArray([{name:'Wendy', age:12}, {name:'Roger', age:45}], 'age');
  * 
- * //Returns 45
- * qik.utils.extractFromArray([{name:'Jerry', age:26}, {name:'Susan', age:19}], 'age', {sum:true});
+ * //Returns 32
+ * qik.utils.extractFromArray([{name:'Wendy', age:12}, {name:'Roger', age:20}], 'age', {sum:true});
  * 
  */
 service.extractFromArray = function(array, key, sum, flatten, unique, exclude, options) {
 
-    if (!options) {
-        options = {}
-    }
+    options = options || {}
 
     if (sum) {
         options.sum = sum;
@@ -860,11 +838,9 @@ service.extractFromArray = function(array, key, sum, flatten, unique, exclude, o
     /////////////////
 
     //Filter the array options by a certain value and operator
-    var matches = array.reduce(function(set, entry) {
+    var extractedValues = array.reduce(function(set, entry) {
         //Get the value from the object
         var retrievedValue = _get(entry, key);
-
-        ///////////////////////
 
         var isNull = (!retrievedValue && (retrievedValue !== false && retrievedValue !== 0));
         if (options.excludeNull && isNull) {
@@ -875,91 +851,75 @@ service.extractFromArray = function(array, key, sum, flatten, unique, exclude, o
         return set;
     }, [])
 
-    /////////////////
-
     if (options.flatten) {
-        matches = _.flatten(matches);
+        extractedValues = _.flatten(extractedValues);
     }
-
-    /////////////////
 
     if (options.unique) {
-        matches = _.uniq(matches);
+        extractedValues = _.uniq(extractedValues);
     }
 
-    /////////////////
-
     if (options.sum) {
-        matches = matches.reduce(function(a, b) {
+        extractedValues = extractedValues.reduce(function(a, b) {
             return a + b;
         }, 0);
     }
 
-
-
-    /////////////////
-
-    return matches;
+    return extractedValues;
 }
 
 
 //////////////////////////////////////////////////////
 
 /**
- * A helpful function that can return a subset of an array compared to specified criteria, This is usually used
- * to evaluate expressions on Qik forms
+ * A function that can return a selection of values that were found in an array that match a specific rule,
+ * This is often used to evaluate expressions within form fields
  * @alias utils.matchInArray
- * @param  {Array} array The array you want to filter
- * @param  {String} path The path to the property you want to compare on each item in the array
- * @param  {String} value The value to compare with
- * @param  {String} operator Can be Possible options are ('>', '<', '>=', '<=', 'in', '==') Defaults to '==' (Is equal to)
- * @return {Array}           An array that contains all items that matched
+ * @param  {Array} array The array to check
+ * @param  {String} key The javascript dot notation path to extract
+ * @param  {String} value The value to compare against
+ * @param  {String} comparator The logical operator to use to compare the extracted value with the provided value ('>', '<', '>=', '<=', 'in', '==') Defaults to '==' (Is equal to)
+ * @return {Array} Returns an array of matching values
  * @example 
- * //Returns [{name:'Jerry', age:26}] as that is only item in the array that matches the criteria
- * qik.utils.matchInArray([{name:'Jerry', age:26}, {name:'Susan', age:19}], 'age', 26, '>=');
+ * //Returns [{name:'Michael', age:45}] as that is only item in the array that matches the criteria
+ * qik.utils.matchInArray([{name:'Wendy', age:12}, {name:'Michael', age:45}], 'age', 45, '>=');
  * 
  */
-service.matchInArray = function(array, key, value, operator) {
+service.matchInArray = function(array, key, v, comparator) {
 
-    //Filter the array options by a certain value and operator
+    //Filter the array options by a certain v and comparator
     var matches = array.filter(function(entry) {
-        //Get the value from the object
-        var retrievedValue = _get(entry, key);
-        var isMatch;
+        //Get the v from the object
+        var extracted = _get(entry, key);
+        var found;
 
-        ///////////////////////
-
-        //Check how to operate
-        switch (operator) {
-            case '>':
-                isMatch = (retrievedValue > value);
-                break;
-            case '<':
-                isMatch = (retrievedValue < value);
+        switch (comparator) {
+            case 'in':
+                found = extracted.includes(v);
                 break;
             case '>=':
-                isMatch = (retrievedValue >= value);
+                found = (extracted >= v);
                 break;
             case '<=':
-                isMatch = (retrievedValue <= value);
+                found = (extracted <= v);
                 break;
-            case 'in':
-                isMatch = retrievedValue.includes(value);
+            case '<':
+                found = (extracted < v);
                 break;
+            case '>':
+                found = (extracted > v);
+                break;
+            case '==':
             default:
-                //operator is strict equals
-                if (value === undefined) {
-                    isMatch = retrievedValue;
+                if (v === undefined) {
+                    found = extracted;
                 } else {
-                    isMatch = (retrievedValue == value);
+                    found = (extracted == v);
                 }
                 break;
         }
 
-        ///////////////////////
-
-        // console.log('MATCH IN ARRAY', isMatch, key, value, retrievedValue,operator)
-        return isMatch;
+        return found;
     })
 
     return matches;
@@ -1151,6 +1111,22 @@ service.errorMessage = function(err) {
 
     return message;
 }
+
+////////////////////////////////////
+
+/**
+ * Generates a globally unique ID, helpful for adding unique keys for iterable loops
+ * @alias utils.guid
+ * @return {String}            The new globally unique identifier
+ * @example 
+ * //Returns 4323a78br-z16h-289j-zwl1-938lda334asd
+ * qik.utils.guid()
+ */
+service.guid = function() {
+    var u = (new Date()).getTime().toString(16) + Math.random().toString(16).substring(2) + "0".repeat(16);
+    return u.substr(0, 8) + '-' + u.substr(8, 4) + '-4000-8' + u.substr(12, 3) + '-' + u.substr(15, 12);
+}
+
 
 
 

@@ -331,10 +331,12 @@ var QikAPI = function(qik) {
                 case 401:
                     //Ignore let QikAuth handle it
                     break;
+                case 204:
+                    // No content give it another try
                 case 502:
                 case 504:
 
-                    if (retryCount < 10) {
+                    if (retryCount < 5) {
                         retryCount++;
                         // Wait a second and try again
                         return new Promise(function(resolve, reject) {
@@ -343,7 +345,7 @@ var QikAPI = function(qik) {
                             }, 800);
                         })
                     } else {
-                        console.log('Failed after 10 retries')
+                        console.log('Failed after 5 retries')
                         retryCount = 0;
                     }
                     break;

@@ -15,7 +15,7 @@ import { EventDispatcher } from './qik.utils.js';
 var QikAuth = function(qik) {
 
     if (!qik.api) {
-        throw new Error(`Can't Instantiate QikAuth before QikAPI exists`);
+        throw new Error(`Please ensure that QikAPI exists before QikAuth`);
     }
 
     //Keep track of any refresh requests
@@ -23,14 +23,13 @@ var QikAuth = function(qik) {
 
     ///////////////////////////////////////////////////
 
-    var defaultStore = {};
-    var store = defaultStore;
+    var sessionStorage = {};
+    var store = sessionStorage;
     const tokenBufferSeconds = 10;
 
     ///////////////////////////////////////////////////
-    ///////////////////////////////////////////////////
 
-    var service = {
+    const service = {
         debug: false,
     }
 
@@ -39,13 +38,10 @@ var QikAuth = function(qik) {
         writable: false,
     });
 
-
     //Create a new dispatcher
-    var dispatcher = new EventDispatcher();
+    const dispatcher = new EventDispatcher();
     dispatcher.bootstrap(service);
 
-
-    ///////////////////////////////////////////////////
     ///////////////////////////////////////////////////
 
     function dispatch(parameters) {
@@ -70,22 +66,22 @@ var QikAuth = function(qik) {
      * @description Manually set current user session
      * @param  {Object} user The user session object to set as the current user session
      * @param  {Object} parameters Additional parameters to dispatch
-     * @param  {Boolean} ignoreEvent Whether to supress dispatching a 'change' event.
+     * @param  {Boolean} stopDispatch Whether to supress dispatching a 'change' event.
      * @example
      * 
      * const userSession = {_id:'61eca4746971e75c1fc670cf', firstName:'Daffy', lastName:'Duck' ...};
      * sdk.auth.set(userSession);
      */
 
-    service.set = function(user, parameters, ignoreEvent) {
+    service.set = function(user, parameters, stopDispatch) {
 
-        if(JSON.stringify(store.user) != JSON.stringify(user)) {
+        if (JSON.stringify(store.user) != JSON.stringify(user)) {
             store.user = user;
-            if(!ignoreEvent) {
+            if (!stopDispatch) {
                 return dispatch(parameters)
             }
         }
-        
+
     }
 
 
@@ -102,7 +98,6 @@ var QikAuth = function(qik) {
         delete store.user;
         qik.cache.reset();
         return dispatch()
-
     }
 
     ///////////////////////////////////////////////////
@@ -149,24 +144,20 @@ var QikAuth = function(qik) {
         return new Promise(function(resolve, reject) {
 
 
-        qik.api.post(`/user/switch/${organisationID}`)
-        .then(function(response) {
+            qik.api.post(`/user/switch/${organisationID}`)
+                .then(function(response) {
 
-            if (autoAuthenticate) {
-                qik.cache.reset();
-                service.set(response.data);
-            }
+                    if (autoAuthenticate) {
+                        qik.cache.reset();
+                        service.set(response.data);
+                    }
 
-            resolve(response.data);
+                    resolve(response.data);
+                })
+                .catch(reject)
+
         })
-        .catch(reject)
-
-         })
-      
-
     }
-
-
 
     ///////////////////////////////////////////////////
 
@@ -225,8 +216,8 @@ var QikAuth = function(qik) {
     }
 
     ///////////////////////////////////////////////////
-   
-   /**
+
+    /**
      * @alias auth.login
      * @description Login and authenticate as a user
      * @param  {Object} credentials The credentials used to login
@@ -314,7 +305,7 @@ var QikAuth = function(qik) {
 
                 if (autoAuthenticate) {
                     service.set(res.data);
-                    
+
                 }
 
                 resolve(res);
@@ -459,30 +450,8 @@ var QikAuth = function(qik) {
             options = {};
         }
 
-        //////////////////////////////////////
-
         return new Promise(function(resolve, reject) {
-
-            var postOptions = {
-                bypassInterceptor: true
-            }
-
-            /////////////////////////////////////////////
-
-            //If a full fledged Qik User
-            //then send directly to the API auth endpoint
-            var url = `${qik.apiURL}/user/reset/${resetToken}`;
-
-            /////////////////////////////////////////////
-
-            //If we have a specified url
-            if (options.url) {
-                url = options.url;
-            }
-
-            /////////////////////////////////////////////
-
-            qik.api.get(url, postOptions).then(function(res) {
+            qik.api.get(options.url || `${qik.apiURL}/user/reset/${resetToken}`, postOptions).then(function(res) {
                 return resolve(res.data);
             }, reject);
         });
@@ -530,22 +499,8 @@ var QikAuth = function(qik) {
                 bypassInterceptor: true
             }
 
-            /////////////////////////////////////////////
-
-            //If a full fledged user
-            //then send directly to the API auth endpoint
-            var url = `${qik.apiURL}/user/reset/${resetToken}`;
-
-            /////////////////////////////////////////////
-
-            //If we have a specified url
-            if (options.url) {
-                url = options.url;
-            }
-
-            /////////////////////////////////////////////
-
-            qik.api.post(url, body, postOptions).then(function(res) {
+            qik.api.post(options.url || `${qik.apiURL}/user/reset/${resetToken}`, body, postOptions)
+            .then(function(res) {
 
                 //If we should automatically authenticate
                 //once the request is successful
@@ -574,60 +529,32 @@ var QikAuth = function(qik) {
      * // Retrieve the user session by providing a reset token
      * const user = await sdk.auth.retrieveUserFromResetToken(resetToken);
      */
-    service.sendResetPasswordRequest = function(body, options) {
+    service.sendResetPasswordRequest = function(details, options) {
 
         if (!options) {
             options = {};
         }
 
-        //////////////////////////////////////
+        if (!details) {
+            return Promise.reject({
+                message: 'No details were provided for password reset request',
+            })
+        }
 
-        var promise = new Promise(signupCheck)
+        if (!details.email || !details.email.length) {
+            return Promise.reject({
+                message: 'Email is required but was not provided',
+            })
+        }
 
-        function signupCheck(resolve, reject) {
-
-            if (!body) {
-                return reject({
-                    message: 'No details provided',
-                })
-            }
-
-            if (!body.email || !body.email.length) {
-                return reject({
-                    message: 'Email was not provided',
-                })
-            }
-
-            //Set email as the email address
-            body.email = body.email;
-
-            /////////////////////////////////////////////
+        return new Promise(function(resolve, reject) {
 
             var postOptions = {
                 bypassInterceptor: true
             }
 
-            /////////////////////////////////////////////
-
-            //If a full fledged Qik User
-            //then send directly to the API
-            var url = `${qik.apiURL}/user/forgot`;
-
-            /////////////////////////////////////////////
-
-            //If we have a specified url
-            if (options.url) {
-                url = options.url;
-            }
-
-            /////////////////////////////////////////////
-
-            qik.api.post(url, body, postOptions).then(resolve, reject);
-        }
-
-        //////////////////////////////////////
-
-        return promise;
+            qik.api.post(options.url || `${qik.apiURL}/user/forgot`, details, postOptions).then(resolve, reject);
+        })
     }
 
 
@@ -648,46 +575,46 @@ var QikAuth = function(qik) {
      */
     service.ensureValidToken = async function(forceRefresh) {
 
-            var currentUser = service.getCurrentUser();
-            if (!currentUser) {
-                
-                return Promise.reject('No user');
-            }
+        var currentUser = service.getCurrentUser();
+        if (!currentUser) {
 
-            var { token } = currentUser;
-            if (!token) {
-                 
-                return Promise.reject('No token');
-            }
+            return Promise.reject('No user');
+        }
 
-            /////////////////////////////////////////////////////
+        var { token } = currentUser;
+        if (!token) {
 
-            //Check our date
-            var now = new Date();
+            return Promise.reject('No token');
+        }
 
-            //Give us a bit of buffer so that the backend doesn't beat us to
-            //retiring the token
-            now.setSeconds(now.getSeconds() + tokenBufferSeconds);
+        /////////////////////////////////////////////////////
 
-            /////////////////////////////////////////////////////
+        //Check our date
+        var now = new Date();
 
-            var expires = new Date(token.expires);
+        //Give us a bit of buffer so that the backend doesn't beat us to
+        //retiring the token
+        now.setSeconds(now.getSeconds() + tokenBufferSeconds);
 
-            if(forceRefresh) {
-                console.log('force refresh valid token', token.refreshToken)
-                return await service.refreshAccessToken(token.refreshToken);
-            }
+        /////////////////////////////////////////////////////
 
-            //If the token is still fresh
-            if (now < expires) {
-                 
-                return token;
-            } else {
+        var expires = new Date(token.expires);
 
-                return await service.refreshAccessToken(token.refreshToken);
-            }
+        if (forceRefresh) {
+            console.log('force refresh valid token', token.refreshToken)
+            return await service.refreshAccessToken(token.refreshToken);
+        }
 
-        
+        //If the token is still fresh
+        if (now < expires) {
+
+            return token;
+        } else {
+
+            return await service.refreshAccessToken(token.refreshToken);
+        }
+
+
     }
 
     ///////////////////////////////////////////////////
@@ -699,23 +626,23 @@ var QikAuth = function(qik) {
         // /////////////////////////////////////////////
 
         // if (appContext) {
-        
+
         // } else {
-        
+
         // }
 
         // /////////////////////////////////////////////
 
         //If there is already a request in progress
         if (refreshContext.inflightRefreshRequest) {
-            
+
             return refreshContext.inflightRefreshRequest;
         }
 
         /////////////////////////////////////////////////////
 
         //Create an refresh request
-        
+
         refreshContext.inflightRefreshRequest = new Promise(function(resolve, reject) {
 
             //Bypass the interceptor on all token refresh calls
@@ -732,14 +659,14 @@ var QikAuth = function(qik) {
                     //Update the user with any changes 
                     //returned back from the refresh request
                     if (!res) {
-                        
+
                         refreshContext.inflightRefreshRequest = null;
                         return reject();
 
                     } else {
                         //Update with our new session
                         service.set(res.data);
-                        
+
 
                         dispatch();
                     }
@@ -755,12 +682,12 @@ var QikAuth = function(qik) {
 
                 })
                 .catch(function(err) {
-                    
+
 
                     //TODO Check if invalid_refresh_token
-                    
 
-                    
+
+
                     setTimeout(function() {
                         refreshContext.inflightRefreshRequest = null;
                     });
@@ -801,7 +728,7 @@ var QikAuth = function(qik) {
                     service.set(null);
                 }
 
-                
+
                 retryCount = 0;
 
                 dispatch();
@@ -813,7 +740,7 @@ var QikAuth = function(qik) {
                 retryCount = 0;
                 dispatch();
                 // } else {
-                
+
                 // retryCount++;
                 // service.sync();
                 // }
@@ -853,7 +780,7 @@ var QikAuth = function(qik) {
         if (!user) {
 
             //But there is an application token
-            if(qik.applicationToken) {
+            if (qik.applicationToken) {
                 //use that instead
                 return qik.applicationToken;
             }
@@ -908,11 +835,11 @@ var QikAuth = function(qik) {
             if (accessToken) {
                 //Set the token of the request as the user's access token
                 originalRequest.headers['Authorization'] = `Bearer ${accessToken}`;
-                
+
 
             } else {
                 //Return the original request without a token
-                
+
                 return originalRequest;
             }
 
@@ -920,7 +847,7 @@ var QikAuth = function(qik) {
 
             //If no refresh token
             if (!refreshToken) {
-                
+
 
                 //Continue with the original request
                 return originalRequest;
@@ -953,14 +880,14 @@ var QikAuth = function(qik) {
                 //Refresh the token
                 await service.refreshAccessToken(refreshToken)
                     .then(function(newToken) {
-                        
+
                         //Update the original request with our new token
                         originalRequest.headers['Authorization'] = `Bearer ${newToken}`;
                         //And continue onward
                         return resolve(originalRequest);
                     })
                     .catch(function(err) {
-                        
+
                         return reject(err);
                     });
             });
@@ -984,7 +911,7 @@ var QikAuth = function(qik) {
         //Get the response status
         var status = (err && err.response && err.response.status) || err.status;
 
-        
+
         switch (status) {
             case 401:
                 service.logout();
