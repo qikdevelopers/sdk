@@ -10,8 +10,8 @@ import {
 
 
 function isString(value) {
-  const type = typeof value
-  return type === 'string' || (type === 'object' && value != null && !Array.isArray(value) && getTag(value) == '[object String]')
+    const type = typeof value
+    return type === 'string' || (type === 'object' && value != null && !Array.isArray(value) && getTag(value) == '[object String]')
 }
 
 
@@ -50,9 +50,9 @@ var QikAPI = function(qik) {
             config.url,
             config.headers?.Authorization,
             config.headers.Accept,
-            JSON.stringify({ 
+            JSON.stringify({
                 params: config.params,
-                 data: config.data,
+                data: config.data,
             }),
 
         ].filter(Boolean).join('-')
@@ -316,6 +316,28 @@ var QikAPI = function(qik) {
 
         instance.interceptors.response.use(function(response) {
             var config = response.config
+
+            //Get the response status
+            var status = err?.response?.status || err.status;
+            switch (status) {
+                case 204:
+                    console.log('retry 204')
+                    // No content give it another try
+                    if (retryCount < 5) {
+                        retryCount++;
+                        // Wait a second and try again
+                        return new Promise(function(resolve, reject) {
+                            setTimeout(function() {
+                                return instance.request(config).then(resolve, reject);
+                            }, 800);
+                        })
+                    } else {
+                        console.log('Failed after 5 retries')
+                        retryCount = 0;
+                    }
+                    break;
+            }
+
             return response;
         }, function(err) {
 
@@ -331,8 +353,7 @@ var QikAPI = function(qik) {
                 case 401:
                     //Ignore let QikAuth handle it
                     break;
-                case 204:
-                    // No content give it another try
+
                 case 502:
                 case 504:
 
