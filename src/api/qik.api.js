@@ -318,7 +318,7 @@ var QikAPI = function(qik) {
             var config = response.config
 
             //Get the response status
-            var status = err?.response?.status || err.status;
+            var status = response.status;
             switch (status) {
                 case 204:
                     console.log('retry 204')
