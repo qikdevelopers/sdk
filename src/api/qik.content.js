@@ -269,7 +269,7 @@ export default function(qik) {
         if (validationCriteria.minValue) {
             var number = Number(input);
             if (number < validationCriteria.minValue) {
-                return `Must be greater than ${validationCriteria.minValue}`;
+                return `Must be at least ${validationCriteria.minValue}`;
 
             }
         }
