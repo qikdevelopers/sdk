@@ -253,7 +253,7 @@ export default function(qik) {
         if (validationCriteria.minLength) {
             var stringLength = String(input).length;
             if (stringLength < validationCriteria.minLength) {
-                return `must be at least ${validationCriteria.minLength} characters`;
+                return `Must be at least ${validationCriteria.minLength} characters`;
 
             }
         }
@@ -261,7 +261,7 @@ export default function(qik) {
         if (validationCriteria.maxLength) {
             var stringLength = String(input).length;
             if (stringLength > validationCriteria.maxLength) {
-                return `must be less than ${validationCriteria.maxLength} characters`;
+                return `Can be no more than ${validationCriteria.maxLength} characters`;
 
             }
         }
@@ -269,7 +269,7 @@ export default function(qik) {
         if (validationCriteria.minValue) {
             var number = Number(input);
             if (number < validationCriteria.minValue) {
-                return `must be greater than ${validationCriteria.minValue}`;
+                return `Must be greater than ${validationCriteria.minValue}`;
 
             }
         }
@@ -277,7 +277,7 @@ export default function(qik) {
         if (validationCriteria.maxValue) {
             var number = Number(input);
             if (number > validationCriteria.maxValue) {
-                return `must be less than ${validationCriteria.maxValue}`;
+                return `Can be no greater than ${validationCriteria.maxValue}`;
 
             }
         }
