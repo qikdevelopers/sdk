@@ -321,7 +321,6 @@ var QikAPI = function(qik) {
             var status = response.status;
             switch (status) {
                 case 204:
-                    console.log('retry 204')
                     // No content give it another try
                     if (retryCount < 5) {
                         retryCount++;

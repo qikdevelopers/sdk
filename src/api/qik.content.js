@@ -509,8 +509,18 @@ export default function(qik) {
             }
 
             //Is there additional validation requirements
-            if (fieldDefinition.validation) {
-                var additionalValidationError = service.meetsValidationRequirements(input, fieldType, fieldDefinition.validation)
+            let hasAdditionalValidation = false;
+
+            const validation = {}
+            if(String(fieldDefinition.minValue)) { validation.minValue = parseInt(fieldDefinition.minValue); hasAdditionalValidation = true }
+            if(String(fieldDefinition.maxValue)) { validation.maxValue = parseInt(fieldDefinition.maxValue); hasAdditionalValidation = true }
+            if(String(fieldDefinition.minLength)) { validation.minLength = parseInt(fieldDefinition.minLength); hasAdditionalValidation = true }
+            if(String(fieldDefinition.maxLength)) { validation.maxLength = parseInt(fieldDefinition.maxLength); hasAdditionalValidation = true }
+
+
+            if (hasAdditionalValidation) {
+                const validationCriteria = Object.assign({}, validation, fieldDefinition.validation || {});
+                var additionalValidationError = service.meetsValidationRequirements(input, fieldType, validationCriteria)
                 if (additionalValidationError) {
                     return {
                         valid: false,
