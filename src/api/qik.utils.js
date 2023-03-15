@@ -1182,12 +1182,9 @@ export function EventDispatcher() {
     dispatcher.dispatch = function(event, details) {
 
         if (listeners[event]) {
-
-            // console.log('Listeners', event, listeners[event]);
             //For each listener
             listeners[event].forEach(function(callback) {
-                //Fire the callback
-                // console.log('Fire listener', event, details);
+                console.log('Fire listener', {event,details, callback});
                 return callback(details);
             });
         }
@@ -1201,11 +1198,17 @@ export function EventDispatcher() {
             listeners[event] = [];
         }
 
-        if (listeners[event].indexOf(callback) == -1) {
-            //Add to the listeners
-            listeners[event].push(callback)
+        const type = typeof callback;
+        if(type !== 'function') {
+            throw new Error(`addEventListener() requires a function but ${type} was added`);
         } else {
-            //Already listening
+            if (listeners[event].indexOf(callback) == -1) {
+                //Add to the listeners
+                listeners[event].push(callback)
+            } else {
+                //A
+                //lready listening
+            }
         }
     }
 
