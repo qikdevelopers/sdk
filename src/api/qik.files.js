@@ -71,10 +71,12 @@ export default function(qik) {
      * // 1.5kb
      */
     service.filesize = function(bytes) {
-        var sizes = ['b', 'kb', 'mb', 'gb', 'tb'];
-        if (bytes == 0) return '0 Byte';
-        var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-        return Math.round(bytes / Math.pow(1024, i), 2) + '' + sizes[i];
+        if(bytes == 0) return '0 Bytes';
+       var k = 1024,
+           dm = decimals || 2,
+           sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'],
+           i = Math.floor(Math.log(bytes) / Math.log(k));
+       return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
     }
 
     ///////////////////////
