@@ -70,7 +70,7 @@ export default function(qik) {
      * const size = sdk.files.filesize(1500);
      * // 1.5kb
      */
-    service.filesize = function(bytes) {
+    service.filesize = function(bytes, decimals) {
         if(bytes == 0) return '0 Bytes';
        var k = 1024,
            dm = decimals || 2,
