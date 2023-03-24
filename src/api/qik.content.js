@@ -637,7 +637,7 @@ export default function(qik) {
             const source = CancelToken.source();
             advanced.config.cancelToken = source.token;
 
-            const remoteURL = options.remoteURL || `/content/${type}/list`;
+            const remoteURL = advanced.remoteURL || `/content/${type}/list`;
             const promise = qik.api.post(remoteURL, options, advanced.config);
             return {
                 promise,
