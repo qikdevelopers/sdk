@@ -450,8 +450,12 @@ var QikAuth = function(qik) {
             options = {};
         }
 
+        var postOptions = {
+                bypassInterceptor: true
+            }
+
         return new Promise(function(resolve, reject) {
-            qik.api.get(options.url || `${qik.apiURL}/user/reset/${resetToken}`, options).then(function(res) {
+            qik.api.get(options.url || `${qik.apiURL}/user/reset/${resetToken}`, postOptions).then(function(res) {
                 return resolve(res.data);
             }, reject);
         });
