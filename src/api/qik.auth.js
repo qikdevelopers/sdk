@@ -451,7 +451,7 @@ var QikAuth = function(qik) {
         }
 
         return new Promise(function(resolve, reject) {
-            qik.api.get(options.url || `${qik.apiURL}/user/reset/${resetToken}`, postOptions).then(function(res) {
+            qik.api.get(options.url || `${qik.apiURL}/user/reset/${resetToken}`, options).then(function(res) {
                 return resolve(res.data);
             }, reject);
         });

@@ -1,6 +1,6 @@
 {
   "name": "@qikdev/sdk",
-  "version": "0.1.112",
+  "version": "0.1.113",
   "type": "module",
   "description": "Promise based Javascript SDK",
   "scripts": {
@@ -42,6 +42,7 @@
     "axios": "^0.19.2",
     "axios-extensions": "^3.1.2",
     "browser-or-node": "^2.0.0",
+    "eslint": "^8.40.0",
     "qs": "^6.10.5"
   },
   "directories": {

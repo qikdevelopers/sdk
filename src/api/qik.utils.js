@@ -1184,7 +1184,6 @@ export function EventDispatcher() {
         if (listeners[event]) {
             //For each listener
             listeners[event].forEach(function(callback) {
-                console.log('Fire listener', {event,details, callback});
                 return callback(details);
             });
         }
