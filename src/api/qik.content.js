@@ -621,10 +621,14 @@ export default function(qik) {
 
     service.list = async function(type, options, advanced) {
 
+        
+
 
         if (!advanced) {
             advanced = {};
         }
+
+        const remoteURL = advanced.remoteURL || `/content/${type}/list`;
 
         if (advanced.cancellable) {
 
@@ -637,7 +641,7 @@ export default function(qik) {
             const source = CancelToken.source();
             advanced.config.cancelToken = source.token;
 
-            const remoteURL = advanced.remoteURL || `/content/${type}/list`;
+            
             const promise = qik.api.post(remoteURL, options, advanced.config);
             return {
                 promise,
@@ -647,7 +651,7 @@ export default function(qik) {
             }
 
         } else {
-            const { data } = await qik.api.post(`/content/${type}/list`, options, advanced.config);
+            const { data } = await qik.api.post(remoteURL, options, advanced.config);
             return data;
         }
 
