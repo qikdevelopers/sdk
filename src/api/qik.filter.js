@@ -508,13 +508,16 @@ service.activeFilterValues = function(filterConfiguration, options) {
  * const changeString = sdk.filter.filterChangeString(filterConfiguration); 
  */
 service.filterChangeString = function(config) {
-    const string = [
-        service.activeFilterKeys(config).join(', '),
-        service.activeFilterValues(config).join(', '),
-        service.activeFilterComparators(config).join(', '),
-        service.activeFilterOperators(config).join(', '),
-    ]
-    return string.filter(compactFunction).join(', ');
+
+    var activeFilters = service.activeFilters(config);
+    return JSON.stringify(activeFilters);
+    // const string = [
+    //     service.activeFilterKeys(config).join(', '),
+    //     service.activeFilterValues(config).join(', '),
+    //     service.activeFilterComparators(config).join(', '),
+    //     service.activeFilterOperators(config).join(', '),
+    // ]
+    // return string.filter(compactFunction).join(', ');
 };
 
 ///////////////////////
