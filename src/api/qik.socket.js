@@ -21,19 +21,21 @@ const QikSocket = function(qik, mode) {
 
     ///////////////////////////////////////////////////
 
-    var service = {
+    let service = {
         debug: false,
         url: `wss://iqtm6zjz3l.execute-api.ap-southeast-2.amazonaws.com/${mode}`,
         connected:false,
     }
 
-    var socket;
-    var timer;
-    var buckets = {};
+    let socket;
+    let timer;
+    let socketID;
+    let buckets = {};
+
 
 
     //Create a new dispatcher
-    var dispatcher = new EventDispatcher();
+    const dispatcher = new EventDispatcher();
     dispatcher.bootstrap(service);
 
     ///////////////////////////////////////////////////
@@ -119,8 +121,9 @@ const QikSocket = function(qik, mode) {
     ///////////////////////////////////////////////////
 
     function socketOpened(event) {
-        service.debug ? console.log("[socket] Connection open") : null;
+        service.debug ? console.log("[socket] Connection open", event) : null;
         service.connected = true;
+        // service.socketID = event
         dispatcher.dispatch('connected', event);
         
         // startHeartbeat();
@@ -136,6 +139,7 @@ const QikSocket = function(qik, mode) {
         }
 
         service.connected = false;
+        service.socketID = undefined;
         dispatcher.dispatch('disconnected', event);
         socket = null;
         // stopHeartbeat();
