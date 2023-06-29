@@ -33,7 +33,6 @@ const QikSocket = function(qik, mode) {
 
     let socket;
     let timer;
-    let socketID;
     let buckets = {};
 
 
@@ -127,7 +126,7 @@ const QikSocket = function(qik, mode) {
     function socketOpened(event) {
         service.debug ? console.log("[socket] Connection open", event) : null;
         service.connected = true;
-        // service.socketID = event
+        
         dispatcher.dispatch('connected', event);
         
         // startHeartbeat();
@@ -143,7 +142,6 @@ const QikSocket = function(qik, mode) {
         }
 
         service.connected = false;
-        service.socketID = undefined;
         dispatcher.dispatch('disconnected', event);
         socket = null;
         // stopHeartbeat();
