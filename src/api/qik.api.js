@@ -296,6 +296,11 @@ var QikAPI = function(qik) {
 
             config.headers['qik-api-version'] = version;
 
+            // Include the socket window id in the request
+            if(qik?.socket?.windowID) {
+                config.headers['qik-socket-window'] = qik.socket.windowID;
+            }
+
 
             var token = qik.auth.getCurrentToken();
 
