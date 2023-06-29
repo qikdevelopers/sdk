@@ -19,12 +19,16 @@ const QikSocket = function(qik, mode) {
         throw new Error(`Can't Instantiate QikSocket before QikAuth exists`);
     }
 
+
+    const windowID = qik.utils.guid();
+
     ///////////////////////////////////////////////////
 
     let service = {
         debug: false,
         url: `wss://iqtm6zjz3l.execute-api.ap-southeast-2.amazonaws.com/${mode}`,
         connected:false,
+        windowID,
     }
 
     let socket;
@@ -210,7 +214,7 @@ const QikSocket = function(qik, mode) {
             return;
         }
 
-        socket = new WebSocket(`${service.url}?access_token=${accessToken}`);
+        socket = new WebSocket(`${service.url}?access_token=${accessToken}&windowid=${windowID}`);
         socket.addEventListener('close', socketClosed);
         socket.addEventListener('error', socketError);
         socket.addEventListener('open', socketOpened);
